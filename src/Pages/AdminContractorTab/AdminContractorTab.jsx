@@ -34,14 +34,20 @@ const AdminContractorTab = () => {
     }
 
     useEffect(() => {
-        const { usertoken } = JSON.parse(localStorage.getItem("token"))
-        !usertoken && navigate('/signin')
+        let token = null
+        try {
+            token = JSON.parse(localStorage.getItem("token"))
+            token === null && dispatch(showToast({ type: "warning", message: "Token Has Expited ! Please SignIn Again" }))
+        } catch (error) {
+            dispatch(showToast({ type: "warning", message: "Token Has Expited ! Please SignIn Again" }))
+        }
+        !token?.usertoken && navigate('/signin')
         setContractorData(data)
-    }, [data, navigate])
+    }, [data, dispatch, navigate])
 
     useEffect(() => {
         dispatch(asyncThunkGetContractor(page))
-    }, [ page])
+    }, [dispatch, page])
 
     return (
         <Box sx={{ backgroundColor: '#00000006' }}>
@@ -49,14 +55,7 @@ const AdminContractorTab = () => {
             <SearchBar />
             <Box className={'AdminContractorTab_container'}>
                 <Box className={'AdminContractorTab_container_fluid'} >
-                    {/* use map function here */}
-                    {
-                        ContractorData?.map((value, i) => {
-                            return <Box key={i}>
-                                <ClientsCard value={value} />
-                            </Box>
-                        })
-                    }
+                    {ContractorData?.map((value, i) => { return <Box key={i}><ClientsCard value={value} /></Box> })}
                 </Box>
                 <WhiteButton onClick={handlePrevPagination} text={'prev'} />
                 {<WhiteButton onClick={handleNextPagination} text={'next'} />}

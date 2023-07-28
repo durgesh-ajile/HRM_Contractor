@@ -21,8 +21,11 @@ export default function Profile() {
     const { contractorId } = useParams();
     const dispatch = useDispatch()
     const { ContractorDataById } = useSelector(store => store.admin)
-    const{first_name, last_name, email} = ContractorDataById
-    useEffect(() => { const payload = { contractorId }; dispatch(asyncThunkGetDitailsOfContractor(payload)) }, [contractorId, dispatch])
+    const { first_name, last_name, email } = ContractorDataById
+    useEffect(() => {
+        const payload = { contractorId };
+        dispatch(asyncThunkGetDitailsOfContractor(payload))
+    }, [contractorId, dispatch])
 
     // const [color, setColor] = React.useState('neutral');
     return (

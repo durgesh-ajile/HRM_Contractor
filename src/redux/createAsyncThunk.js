@@ -3,23 +3,23 @@ import axios from "axios";
 import { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById } from "./admin/databaseSlice";
 import { showToast } from "./errorSlice/errorSlice";
 
-// SIGN_UP
-export const asyncThunkSignUp = createAsyncThunk("post/asyncThunkSignUp", async (payload, { dispatch }) => {
-    await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_SIGN_UP}`, payload)
-        .then(res => {
-            if (res.status !== 201) return
-            dispatch(fetchSignUp({ ...res?.data?.data, isPageRedirect: true }))
-            dispatch(showToast({ type: "success", message: "SignUp Successfully" }))
-        }).catch(err => {
-            dispatch(fetchSignUp([]))
-            dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
-            console.error(err);
-        })
-})
+// // SIGN_UP
+// export const asyncThunkSignUp = createAsyncThunk("post/asyncThunkSignUp", async (payload, { dispatch }) => {
+//     await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_SIGN_UP}`, payload)
+//         .then(res => {
+//             if (res.status !== 201) return
+//             dispatch(fetchSignUp({ ...res?.data?.data, isPageRedirect: true }))
+//             dispatch(showToast({ type: "success", message: "SignUp Successfully" }))
+//         }).catch(err => {
+//             dispatch(fetchSignUp([]))
+//             dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
+//             console.error(err);
+//         })
+// })
 
 // LOGIN
 export const asyncThunkLogin = createAsyncThunk("post/asyncThunkLogin", async (payload, { dispatch }) => {
-    await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_LOGIN}`, payload)
+    await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_LOGIN_CONTRACTOR}`, payload)
         .then(res => {
             if (res.status !== 201) return
             dispatch(fetchLogin(res?.data?.Token))
