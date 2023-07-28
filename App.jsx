@@ -16,9 +16,9 @@ import { hideToast } from './src/redux/errorSlice/errorSlice'
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [routesData, setRoutesData] = useState([
-    { path: '/', component: <AdminContractorTab /> },
+    // { path: '/', component: <AdminContractorTab /> },
     { path: '/signin', component: <SignInPage /> },
-    { path: '/registration', component: <Registration /> },
+    // { path: '/registration', component: <Registration /> },
     { path: '/calender', component: <Calender /> },
     { path: '/profile/:contractorId', component: <Profile /> },
   ])

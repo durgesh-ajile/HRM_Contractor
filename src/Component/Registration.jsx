@@ -4,7 +4,7 @@ import { AiFillLock } from 'react-icons/ai'
 import { useFormik } from "formik";
 import { validate } from '../schemas/validate'
 import { useState } from 'react';
-import { asyncThunkSignUp } from '../redux/createAsyncThunk';
+// import { asyncThunkSignUp } from '../redux/createAsyncThunk';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -49,7 +49,7 @@ const Registration = () => {
           "password": values.password,
           "repeat_password": values.c_pass
         }
-        dispatch(asyncThunkSignUp(payload))
+        // dispatch(asyncThunkSignUp(payload))
         SignUpData?.isPageRedirect && navigate('/signin')
 
         // action.resetForm();
