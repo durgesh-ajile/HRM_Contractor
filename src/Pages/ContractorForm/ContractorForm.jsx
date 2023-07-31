@@ -39,10 +39,7 @@ const ContractorForm = () => {
             dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
         }
         contractorFormData !== null && setInput(contractorFormData)
-        console.log('contractorFormData', contractorFormData)
-
     }, [dispatch])
-    console.log(input)
 
     return (
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
