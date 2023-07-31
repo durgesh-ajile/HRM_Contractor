@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById } from "./admin/databaseSlice";
+import { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile } from "./admin/databaseSlice";
 import { showToast } from "./errorSlice/errorSlice";
 
 // // SIGN_UP
@@ -43,6 +43,29 @@ export const asyncThunkAddContractor = createAsyncThunk("post/asyncThunkAddContr
             }).catch(() => {
                 dispatch(fetchAddContractor([]))
                 dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
+            })
+        :
+        dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
+})
+
+// UPDATE_CONTRACTOR_PROFILE
+export const asyncThunkUpdateContractorProfile = createAsyncThunk("post/asyncThunkUpdateContractorProfile", async (payload, { dispatch }) => {
+    const { usertoken } = JSON.parse(localStorage.getItem('token'))
+    const headers = {
+        'Authorization': `Bearer ${usertoken}`,
+        'Content-Type': 'multipart/form-data'
+    };
+    usertoken ?
+        await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_UPDATE_CONTRACTOR_PROFILE}`, payload, { headers })
+            .then(res => {
+                console.log('e.target.files[0]', res)
+                if (res.status !== 201) return
+                dispatch(fetchUpdateContractorProfile([{ ...res?.data, isContractorProfileUpdated: true }]))
+                dispatch(showToast({ type: "success", message: "Contractor Updated Successfully" }))
+            }).catch((error) => {
+                console.error(error)
+                dispatch(fetchUpdateContractorProfile([{ isContractorProfileUpdated: false }]))
+                dispatch(showToast({ type: "error", message: error?.response?.data?.message ? error?.response?.data?.message : error?.message+' Or Server Down !' }))
             })
         :
         dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))

@@ -10,6 +10,7 @@ import Profile from './src/Component/profile/Profile'
 import { Alert, Snackbar } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideToast } from './src/redux/errorSlice/errorSlice'
+import ContractorForm from './src/Pages/ContractorForm/ContractorForm'
 // import Cards from './src/Component/profile/Cards'
 
 
@@ -17,7 +18,8 @@ function App() {
   // eslint-disable-next-line no-unused-vars
   const [routesData, setRoutesData] = useState([
     // { path: '/', component: <AdminContractorTab /> },
-    { path: '/signin', component: <SignInPage /> },
+    { path: '/', component: <SignInPage /> },
+    { path: '/contractorform', component: <ContractorForm /> },
     // { path: '/registration', component: <Registration /> },
     { path: '/calender', component: <Calender /> },
     { path: '/profile/:contractorId', component: <Profile /> },

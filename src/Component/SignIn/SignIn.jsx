@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import { asyncThunkLogin } from '../../redux/createAsyncThunk';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+// import jwt from "jsonwebtoken";
 
 
 const SingIn = () => {
@@ -16,6 +17,7 @@ const SingIn = () => {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    // const [decodedToken, setDecodedToken] = useState("");
     const { LoginData: { usertoken, expiry } } = useSelector((store) => store.admin)
 
 
@@ -24,15 +26,20 @@ const SingIn = () => {
         dispatch(asyncThunkLogin({ "email": email, "password": password }))
     };
 
-    useEffect(()=>{
-        usertoken && navigate('/')
-    },[navigate, usertoken])
+    useEffect(() => {
+        usertoken && navigate('/contractorform')
+    }, [navigate, usertoken])
+
+    // useEffect(() => {
+    //     setDecodedToken(jwt.decode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGMyNTE4ZjBhMjgzNGRlM2MzNWQ1NWEiLCJyb2xlIjoiQ29udHJhY3RvciIsImlhdCI6MTY5MDcxOTYwMSwiZXhwIjoxNjkwODA2MDAxfQ.clZw2Cnv9QDEHa4xYt1y42Cvc0FwDYK_7p8IcAdjJE8"));
+    // }, []);
 
     return (
         <div className={styles.container}>
             <div className={styles.innerBox}>
                 <h5 className={styles.heading} style={{ textAlign: 'center' }}>Login to your account</h5>
                 <p style={{ textAlign: 'center', columnGap: '-10px' }} className='para'>Enter your credentials below</p>
+                {/* <h2>Token Details:{JSON.stringify(decodedToken)}</h2> */}
 
                 <form onSubmit={handleLogin}>
                     <label className="py-2">Email</label>
