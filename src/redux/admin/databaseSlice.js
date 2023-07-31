@@ -5,7 +5,8 @@ const initialState = {
   LoginData: [],
   ContractorData: [],
   ContractorDataById: [],
-  ApprovedContractorDataById:[],
+  ApprovedContractorDataById: [],
+  UpdateContractorProfileData: [],
 }
 
 export const adminSlice = createSlice({
@@ -28,9 +29,12 @@ export const adminSlice = createSlice({
     fetchApprovedContractorById: (state, action) => {
       state.ApprovedContractorDataById = action.payload
     },
+    fetchUpdateContractorProfile: (state, action) => {
+      state.UpdateContractorProfileData = action.payload
+    },
   },
 })
 
-export const { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById } = adminSlice.actions
+export const { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile } = adminSlice.actions
 
 export default adminSlice.reducer
