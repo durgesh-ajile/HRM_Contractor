@@ -7,43 +7,46 @@ import ListItem from '@mui/joy/ListItem';
 // import Typography from '@mui/joy/Typography';
 import { Avatar, CardHeader } from '@mui/material';
 import { Grid } from '@mui/joy';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import EditIcon from '@mui/icons-material/Edit';
 import Cardss from "./Cards"
 import { useEffect } from "react";
-import { asyncThunkGetDitailsOfContractor } from "../../redux/createAsyncThunk";
+import { asyncThunkGetOwnDetails } from "../../redux/createAsyncThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "../../redux/errorSlice/errorSlice";
 
 
 export default function Profile() {
 
-    const { contractorId } = useParams();
     const dispatch = useDispatch()
     const { ContractorDataById } = useSelector(store => store.admin)
-    const { first_name, last_name, email } = ContractorDataById
+    // const { first_name, last_name, email } = ContractorDataById
 
     // const navigate = useNavigate()
-    const { UpdateContractorProfileData } = useSelector(store => store.admin)
+    const { UpdateContractorProfileData, ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
+    // const { _id, first_name, last_name, email, password, profileId } = ContractorItSelfDetails
+    // const { ActualAadharNo, ActualName, ActualPanNo, , BankAccNo, BankName, BeneficiaryAadharNo, BeneficiaryName, BeneficiaryPanNo, , ContractName, , EmergencyContactNumber, EmergencyContactRelation, , IFSCcode, IsApproved, IsDecline, , Nationality, Religion, } = profileId
     const [profileDataObj] = UpdateContractorProfileData;
+    // console.log(_id, first_name, last_name, email, password, profileId)
+
+    // console.log("ContractorItSelfDetails",ContractorItSelfDetails)
 
     useEffect(() => {
         profileDataObj?.isContractorProfileUpdated && dispatch(showToast({ type: "success", message: "Contractor Updated Successfully" }))
     }, [dispatch, profileDataObj?.isContractorProfileUpdated])
 
     useEffect(() => {
-        const payload = { contractorId };
-        dispatch(asyncThunkGetDitailsOfContractor(payload))
-    }, [contractorId, dispatch])
+        dispatch(asyncThunkGetOwnDetails())
+    }, [dispatch])
 
-    let isApproved = true, isDenied = false
 
     // const [color, setColor] = React.useState('neutral');
     return (
         <>
             {
-                isApproved && !isDenied && (<div className='section' style={{ width: "100%", height: "100%" }}>
+                ContractorItSelfDetails?.profileId?.IsApproved && !ContractorItSelfDetails?.profileId?.IsDecline && 
+                (<div className='section' style={{ width: "100%", height: "100%" }}>
                     <Card
 
                         variant="solid"
@@ -84,11 +87,11 @@ export default function Profile() {
                                 </Avatar>
                                 <Grid item style={{ marginTop: "-22px", marginLeft: "40px", }}>
 
-                                    <h1 style={{ fontWeight: "666", marginBottom: '15px' }}>{first_name} {last_name}</h1>
-                                    <p style={{ marginTop: "-25px", color: "gray", fontWeight: "666" }}>UI/UX Designer Team</p>
-                                    <p style={{ marginTop: "10px", color: "gray", fontWeight: "666" }}>Web Designer</p>
+                                    <h1 style={{ fontWeight: "666", marginBottom: '15px' }}>{ContractorItSelfDetails?.first_name} {ContractorItSelfDetails?.last_name}</h1>
+                                    <p style={{ marginTop: "-25px", color: "gray", fontWeight: "666" }}>{ContractorItSelfDetails?.profileId?.Address}</p>
+                                    {/* <p style={{ marginTop: "10px", color: "gray", fontWeight: "666" }}>Web Designer</p>
                                     <h3 style={{ marginTop: "-7px", fontWeight: "666" }}>Employees ID : FT-0001</h3>
-                                    <p style={{ marginTop: "-10px", color: "gray", fontWeight: "666" }}>Date Of Join : 1st Jan 2013</p>
+                                    <p style={{ marginTop: "-10px", color: "gray", fontWeight: "666" }}>Date Of Join : 1st Jan 2013</p> */}
 
                                     <button id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Send Message</button>
 
@@ -141,33 +144,32 @@ export default function Profile() {
                                         <ListItem>
                                             <ListItem style={{ color: "blue", fontWeight: "666" }}>
 
-                                                9797979797
+                                                {ContractorItSelfDetails?.profileId?.EmergencyContactNumber}
                                             </ListItem>
                                         </ListItem>
                                         <ListItem>
                                             <ListItem style={{ color: "blue", fontWeight: "666" }}>
 
-                                                {email}
+                                                {ContractorItSelfDetails?.email}
                                             </ListItem>
                                         </ListItem>
                                         <ListItem>
                                             <ListItem style={{ color: "gray", fontWeight: "666" }}>
 
-                                                24th Julay
-
+                                                {ContractorItSelfDetails?.profileId?.Birthday}
                                             </ListItem>
                                         </ListItem>
                                         <ListItem>
                                             <ListItem style={{ color: "gray", fontWeight: "666" }}>
 
-                                                1861 Bayonna Ave,Manchester,Township
+                                                {ContractorItSelfDetails?.profileId?.Address}
 
                                             </ListItem>
 
                                         </ListItem>
                                         <ListItem>
                                             <ListItem style={{ color: "gray", fontWeight: "666" }}>
-                                                Male
+                                                {ContractorItSelfDetails?.profileId?.Gender}
                                             </ListItem>
                                         </ListItem>
                                         <ListItem>
@@ -175,7 +177,7 @@ export default function Profile() {
                                                 <Avatar  >
                                                     <img src={'https://mui.com/static/images/avatar/3.jpg'} style={{ height: "100%", width: "100%", objectFit: "cover", objectPosition: "center" }} />
                                                 </Avatar>
-                                                Joffrey Lallor
+                                                {ContractorItSelfDetails?.profileId?.ReportTo}
                                             </ListItem>
                                         </ListItem>
                                     </List>
@@ -213,15 +215,14 @@ export default function Profile() {
 
                 </Box> */}
 
-                    </Card>
-                    <Cardss />
+                    </Card >
+                    <Cardss ContractorItSelfDetails={ContractorItSelfDetails}/>
                 </div>
 
                 )
             }
-            {!isApproved && <h1>We are reviewing yout profile ! pease wait</h1>}
-            {isDenied && <h1>Sorry this could&apos;t workout !</h1>}
-            {isDenied && <h1>Please check yout email for more feedback !</h1>}
+            {!ContractorItSelfDetails?.profileId?.IsApproved && <h1>We are reviewing yout profile ! pease wait</h1>}
+            {ContractorItSelfDetails?.profileId?.IsDecline && <> <h1>Sorry this couldn&apos;t workout !</h1><h1>Please check yout email for more feedback !</h1></>}
         </>
     );
 }

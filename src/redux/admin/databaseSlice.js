@@ -7,6 +7,7 @@ const initialState = {
   ContractorDataById: [],
   ApprovedContractorDataById: [],
   UpdateContractorProfileData: [],
+  ContractorItSelfDetailsData: [],
 }
 
 export const adminSlice = createSlice({
@@ -32,9 +33,12 @@ export const adminSlice = createSlice({
     fetchUpdateContractorProfile: (state, action) => {
       state.UpdateContractorProfileData = action.payload
     },
+    fetchContractorItSelfDetailsData: (state, action) => {
+      state.ContractorItSelfDetailsData = action.payload
+    },
   },
 })
 
-export const { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile } = adminSlice.actions
+export const { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData } = adminSlice.actions
 
 export default adminSlice.reducer
