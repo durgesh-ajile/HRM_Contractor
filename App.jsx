@@ -2,7 +2,7 @@
 // import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Registration from './src/Component/Registration'
-import Calender from './src/Pages/Calender'
+// import Calender from './src/Pages/Calender'
 import AdminContractorTab from './src/Pages/AdminContractorTab/AdminContractorTab'
 import SignInPage from './src/Pages/SignInPage'
 import { useState } from 'react'
@@ -11,17 +11,16 @@ import { Alert, Snackbar } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideToast } from './src/redux/errorSlice/errorSlice'
 import ContractorForm from './src/Pages/ContractorForm/ContractorForm'
+import ReactBigCalendar from './src/Pages/Calenders/Calender'
 // import Cards from './src/Component/profile/Cards'
 
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [routesData, setRoutesData] = useState([
-    // { path: '/', component: <AdminContractorTab /> },
     { path: '/', component: <SignInPage /> },
     { path: '/contractorform', component: <ContractorForm /> },
-    // { path: '/registration', component: <Registration /> },
-    { path: '/calender', component: <Calender /> },
+    { path: '/calender', component: <ReactBigCalendar /> },
     { path: '/profile/:contractorId', component: <Profile /> },
   ])
 
