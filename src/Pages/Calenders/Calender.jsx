@@ -1,45 +1,55 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import moment from "moment";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calender.css"
 import AddEventPopup from "../../Component/Popups/AddEventPopup";
+import { asyncThunkGetTask } from "../../redux/createAsyncThunk";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 moment.locale("en-GB");
 
-
 export default function ReactBigCalendar() {
-  const [eventsData, setEventsData] = useState("");
+
   const [showPopup, setShowPopup] = useState(false);
+  const [dateState, setdateState] = useState();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
-  };
+  const { GetContractorTaskInCalenderData } = useSelector(store => store.admin)
 
-  const handleDateClick = (arg) => {
+  const togglePopup = () => { setShowPopup(!showPopup); };
+
+  const handleDateClick = (e) => {
+    let [day, month, year] = e.date.toLocaleDateString('pt-PT').split('/');
+    day = day.padStart(2, '0');
+    month = month.padStart(2, '0');
+    let formattedDate = `${day}/${month}/${year}`;
+    setdateState(formattedDate)
     togglePopup()
   };
 
-  const handleDateSet = (date) => {
-    console.log(date.start);
-    console.log(date.end);
+  const handleDateSet = (e) => {
+    let [, month, year] = e.end.toLocaleDateString('pt-PT').split('/');
+    let formattedDate = `${month - 1 == 0 ? 12 : month - 1 <= 9 ? `0${month - 1}` : month - 1}/${year}`;
+    dispatch(asyncThunkGetTask(formattedDate))
   };
+
+  const handleNavigateToCalendar = () => navigate('/profile')
 
   return (
     <>
       <div className="calender-div">
-      {showPopup && ( <AddEventPopup setShowPopup={setShowPopup} showPopup={showPopup}/> )}
+        <button onClick={() => handleNavigateToCalendar()} id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Open Profile</button>
+        {showPopup && (<AddEventPopup dateState={dateState} setShowPopup={setShowPopup} showPopup={showPopup} />)}
         <div className="Full-Calender">
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             dateClick={(e) => handleDateClick(e)}
-            events={[
-              { title: "8 hours", date: "2023-07-07", time: true },
-              { title: "event 1", date: "2023-07-07", time: false },
-              { title: "event 1", date: "2023-07-17", time: false },
-            ]}
-            datesSet={(date) => handleDateSet(date)}
+            events={GetContractorTaskInCalenderData}
+            datesSet={(e) => handleDateSet(e)}
             eventContent={renderEventContent}
           />
         </div>

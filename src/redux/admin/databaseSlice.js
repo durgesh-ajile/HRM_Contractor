@@ -8,6 +8,8 @@ const initialState = {
   ApprovedContractorDataById: [],
   UpdateContractorProfileData: [],
   ContractorItSelfDetailsData: [],
+  AddContractorTaskInCalenderData: [],
+  GetContractorTaskInCalenderData: [],
 }
 
 export const adminSlice = createSlice({
@@ -36,9 +38,16 @@ export const adminSlice = createSlice({
     fetchContractorItSelfDetailsData: (state, action) => {
       state.ContractorItSelfDetailsData = action.payload
     },
+    fetchAddContractorTaskInCalender: (state, action) => {
+      state.AddContractorTaskInCalenderData = action.payload
+    },
+    fetchGetContractorTaskInCalender: (state, action) => {
+      // state.GetContractorTaskInCalenderData = action.payload
+      state.GetContractorTaskInCalenderData = action.payload.map(({ task, date, workingHour }) => ({ title: task +' '+'For '+ workingHour +'\n'+' '+ 'Hours', date: date.split('/').reverse().join('-') }))
+    },
   },
 })
 
-export const { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData } = adminSlice.actions
+export const { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData, fetchAddContractorTaskInCalender, fetchGetContractorTaskInCalender } = adminSlice.actions
 
 export default adminSlice.reducer
