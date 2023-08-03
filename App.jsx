@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideToast } from './src/redux/errorSlice/errorSlice'
 import ContractorForm from './src/Pages/ContractorForm/ContractorForm'
 import ReactBigCalendar from './src/Pages/Calenders/Calender'
+import Landing from './Landing'
+import './src/App.css'
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [routesData, setRoutesData] = useState([
-    { path: '/', component: <SignInPage /> },
-    { path: '/contractorform', component: <ContractorForm /> },
-    { path: '/calender', component: <ReactBigCalendar /> },
-    { path: '/profile', component: <Profile /> },
+    { path: '/login', component: <SignInPage /> },
+    { path: '*', component: <Landing /> },
   ])
 
   const dispatch = useDispatch()
