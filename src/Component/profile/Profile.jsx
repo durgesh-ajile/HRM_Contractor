@@ -1,14 +1,11 @@
 import "./Profile.css"
 import Box from '@mui/joy/Box';
 import Card from '@mui/joy/Card';
-// import Divider from '@mui/joy/Divider';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
-// import Typography from '@mui/joy/Typography';
 import { Avatar, CardHeader } from '@mui/material';
 import { Grid } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
-
 import EditIcon from '@mui/icons-material/Edit';
 import Cardss from "./Cards"
 import { useEffect } from "react";
@@ -16,21 +13,19 @@ import { asyncThunkGetOwnDetails } from "../../redux/createAsyncThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "../../redux/errorSlice/errorSlice";
 
-
 export default function Profile() {
 
     const dispatch = useDispatch()
     const { ContractorDataById } = useSelector(store => store.admin)
     // const { first_name, last_name, email } = ContractorDataById
 
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const { UpdateContractorProfileData, ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
     // const { _id, first_name, last_name, email, password, profileId } = ContractorItSelfDetails
     // const { ActualAadharNo, ActualName, ActualPanNo, , BankAccNo, BankName, BeneficiaryAadharNo, BeneficiaryName, BeneficiaryPanNo, , ContractName, , EmergencyContactNumber, EmergencyContactRelation, , IFSCcode, IsApproved, IsDecline, , Nationality, Religion, } = profileId
     const [profileDataObj] = UpdateContractorProfileData;
-    // console.log(_id, first_name, last_name, email, password, profileId)
 
-    // console.log("ContractorItSelfDetails",ContractorItSelfDetails)
+    const handleNavigateToCalendar = (path) => navigate(path)
 
     useEffect(() => {
         profileDataObj?.isContractorProfileUpdated && dispatch(showToast({ type: "success", message: "Contractor Updated Successfully" }))
@@ -40,12 +35,10 @@ export default function Profile() {
         dispatch(asyncThunkGetOwnDetails())
     }, [dispatch])
 
-
-    // const [color, setColor] = React.useState('neutral');
     return (
         <>
             {
-                ContractorItSelfDetails?.profileId?.IsApproved && !ContractorItSelfDetails?.profileId?.IsDecline && 
+                ContractorItSelfDetails?.profileId?.IsApproved && !ContractorItSelfDetails?.profileId?.IsDecline &&
                 (<div className='section' style={{ width: "100%", height: "100%" }}>
                     <Card
 
@@ -66,7 +59,6 @@ export default function Profile() {
                         }}
                     >
 
-                        {/* <Divider sx={{ my: 2 }} /> */}
                         <Box
                             sx={{
                                 display: 'flex',
@@ -89,25 +81,14 @@ export default function Profile() {
 
                                     <h1 style={{ fontWeight: "666", marginBottom: '15px' }}>{ContractorItSelfDetails?.first_name} {ContractorItSelfDetails?.last_name}</h1>
                                     <p style={{ marginTop: "-25px", color: "gray", fontWeight: "666" }}>{ContractorItSelfDetails?.profileId?.Address}</p>
-                                    {/* <p style={{ marginTop: "10px", color: "gray", fontWeight: "666" }}>Web Designer</p>
-                                    <h3 style={{ marginTop: "-7px", fontWeight: "666" }}>Employees ID : FT-0001</h3>
-                                    <p style={{ marginTop: "-10px", color: "gray", fontWeight: "666" }}>Date Of Join : 1st Jan 2013</p> */}
 
-                                    <button id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Send Message</button>
+                                    <button onClick={() => handleNavigateToCalendar('/calender')} id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Open Calendar</button>
+                                    <button onClick={() => handleNavigateToCalendar('/contractorform')} id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Open Form</button>
 
                                 </Grid>
 
                             </Grid>
-                            <CardHeader
-
-
-
-
-                            />
-
-
-
-
+                            <CardHeader />
                             <List
                                 size="sm"
                                 orientation="horizontal"
@@ -188,35 +169,8 @@ export default function Profile() {
                             </span>
                         </Box>
 
-
-
-                        {/* <Divider style={{ backgroundColor: "gray" }} sx={{ my: 2 }} /> */}
-                        {/* <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        marginLeft: "30px"
-                    }}
-                >
-                    <Typography style={{ color: "gray", fontWeight: "666" }}>
-                        Profile
-                    </Typography>
-                    <Typography style={{ color: "gray", fontWeight: "666" }}>
-                        Project
-                    </Typography>
-                    <Typography style={{ color: "gray", fontWeight: "666" }}>
-                        Bank & Statutory
-                        <span style={{ color: "red", fontWeight: "666" }}>(Admin Only)</span>
-                    </Typography>
-                    <Typography style={{ color: "gray", fontWeight: "666" }}>
-                        Assets
-                    </Typography>
-
-                </Box> */}
-
                     </Card >
-                    <Cardss ContractorItSelfDetails={ContractorItSelfDetails}/>
+                    <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
                 </div>
 
                 )

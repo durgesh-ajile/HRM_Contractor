@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData } from "./admin/databaseSlice";
+import { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData, fetchAddContractorTaskInCalender, fetchGetContractorTaskInCalender } from "./admin/databaseSlice";
 import { showToast } from "./errorSlice/errorSlice";
 
 // // SIGN_UP
@@ -24,7 +24,8 @@ export const asyncThunkLogin = createAsyncThunk("post/asyncThunkLogin", async (p
             if (res.status !== 201) return
             dispatch(fetchLogin(res?.data?.Token))
             dispatch(showToast({ type: "success", message: "Login Successfully" }))
-        }).catch(() => {
+        }).catch(error => {
+            console.log("error", error)
             dispatch(fetchLogin([]))
             dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
         })
@@ -40,7 +41,8 @@ export const asyncThunkAddContractor = createAsyncThunk("post/asyncThunkAddContr
                 if (res.status !== 201) return
                 dispatch(fetchAddContractor([res?.data?.data]))
                 dispatch(showToast({ type: "success", message: "Contractor Added Successfully" }))
-            }).catch(() => {
+            }).catch((error) => {
+                console.log("error", error)
                 dispatch(fetchAddContractor([]))
                 dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
             })
@@ -100,6 +102,7 @@ export const asyncThunkApproveContractor = createAsyncThunk("get/asyncThunkAppro
                 dispatch(fetchApprovedContractorById({ ...res?.data, isAproved: true }))
                 dispatch(showToast({ type: "success", message: "Successfully approved contractor" }))
             }).catch((error) => {
+                console.log("error", error)
                 dispatch(fetchApprovedContractorById({ ...error, isAproved: false }))
                 dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
             })
@@ -117,7 +120,8 @@ export const asyncThunkGetDitailsOfContractor = createAsyncThunk("get/asyncThunk
                 if (res.status !== 200) return
                 dispatch(fetchContractorById(res?.data?.data))
                 // dispatch(showToast({ type: "success", message: "Contractor Added Successfully" }))
-            }).catch(() => {
+            }).catch((error) => {
+                console.log("error", error)
                 dispatch(fetchContractorById([]))
                 dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
             })
@@ -125,18 +129,19 @@ export const asyncThunkGetDitailsOfContractor = createAsyncThunk("get/asyncThunk
         dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
 })
 
-// GetOwnDetails
+// GET_OWN_DETAILS
 export const asyncThunkGetOwnDetails = createAsyncThunk("get/asyncThunkGetOwnDetails", async (payload, { dispatch }) => {
     const { usertoken } = JSON.parse(localStorage.getItem('token'))
     const headers = { 'Authorization': `Bearer ${usertoken}` };
     usertoken ?
         await axios(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_OWN_DETAILS}`, { headers })
             .then(res => {
-                console.log("res", res)
+                console.log('res',res)
                 if (res.status !== 200) return
                 dispatch(fetchContractorItSelfDetailsData([{ ...res?.data?.data }]))
                 // dispatch(showToast({ type: "success", message: "Contractor Added Successfully" }))
-            }).catch(() => {
+            }).catch((error) => {
+                console.log("error", error)
                 dispatch(fetchContractorItSelfDetailsData([]))
                 dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
             })
@@ -144,3 +149,47 @@ export const asyncThunkGetOwnDetails = createAsyncThunk("get/asyncThunkGetOwnDet
         dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
 })
 
+// CALENDAR
+// CREATE_TASK
+export const asyncThunkCreateTask = createAsyncThunk("post/asyncThunkCreateTask", async (payload, { dispatch }) => {
+    const { usertoken } = JSON.parse(localStorage.getItem('token'))
+    const headers = { 'Authorization': `Bearer ${usertoken}` };
+    usertoken ?
+        await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_CREATE_TASK}`, payload, { headers })
+            .then(res => {
+                if (res.status !== 201) return
+                dispatch(fetchAddContractorTaskInCalender([{ ...res?.data?.data }]))
+                dispatch(showToast({ type: "success", message: res?.data?.message }))
+
+                let [, month, year] = new Date().toLocaleDateString('pt-PT').split('/');
+                let formattedDate = `${month == 0 ? 12 : month <= 9 ? `${month}` : month }/${year}`;
+
+                dispatch(asyncThunkGetTask(formattedDate))
+            }).catch((error) => {
+                console.log("error", error)
+                // dispatch(fetchAddContractorTaskInCalender([]))
+                dispatch(showToast({ type: "error", message: error?.response?.data?.message }))
+            })
+        :
+        dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
+})
+
+// GET_TASK
+export const asyncThunkGetTask = createAsyncThunk("get/asyncThunkGetTask", async (payload, { dispatch }) => {
+    const { usertoken } = JSON.parse(localStorage.getItem('token'))
+    const headers = { 'Authorization': `Bearer ${usertoken}` };
+    usertoken ?
+        await axios.get(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_TASK + `?date=${payload}`}`, { headers })
+            .then(res => {
+                // console.log("res", res)
+                if (res.status !== 200) return
+                dispatch(fetchGetContractorTaskInCalender(res?.data?.data))
+                dispatch(showToast({ type: "success", message: 'Events Found !' }))
+            }).catch((error) => {
+                console.error("error", error)
+                dispatch(fetchGetContractorTaskInCalender([]))
+                dispatch(showToast({ type: "error", message: 'No Task Found For This Month' }))
+            })
+        :
+        dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
+})
