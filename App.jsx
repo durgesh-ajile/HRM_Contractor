@@ -1,9 +1,5 @@
-// import React from 'react'
-// import './App.css'
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Registration from './src/Component/Registration'
-// import Calender from './src/Pages/Calender'
-import AdminContractorTab from './src/Pages/AdminContractorTab/AdminContractorTab'
 import SignInPage from './src/Pages/SignInPage'
 import { useState } from 'react'
 import Profile from './src/Component/profile/Profile'
@@ -12,16 +8,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideToast } from './src/redux/errorSlice/errorSlice'
 import ContractorForm from './src/Pages/ContractorForm/ContractorForm'
 import ReactBigCalendar from './src/Pages/Calenders/Calender'
-// import Cards from './src/Component/profile/Cards'
-
+import Landing from './Landing'
+import './src/App.css'
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [routesData, setRoutesData] = useState([
-    { path: '/', component: <SignInPage /> },
-    { path: '/contractorform', component: <ContractorForm /> },
-    { path: '/calender', component: <ReactBigCalendar /> },
-    { path: '/profile/:contractorId', component: <Profile /> },
+    { path: '/login', component: <SignInPage /> },
+    { path: '*', component: <Landing /> },
   ])
 
   const dispatch = useDispatch()

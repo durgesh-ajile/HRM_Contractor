@@ -221,7 +221,7 @@ export default function Profile() {
 
                 )
             }
-            {!ContractorItSelfDetails?.profileId?.IsApproved && <h1>We are reviewing yout profile ! pease wait</h1>}
+            {!ContractorItSelfDetails?.profileId?.IsApproved && <h1>We are reviewing yout profile ! please wait</h1>}
             {ContractorItSelfDetails?.profileId?.IsDecline && <> <h1>Sorry this couldn&apos;t workout !</h1><h1>Please check yout email for more feedback !</h1></>}
         </>
     );
