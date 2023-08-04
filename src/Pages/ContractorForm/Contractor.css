@@ -1,0 +1,162 @@
+.Upper{
+    display: flex;
+}
+.common{
+    width: 75%;
+    height: 40px;
+    background-color:white;
+    border: 5px solid gray;
+    padding: 3px;
+    float: left;
+}
+.sp{
+    font-size: 19px;
+    margin-left: -15%;
+    cursor: pointer;
+    
+}
+.form-error1
+{
+  color: red;
+
+  font-size: 10px;
+font-style: italic;
+display: flex;
+flex-direction: column;
+}
+.form-error
+{
+  color: red;
+  font-size: 12px;
+font-style: italic;
+display: flex;
+flex-direction: column;
+}
+.in{
+   
+   position: relative;
+ right: 75%;
+ top: 5px;
+ 
+    color: grey;
+   
+}
+.cont{
+    width: 31rem;
+}
+.block{
+    padding-right:50px ;
+}
+
+.com{
+    margin-left: 24px;
+    width: 74%;
+}
+
+.int{
+    position: relative;
+    right: 70%;
+    top: 5px;
+       color: grey; 
+}
+
+.btn-submit{
+    background-color: rgb(35, 95, 192);
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 15px 40px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 3%;
+    margin-left: 75%;
+    margin-bottom: 42px; 
+}
+
+.popup-container {
+    position: relative;
+    display: inline-block;
+    right: 5rem;
+  }
+  
+  .info-icon {
+    cursor: pointer;
+    font-size: 20px;
+   
+  }
+  
+  .contract-popup {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    padding: 10px;
+    width: 21rem;
+    height: 3em;
+    color: grey;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    display: inline-block; 
+    white-space: nowrap; 
+    z-index: 999;
+  
+  }
+  
+  .pop{
+    margin: 0;
+    
+  }
+
+
+
+@media screen and (max-width: 550px){
+    .Upper
+    {
+     display: flex;
+     flex-direction: column;
+     justify-content: space-evenly; 
+    
+    } 
+    .com{
+        margin-left: 24px;
+        width: 90%;
+        
+     }
+    
+     .up{
+        width:23rem;
+        float: left;
+       
+    }
+    .emer{
+       
+        width: 19rem;
+        
+    }
+    .bl{
+        padding: 0px;
+    }
+    .btn-submit{
+        background-color: rgb(35, 95, 192);
+        color: white;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        padding: 15px 40px;
+        border-radius: 5px;
+        border: none;
+        margin-top: 5%;
+        margin-left: 30%; 
+        margin-bottom: 12px;
+    }
+    .cont{
+        width: 20rem;
+    }
+
+    
+}
+
+@media screen and (min-width: 600px){
+.contractor_form{
+background-color:white;
+width: 66rem;
+}
+}

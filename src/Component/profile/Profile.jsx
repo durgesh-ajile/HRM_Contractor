@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { asyncThunkGetOwnDetails } from "../../redux/createAsyncThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "../../redux/errorSlice/errorSlice";
+import Contractor from "../../Pages/ContractorForm/ContractorForm";
 
 export default function Profile() {
 
@@ -38,7 +39,7 @@ export default function Profile() {
     return (
         <>
             {
-                ContractorItSelfDetails?.profileId?.IsApproved && !ContractorItSelfDetails?.profileId?.IsDecline &&
+                ContractorItSelfDetails?.profileId?.IsApproved && !ContractorItSelfDetails?.profileId?.IsDecline ?
                 (<div className='section' style={{ width: "100%", height: "100%" }}>
                     <Card
 
@@ -173,10 +174,12 @@ export default function Profile() {
                     <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
                 </div>
 
-                )
+                ) : ContractorItSelfDetails?.profileId === undefined ? (
+                    <Contractor/>
+                ) : null
             }
-            {!ContractorItSelfDetails?.profileId?.IsApproved && <h1>We are reviewing yout profile ! please wait</h1>}
-            {ContractorItSelfDetails?.profileId?.IsDecline && <> <h1>Sorry this couldn&apos;t workout !</h1><h1>Please check yout email for more feedback !</h1></>}
+            {ContractorItSelfDetails?.profileId?.IsApproved === false && <h1>We are reviewing your profile ! please wait</h1>}
+            {ContractorItSelfDetails?.profileId?.IsDecline && <> <h1>Sorry this couldn&apos;t workout !</h1><h1>Please check your email for more feedback !</h1></>}
         </>
     );
 }
