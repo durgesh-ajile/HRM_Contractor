@@ -1,72 +1,82 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
+import * as React from "react";
+import PropTypes from "prop-types";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
 // import Typography from '@mui/material/Typography';
-import { AdminPanelSettingsSharp, AppRegistrationTwoTone, CalendarMonthOutlined, LoginTwoTone, Person3Outlined, PersonOffRounded } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-
-
+import {
+  AdminPanelSettingsSharp,
+  AppRegistrationTwoTone,
+  CalendarMonthOutlined,
+  LoginTwoTone,
+  Person3Outlined,
+  PersonOffRounded,
+} from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const { ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
 
+  console.log(ContractorItSelfDetails)
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-          <ListItem disablePadding >
-            <ListItemButton>
-              <ListItemIcon>
-                 <Person3Outlined />
-              </ListItemIcon>
-              <ListItemText primary="Profile" onClick={()=>(navigate("/profile"))}/>
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding >
-            <ListItemButton>
-              <ListItemIcon>
-                 <CalendarMonthOutlined />
-              </ListItemIcon>
-              <ListItemText primary="Calender" onClick={()=>{navigate("/calender")}} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding >
-            <ListItemButton>
-              <ListItemIcon>
-                 <AdminPanelSettingsSharp />
-              </ListItemIcon>
-              <ListItemText primary="AdminContractor" onClick={()=>{navigate("/admincontractortab")}} />
-            </ListItemButton>
-          </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <Person3Outlined />
+            </ListItemIcon>
+            <ListItemText
+              primary="Profile"
+              onClick={() => navigate("/profile")}
+            />
+          </ListItemButton>
+        </ListItem>
+        {!ContractorItSelfDetails?.profileId === undefined &&
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <CalendarMonthOutlined />
+            </ListItemIcon>
+            <ListItemText
+              primary="Calender"
+              onClick={() => {
+                navigate("/calender");
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+        }
       </List>
       {/* <Divider /> */}
-     
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -75,13 +85,13 @@ const navigate = useNavigate();
           ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Toolbar style={{backgroundColor:"white"}}>
+        <Toolbar style={{ backgroundColor: "white" }}>
           <IconButton
             color="black"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -105,8 +115,11 @@ const navigate = useNavigate();
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -114,8 +127,11 @@ const navigate = useNavigate();
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
           open
         >
@@ -124,10 +140,13 @@ const navigate = useNavigate();
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
       >
         <Toolbar />
-       
       </Box>
     </Box>
   );
