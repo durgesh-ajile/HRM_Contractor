@@ -91,22 +91,10 @@ function Contractor() {
   useEffect(() => {
     let contractorFormData = null;
     try {
-      contractorFormData = JSON.parse(
-        localStorage.getItem("contractorFormData")
-      );
-      contractorFormData === null &&
-        dispatch(
-          showToast({
-            type: "error",
-            message: "token expired ! please signin again",
-          })
-        );
+      contractorFormData = JSON.parse(localStorage.getItem("contractorFormData"));
+      contractorFormData === null &&dispatch(showToast({type: "error",message: "input field is empty please fill it.",}));
     } catch (error) {
-      dispatch(
-        showToast({
-          type: "error",
-          message: "token expired ! please signin again",
-        })
+      dispatch(showToast({type: "error",message: "input field is empty please fill it.",})
       );
     }
     contractorFormData !== null && setInput(contractorFormData);
@@ -539,8 +527,8 @@ function Contractor() {
                 </div>
               </div>
               {errors.address && touched.address ?
-                  (<small className='form-error1'>{errors.address}</small>)
-                  : null}
+                (<small className='form-error1'>{errors.address}</small>)
+                : null}
 
               <div className="Gender">
                 <label
@@ -689,8 +677,8 @@ function Contractor() {
                 </div>
               </div>
               {errors.emergencyContactName && touched.emergencyContactName ?
-                   (<small className='form-error1'>{errors.emergencyContactName}</small>)
-                   : null}
+                (<small className='form-error1'>{errors.emergencyContactName}</small>)
+                : null}
             </div>
 
             <div className="UpperRight ">
@@ -723,8 +711,8 @@ function Contractor() {
                 </div>
               </div>
               {errors.emergencyContactRelation && touched.emergencyContactRelation ?
-                   (<small className='form-error'>{errors.emergencyContactRelation}</small>)
-                   : null}
+                (<small className='form-error'>{errors.emergencyContactRelation}</small>)
+                : null}
 
               <div className="up Emergency Contact Number px-4">
                 <label
@@ -755,7 +743,7 @@ function Contractor() {
                 </div>
               </div>
               {errors.emergencyContactNumber &&
-              touched.emergencyContactNumber ? (
+                touched.emergencyContactNumber ? (
                 <small className="form-error">
                   {errors.emergencyContactNumber}
                 </small>
@@ -775,7 +763,7 @@ function Contractor() {
                   id="ActualPan"
                   type="file"
                   placeholder="Actual Pan Image"
-                  accept=".pdf, .docx, .jpeg, .png"
+
                   required
                   //  value={values.ActualPan}
                   //  onChange={handleChange}
@@ -802,7 +790,7 @@ function Contractor() {
                   id="ActualAadhar"
                   type="file"
                   placeholder="Actual Aadhar Image"
-                  accept=".pdf, .docx, .jpeg, .png"
+                  accept="image/*"
                   required
                   //  value={values.ActualAadhar}
                   //  onChange={handleChange}
@@ -830,7 +818,7 @@ function Contractor() {
                   id="ActualBeneficiaryPan"
                   type="file"
                   placeholder="Actual Beneficiary Pan Image"
-                  accept=".pdf, .docx, .jpeg, .png"
+                  accept="image/*"
                   required
                   //  value={values.ActualBeneficiaryPan}
                   //  onChange={handleChange}
@@ -857,6 +845,7 @@ function Contractor() {
                border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white "
                   id="Actual Beneficiary Aadhar"
                   type="file"
+                  accept="image/*"
                   placeholder="Actual Beneficiary Pan"
                   onChange={(e) => handleChangeInput(e, true)}
                   name="beneficiaryAadharImage"

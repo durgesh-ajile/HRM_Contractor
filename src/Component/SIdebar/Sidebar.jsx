@@ -14,61 +14,60 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 // import Typography from '@mui/material/Typography';
-import {
-  AdminPanelSettingsSharp,
-  AppRegistrationTwoTone,
-  CalendarMonthOutlined,
-  LoginTwoTone,
-  Person3Outlined,
-  PersonOffRounded,
-} from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { AdminPanelSettingsSharp, AppRegistrationTwoTone, CalendarMonthOutlined, LoginTwoTone, Person3Outlined, PersonOffRounded } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+
+
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const { ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
 
-  console.log(ContractorItSelfDetails)
+  
+  const handleLogOut = () => {
+    localStorage.clear()
+    navigate("/login")
+  }
+
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <Person3Outlined />
-            </ListItemIcon>
-            <ListItemText
-              primary="Profile"
-              onClick={() => navigate("/profile")}
-            />
-          </ListItemButton>
-        </ListItem>
-        {!ContractorItSelfDetails?.profileId === undefined &&
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <CalendarMonthOutlined />
-            </ListItemIcon>
-            <ListItemText
-              primary="Calender"
-              onClick={() => {
-                navigate("/calender");
-              }}
-            />
-          </ListItemButton>
-        </ListItem>
-        }
+          <ListItem disablePadding >
+            <ListItemButton>
+              <ListItemIcon>
+                 <Person3Outlined />
+              </ListItemIcon>
+              <ListItemText primary="Profile" onClick={()=>(navigate("/"))}/>
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding >
+            <ListItemButton>
+              <ListItemIcon>
+                 <CalendarMonthOutlined />
+              </ListItemIcon>
+              <ListItemText primary="Calender" onClick={()=>{navigate("/calender")}} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding >
+            <ListItemButton>
+              <ListItemIcon>
+                 <AdminPanelSettingsSharp />
+              </ListItemIcon>
+              <ListItemText primary="LogOut" onClick={()=>{handleLogOut()}} />
+            </ListItemButton>
+          </ListItem>
       </List>
       {/* <Divider /> */}
+     
     </div>
   );
 

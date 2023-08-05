@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import './New.css';
-import { RxCross2 } from "react-icons/rx";
 import { useDispatch } from 'react-redux';
-import { asyncThunkAddContractor, asyncThunkCreateTask, asyncThunkGetContractor } from '../../redux/createAsyncThunk';
+import { asyncThunkCreateTask } from '../../redux/createAsyncThunk';
 import { Button } from '@mui/material';
 
 
@@ -16,17 +15,18 @@ function AddEventPopup({ setShowPopup, dateState }) {
     setShowPopup(false);
   };
 
-  const handleInputChange = (e) => { setTimesheetDetails((prev) => { prev[e.target.name] = e.target.value; return { ...prev } }) };
+  const handleInputChange = (e) => {
+    setTimesheetDetails((prev) => {
+      prev[e.target.name] = e.target.name === 'workingHour' ? parseInt(e.target.value) <= 0 ? 0 : parseInt(e.target.value) >= 24 ? 24 : parseInt(e.target.value) : e.target.value;
+      return { ...prev }
+    })
+  };
 
   const handleAddEvents = () => {
     const payload = {
       "date": dateState, ...timesheetDetails
-
-      // "task": timesheetDetails.task,
-      // "workingHour": timesheetDetails.workingHour
     }
     dispatch(asyncThunkCreateTask(payload))
-    // dispatch(asyncThunkGetContractor(1));
     closePopup();
   };
 
