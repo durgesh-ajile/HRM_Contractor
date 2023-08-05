@@ -21,12 +21,15 @@ const SingIn = () => {
 
     const handleLogin = (event) => {
         event.preventDefault();
+
         dispatch(asyncThunkLogin({ "email": email, "password": password }))
+        setTimeout(() => {
+            setTimeout(() => { usertoken && navigate('/contractorform'); }, 1000);
+        }, 0);
     };
 
     useEffect(() => {
-        usertoken && navigate('/contractorform')
-    }, [navigate, usertoken])
+    }, [usertoken])
 
     return (
         <div className={styles.container}>
