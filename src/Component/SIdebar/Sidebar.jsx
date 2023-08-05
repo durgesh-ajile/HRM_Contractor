@@ -30,6 +30,12 @@ function ResponsiveDrawer(props) {
     setMobileOpen(!mobileOpen);
   };
 
+  
+  const handleLogOut = () => {
+    localStorage.clear()
+    navigate("/login")
+  }
+
   const drawer = (
     <div>
       <Toolbar />
@@ -40,7 +46,7 @@ function ResponsiveDrawer(props) {
               <ListItemIcon>
                  <Person3Outlined />
               </ListItemIcon>
-              <ListItemText primary="Profile" onClick={()=>(navigate("/profile"))}/>
+              <ListItemText primary="Profile" onClick={()=>(navigate("/"))}/>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding >
@@ -56,7 +62,7 @@ function ResponsiveDrawer(props) {
               <ListItemIcon>
                  <AdminPanelSettingsSharp />
               </ListItemIcon>
-              <ListItemText primary="AdminContractor" onClick={()=>{navigate("/admincontractortab")}} />
+              <ListItemText primary="LogOut" onClick={()=>{handleLogOut()}} />
             </ListItemButton>
           </ListItem>
       </List>
