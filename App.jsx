@@ -9,11 +9,13 @@ import ContractorForm from './src/Pages/ContractorForm/ContractorForm'
 import ReactBigCalendar from './src/Pages/Calenders/Calender'
 import Landing from './Landing'
 import './src/App.css'
+import ResetPasswordPage from './src/Pages/ResetPasswordPage'
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   const [routesData, setRoutesData] = useState([
     { path: '/login', component: <SignInPage /> },
+    { path: '/resetpassword/:resetPassToken', component: <ResetPasswordPage /> },
     { path: '*', component: <Landing /> },
   ])
 
