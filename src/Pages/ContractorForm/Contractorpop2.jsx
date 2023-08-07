@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {GrCircleInformation} from "react-icons/gr";
+import { GrCircleInformation } from "react-icons/gr";
 
 const Contractorpopup2 = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -19,11 +19,11 @@ const Contractorpopup2 = () => {
       onMouseLeave={handleIconMouseLeave}
     >
       <div className="info-icon">
-      <GrCircleInformation />
+        <GrCircleInformation />
       </div>
       {isPopupVisible && (
-        <div className="popup">
-<div  className="pop">Name you wish to use in contract.</div>
+        <div className="contract-popup">
+          <div className="pop">Name you wish to use in contract.</div>
         </div>
       )}
     </div>

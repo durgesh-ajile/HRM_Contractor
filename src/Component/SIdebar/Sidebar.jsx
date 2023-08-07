@@ -16,6 +16,7 @@ import Toolbar from "@mui/material/Toolbar";
 // import Typography from '@mui/material/Typography';
 import { AdminPanelSettingsSharp, AppRegistrationTwoTone, CalendarMonthOutlined, LoginTwoTone, Person3Outlined, PersonOffRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 
 const drawerWidth = 240;
@@ -25,12 +26,12 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
     const navigate = useNavigate();
+    const { ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  
   const handleLogOut = () => {
     localStorage.clear()
     navigate("/login")
@@ -49,7 +50,9 @@ function ResponsiveDrawer(props) {
               <ListItemText primary="Profile" onClick={()=>(navigate("/"))}/>
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding >
+          {
+            ContractorItSelfDetails?.profileId !== undefined &&
+            <ListItem disablePadding >
             <ListItemButton>
               <ListItemIcon>
                  <CalendarMonthOutlined />
@@ -57,6 +60,7 @@ function ResponsiveDrawer(props) {
               <ListItemText primary="Calender" onClick={()=>{navigate("/calender")}} />
             </ListItemButton>
           </ListItem>
+          }
           <ListItem disablePadding >
             <ListItemButton>
               <ListItemIcon>
