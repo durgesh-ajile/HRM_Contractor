@@ -12,7 +12,7 @@ const Landing = () => {
       <div className="right-container">
         <Routes>
           <Route path="/calender" element={<ReactBigCalendar />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<Profile />} />
           <Route path="/contractorform" element={<ContractorForm />} />
         </Routes>
       </div>

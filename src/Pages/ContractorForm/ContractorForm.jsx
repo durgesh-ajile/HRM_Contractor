@@ -22,62 +22,48 @@ import { useNavigate } from "react-router-dom";
 import Contractorpopup1 from "./Contractorpop1";
 import Contractorpopup2 from "./Contractorpop2";
 import { contract } from "./Contractschema";
+import { Button } from "@mui/material";
 
 function Contractor() {
-  const initialValues = {
-    actualName: "",
-    actualAadharNo: "",
-    actualPanNo: "",
-    beneficiaryName: "",
-    beneficiaryAadharNo: "",
-    beneficiaryPanNo: "",
-    bankName: "",
-    bankAccNo: "",
-    ifscCode: "",
-    contractName: "",
-    joinDate: "",
-    birthday: "",
-    address: "",
-    gender: "",
-    reportTo: "",
-    nationality: "",
-    religion: "",
-    emergencyContactName: "",
-    emergencyContactRelation: "",
-    emergencyContactNumber: "",
-    ActualPan: "",
-    ActualAadhar: "",
-    ActualBeneficiaryPan: "",
-    ActualBeneficiaryAadhar: "",
-  };
-  const { values, errors, touched, handleBlur, handleSubmit, handleChange } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: contract,
-      // onSubmit: (values, action) => {
-      //   console.log("submitted", values);
-      //   action.resetForm();
-      //   alert("submitted");
-      // },
-    });
 
-  const [input, setInput] = useState({});
+  const [input, setInput] = useState({}); 
+  const [activateError, setActivateError] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { UpdateContractorProfileData } = useSelector((store) => store.admin);
   const [profileDataObj] = UpdateContractorProfileData;
-  const data = JSON.parse(
-    localStorage.getItem("contractorFormData")
-  )
 
   const handleChangeInput = (e, isFiles) => {
-    handleChange(e)
     setInput((prev) => {
       prev[e.target.name] = isFiles ? e.target.files[0] : e.target.value;
       localStorage.setItem("contractorFormData", JSON.stringify(prev));
       return { ...prev };
     });
   };
+
+  const handleError = () => {
+    const data = JSON.parse(localStorage.getItem("contractorFormData"));
+    if(!data?.actualName || 
+      !data?.actualAadharNo || 
+      !data?.actualPanNo || 
+      !data?.address || 
+      !data?.bankAccNo || 
+      !data?.bankName || 
+      !data?.beneficiaryAadharNo || 
+      !data?.beneficiaryName || 
+      !data?.beneficiaryPanNo || 
+      !data?.birthday || 
+      !data?.contractName || 
+      !data?.emergencyContactName || 
+      !data?.emergencyContactNumber || 
+      !data?.emergencyContactRelation || 
+      !data?.ifscCode || 
+      !data?.joinDate || 
+      !data?.nationality || 
+      !data?.reportTo ){
+      setActivateError(true)
+    }
+  }
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(asyncThunkUpdateContractorProfile(input));
@@ -112,18 +98,16 @@ function Contractor() {
     contractorFormData !== null && setInput(contractorFormData);
   }, [dispatch]);
 
-  console.log(values)
-  console.log(data)
   return (
     <>
-      <h1 className="heading text-center">Contractor Profile Form</h1>
       {/* contractor list here */}
       <div
         className="flex flex-col items-center contractor container"
         id="container"
         style={{ background: "white" }}
       >
-        <form className="contractor_form " onSubmit={(e) => onSubmit(e)}>
+        <form className="contractor_form" onSubmit={(e) => onSubmit(e)}>
+          <h1 className="form-heading">Contractor Profile Form</h1>
           <div className="Upper ">
             <div className="UpperLeft mt-3 ">
               <div className="ActualName">
@@ -144,18 +128,15 @@ function Contractor() {
                     type="text"
                     placeholder="Actual Name"
                     required
-                    // value={values.actualName}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.actualName}
                     name="actualName"
-                    onBlur={handleBlur}
                   />{" "}
                 </div>
               </div>
 
-              {errors.actualName && touched.actualName ? (
-                <small className="form-error1">{errors.actualName}</small>
+              {!input.actualName && activateError ? (
+                <small className="form-error1">Required</small>
               ) : null}
 
               <div className="ActualAadharNo">
@@ -177,17 +158,14 @@ function Contractor() {
                     type="number"
                     placeholder="Actual Aadhar No"
                     required
-                    //value={values.actualAadharNo}
-                    //  onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.actualAadharNo}
                     name="actualAadharNo"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.actualAadharNo && touched.actualAadharNo ? (
-                <small className="form-error">{errors.actualAadharNo}</small>
+              {!input.actualAadharNo && activateError ? (
+                <small className="form-error">Required</small>
               ) : null}
 
               <div className="ActuaPanNo">
@@ -209,17 +187,14 @@ function Contractor() {
                     type="text"
                     placeholder="Actual Pan No"
                     required
-                    // value={values.actualPanNo}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.actualPanNo}
                     name="actualPanNo"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.actualPanNo && touched.actualPanNo ? (
-                <small className="form-error">{errors.actualPanNo}</small>
+              {!input.actualPanNo && activateError ? (
+                <small className="form-error">Required</small>
               ) : null}
 
               <div className="BeneficiaryName">
@@ -244,17 +219,14 @@ function Contractor() {
                     type="text"
                     placeholder="Beneficiary Name"
                     required
-                    // value={values.beneficiaryName}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.beneficiaryName}
                     name="beneficiaryName"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.beneficiaryName && touched.beneficiaryName ? (
-                <small className="form-error">{errors.beneficiaryName}</small>
+              {!input.beneficiaryName && activateError ? (
+                <small className="form-error">Required</small>
               ) : null}
 
               <div className="BeneficiaryAadharNo">
@@ -276,18 +248,15 @@ function Contractor() {
                     type="number"
                     placeholder="Beneficiary Aadhar No"
                     required
-                    // value={values.beneficiaryAadharNo}
-                    //  onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.beneficiaryAadharNo}
                     name="beneficiaryAadharNo"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.beneficiaryAadharNo && touched.beneficiaryAadharNo ? (
+              {!input.beneficiaryAadharNo && activateError ? (
                 <small className="form-error">
-                  {errors.beneficiaryAadharNo}
+                Required
                 </small>
               ) : null}
 
@@ -315,12 +284,12 @@ function Contractor() {
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.beneficiaryPanNo}
                     name="beneficiaryPanNo"
-                    onBlur={handleBlur}
+                    //onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.beneficiaryPanNo && touched.beneficiaryPanNo ? (
-                <small className="form-error">{errors.beneficiaryPanNo}</small>
+              {!input.beneficiaryPanNo && activateError ? (
+                <small className="form-error">Required</small>
               ) : null}
             </div>
             <div className="UpperRight mt-3 ">
@@ -343,17 +312,14 @@ function Contractor() {
                     type="name"
                     placeholder="Bank Name"
                     required
-                    // value={values.bankName}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.bankName}
                     name="bankName"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.bankName && touched.bankName ? (
-                <small className="form-error1">{errors.bankName}</small>
+              {!input.bankName && activateError ? (
+                <small className="form-error1">Required</small>
               ) : null}
               <div className="BankAccNo">
                 <label
@@ -374,17 +340,14 @@ function Contractor() {
                     type="Number"
                     placeholder="Bank Acc No"
                     required
-                    // value={values.bankAccNo}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.bankAccNo}
                     name="bankAccNo"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.bankAccNo && touched.bankAccNo ? (
-                <small className="form-error1">{errors.bankAccNo}</small>
+              {!input.bankAccNo && activateError ? (
+                <small className="form-error1">Required</small>
               ) : null}
               <div className="IfscCode">
                 <label
@@ -405,17 +368,14 @@ function Contractor() {
                     type="text"
                     placeholder="Ifsc Code"
                     required
-                    // value={values.ifscCode}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.ifscCode}
                     name="ifscCode"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.ifscCode && touched.ifscCode ? (
-                <small className="form-error1">{errors.ifscCode}</small>
+              {!input.ifscCode && activateError ? (
+                <small className="form-error1">Required</small>
               ) : null}
               <div className="ContractorName">
                 <label
@@ -440,17 +400,14 @@ function Contractor() {
                     type="name"
                     placeholder="Contractor Name"
                     required
-                    // value={values.contractName}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.contractName}
                     name="contractName"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.contractName && touched.contractName ? (
-                <small className="form-error1">{errors.contractName}</small>
+              {!input.contractName && activateError ? (
+                <small className="form-error1">Required</small>
               ) : null}
 
               <div className="JoinDate">
@@ -468,16 +425,13 @@ function Contractor() {
                   type="date"
                   placeholder="Join Date"
                   required
-                  // value={values.joinDate}
-                  // onChange={handleChange}
                   onChange={(e) => handleChangeInput(e, false)}
                   value={input?.joinDate}
                   name="joinDate"
-                  onBlur={handleBlur}
                 />
               </div>
-              {errors.joinDate && touched.joinDate ? (
-                <small className="form-error">{errors.joinDate}</small>
+              {!input.joinDate && activateError ? (
+                <small className="form-error">Required</small>
               ) : null}
 
               <div className="Birthday">
@@ -495,16 +449,13 @@ function Contractor() {
                   type="date"
                   placeholder="Birthday"
                   required
-                  // value={values.birthday}
-                  // onChange={handleChange}
                   onChange={(e) => handleChangeInput(e, false)}
                   value={input?.birthday}
                   name="birthday"
-                  onBlur={handleBlur}
                 />
               </div>
-              {errors.birthday && touched.birthday ? (
-                <small className="form-error">{errors.birthday}</small>
+              {!input.birthday && activateError ? (
+                <small className="form-error">Required</small>
               ) : null}
             </div>
           </div>
@@ -518,7 +469,7 @@ function Contractor() {
                   Address :
                 </label>
                 <div className="cont">
-                  <span className="int">
+                  <span className="in">
                     {" "}
                     <AiOutlineHome />{" "}
                   </span>
@@ -529,18 +480,15 @@ function Contractor() {
                     type="text"
                     placeholder="Address"
                     required
-                    // value={values.address}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.address}
                     name="address"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.address && touched.address ?
-                  (<small className='form-error1'>{errors.address}</small>)
-                  : null}
+              {!input.address && activateError ? (
+                <small className="form-error1">Required</small>
+              ) : null}
 
               <div className="Gender">
                 <label
@@ -583,17 +531,14 @@ function Contractor() {
                     type="text"
                     placeholder="Report To"
                     required
-                    // value={values.reportTo}
-                    // onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.reportTo}
                     name="reportTo"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.reportTo && touched.reportTo ? (
-                <small className="form-error1">{errors.reportTo}</small>
+              {!input.reportTo && activateError ? (
+                <small className="form-error1">Required</small>
               ) : null}
 
               <div className="Nationality">
@@ -618,14 +563,11 @@ function Contractor() {
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.nationality}
                     name="nationality"
-                    //  value={values.nationality}
-                    //  onChange={handleChange}
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.nationality && touched.nationality ? (
-                <small className="form-error1">{errors.nationality}</small>
+              {!input.nationality && activateError ? (
+                <small className="form-error1">Required</small>
               ) : null}
 
               <div className="Religion">
@@ -647,17 +589,14 @@ function Contractor() {
                     type="text"
                     placeholder="Religion"
                     required
-                    //  value={values.religion}
-                    //  onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.religion}
                     name="religion"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.religion && touched.religion ? (
-                <small className="form-error1">{errors.religion}</small>
+              {!input.religion && activateError ? (
+                <small className="form-error1">Required</small>
               ) : null}
 
               <div className="EmergencyContactName">
@@ -679,18 +618,17 @@ function Contractor() {
                     type="text"
                     placeholder="EmergencyContactName"
                     required
-                    //  value={values.EmergencyContactName}
-                    //  onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.emergencyContactName}
                     name="emergencyContactName"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.emergencyContactName && touched.emergencyContactName ?
-                   (<small className='form-error1'>{errors.emergencyContactName}</small>)
-                   : null}
+              {!input.emergencyContactName && activateError ? (
+                <small className="form-error1">
+                Required
+                </small>
+              ) : null}
             </div>
 
             <div className="UpperRight ">
@@ -713,18 +651,18 @@ function Contractor() {
                     type="text"
                     placeholder="Emergency Contact Relation"
                     required
-                    //  value={values.EmergencyContactRelation}
-                    //  onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.emergencyContactRelation}
                     name="emergencyContactRelation"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.emergencyContactRelation && touched.emergencyContactRelation ?
-                   (<small className='form-error'>{errors.emergencyContactRelation}</small>)
-                   : null}
+              {!input.emergencyContactRelation &&
+                activateError ? (
+                <small className="form-error">
+                Required
+                </small>
+              ) : null}
 
               <div className="up Emergency Contact Number px-4">
                 <label
@@ -744,20 +682,16 @@ function Contractor() {
                     id="EmergencyContactNumber"
                     type="number"
                     placeholder="Emergency Contact Number"
-                    required
-                    // value={values.EmergencyContactNumber}
-                    //  onChange={handleChange}
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.emergencyContactNumber}
                     name="emergencyContactNumber"
-                    onBlur={handleBlur}
                   />
                 </div>
               </div>
-              {errors.emergencyContactNumber &&
-              touched.emergencyContactNumber ? (
+              {!input.emergencyContactNumber &&
+                activateError ? (
                 <small className="form-error">
-                  {errors.emergencyContactNumber}
+                Required
                 </small>
               ) : null}
 
@@ -766,7 +700,7 @@ function Contractor() {
                   className="bl block uppercase tracking-wide text-gray-700 text-xs font-bold  mb-2 "
                   htmlFor="ActualPan"
                 >
-                  Actual PanCard Image :
+                  Actual Pan Card Image :
                 </label>
 
                 <input
@@ -776,17 +710,10 @@ function Contractor() {
                   type="file"
                   placeholder="Actual Pan Image"
                   accept=".pdf, .docx, .jpeg, .png"
-                  required
-                  //  value={values.ActualPan}
-                  //  onChange={handleChange}
                   onChange={(e) => handleChangeInput(e, true)}
                   name="actualPanImage"
-                  onBlur={handleBlur}
                 />
               </div>
-              {errors.ActualPan && touched.ActualPan ? (
-                <small className="form-error">{errors.ActualPan}</small>
-              ) : null}
 
               <div className="up ActualAadhar px-4">
                 <label
@@ -803,18 +730,11 @@ function Contractor() {
                   type="file"
                   placeholder="Actual Aadhar Image"
                   accept=".pdf, .docx, .jpeg, .png"
-                  required
-                  //  value={values.ActualAadhar}
-                  //  onChange={handleChange}
                   onChange={(e) => handleChangeInput(e, true)}
                   name="actualAdharImage"
-                  onBlur={handleBlur}
                 />
               </div>
 
-              {errors.ActualAadhar && touched.ActualAadhar ? (
-                <small className="form-error">{errors.ActualAadhar}</small>
-              ) : null}
 
               <div className="up ActualBeneficiaryPan px-4">
                 <label
@@ -831,21 +751,12 @@ function Contractor() {
                   type="file"
                   placeholder="Actual Beneficiary Pan Image"
                   accept=".pdf, .docx, .jpeg, .png"
-                  required
-                  //  value={values.ActualBeneficiaryPan}
-                  //  onChange={handleChange}
                   onChange={(e) => handleChangeInput(e, true)}
                   name="beneficiaryPanImage"
-                  onBlur={handleBlur}
                 />
               </div>
-              {errors.ActualBeneficiaryPan && touched.ActualBeneficiaryPan ? (
-                <small className="form-error">
-                  {errors.ActualBeneficiaryPan}
-                </small>
-              ) : null}
 
-              <div className="up ActualBeneficiaryPan px-2">
+              <div className="up ActualBeneficiaryPan px-4">
                 <label
                   className="bl block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mx-4"
                   htmlFor="Actual Beneficiary Pan"
@@ -855,24 +766,20 @@ function Contractor() {
                 <input
                   className="emer common appearance-none block  bg-gray-200 text-gray-700 border
                border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white "
-                  id="Actual Beneficiary Aadhar"
+                  id="ActualBeneficiaryAadhar"
                   type="file"
                   placeholder="Actual Beneficiary Pan"
                   onChange={(e) => handleChangeInput(e, true)}
                   name="beneficiaryAadharImage"
-                  required
                 />
+              </div>
+              <div className="px-4" id="submit-div">
+                <div className="submit-div">
+                  <Button variant="contained" type="submit" onClick={handleError}>Submit</Button>
+                </div>
               </div>
             </div>
           </div>
-          <button
-            className="btn-submit"
-            onClick={() => {
-              alert("Submitted");
-            }}
-          >
-            Submit
-          </button>
         </form>
       </div>
     </>

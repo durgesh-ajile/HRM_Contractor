@@ -1,9 +1,12 @@
 .Upper{
     display: flex;
 }
+.form-heading{
+    margin: 40px 20px 15px;
+}
 .common{
     width: 75%;
-    height: 40px;
+    height: 51px;
     background-color:white;
     border: 5px solid gray;
     padding: 3px;
@@ -33,15 +36,13 @@ display: flex;
 flex-direction: column;
 }
 .in{
-   
-   position: relative;
- right: 75%;
- top: 5px;
- 
-    color: grey;
-   
+    position: absolute;
+    top: 11px;
+    left: 43px;
+color: grey; 
 }
 .cont{
+    position: relative;
     width: 31rem;
 }
 .block{
@@ -54,10 +55,11 @@ flex-direction: column;
 }
 
 .int{
-    position: relative;
-    right: 70%;
-    top: 5px;
-       color: grey; 
+    position: absolute;
+    /* right: 70%; */
+    left: 20px;
+    top: 12px;
+    color: grey;
 }
 
 .btn-submit{
@@ -75,7 +77,8 @@ flex-direction: column;
 .popup-container {
     position: relative;
     display: inline-block;
-    right: 5rem;
+    right: 4rem;
+    top: 9px;
   }
   
   .info-icon {
@@ -83,13 +86,28 @@ flex-direction: column;
     font-size: 20px;
    
   }
+  #submit-div{
+    /* display: block; */
+    margin: 90px 0;
+  }
+  #ActualBeneficiaryAadhar,#ActualBeneficiaryPan,#ActualAadhar,#ActualPan{
+    padding-top: 10px;
+    padding-left: 15px !important;
+  }
+
+  .submit-div{
+    width: 75%;
+    justify-content: flex-end;
+    display: flex;
+    
+  }
   
   .contract-popup {
     position: absolute;
-    top: 30px;
-    right: 0;
+    top: 45px;
+    left: 0;
     padding: 10px;
-    width: 21rem;
+    /* width: 21rem; */
     height: 3em;
     color: grey;
     background-color: #f9f9f9;
@@ -106,7 +124,11 @@ flex-direction: column;
     margin: 0;
     
   }
-
+.contractor_form{
+  box-shadow: 0px 0px 30px 0px;
+  border-radius: 5px;
+  padding: 20px;
+}
 
 
 @media screen and (max-width: 550px){
@@ -158,5 +180,6 @@ flex-direction: column;
 .contractor_form{
 background-color:white;
 width: 66rem;
+margin: 50px auto;
 }
 }
