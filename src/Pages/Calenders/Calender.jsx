@@ -36,12 +36,9 @@ export default function ReactBigCalendar() {
     dispatch(asyncThunkGetTask(formattedDate))
   };
 
-  const handleNavigateToCalendar = () => navigate('/profile')
-
   return (
     <>
       <div className="calender-div">
-        <button onClick={() => handleNavigateToCalendar()} id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Open Profile</button>
         {showPopup && (<AddEventPopup dateState={dateState} setShowPopup={setShowPopup} showPopup={showPopup} />)}
         <div className="Full-Calender">
           <FullCalendar

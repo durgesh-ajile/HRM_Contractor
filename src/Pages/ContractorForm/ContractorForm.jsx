@@ -77,22 +77,10 @@ function Contractor() {
   useEffect(() => {
     let contractorFormData = null;
     try {
-      contractorFormData = JSON.parse(
-        localStorage.getItem("contractorFormData")
-      );
-      contractorFormData === null &&
-        dispatch(
-          showToast({
-            type: "error",
-            message: "token expired ! please signin again",
-          })
-        );
+      contractorFormData = JSON.parse(localStorage.getItem("contractorFormData"));
+      contractorFormData === null &&dispatch(showToast({type: "error",message: "input field is empty please fill it.",}));
     } catch (error) {
-      dispatch(
-        showToast({
-          type: "error",
-          message: "token expired ! please signin again",
-        })
+      dispatch(showToast({type: "error",message: "input field is empty please fill it.",})
       );
     }
     contractorFormData !== null && setInput(contractorFormData);
@@ -768,6 +756,7 @@ function Contractor() {
                border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white "
                   id="ActualBeneficiaryAadhar"
                   type="file"
+                  accept="image/*"
                   placeholder="Actual Beneficiary Pan"
                   onChange={(e) => handleChangeInput(e, true)}
                   name="beneficiaryAadharImage"
