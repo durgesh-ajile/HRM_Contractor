@@ -11,9 +11,6 @@ import {
   AiOutlineBarcode,
   AiOutlineHome,
 } from "react-icons/ai";
-import { GrCircleInformation } from "react-icons/gr";
-// import Popup1 from "./Popup1";
-// import Popup2 from "./Popup2";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncThunkUpdateContractorProfile } from "../../redux/createAsyncThunk";
@@ -21,7 +18,6 @@ import { showToast } from "../../redux/errorSlice/errorSlice";
 import { useNavigate } from "react-router-dom";
 import Contractorpopup1 from "./Contractorpop1";
 import Contractorpopup2 from "./Contractorpop2";
-import { contract } from "./Contractschema";
 import { Button } from "@mui/material";
 
 function Contractor() {
@@ -111,7 +107,7 @@ function Contractor() {
                     <AiOutlineUserAdd />{" "}
                   </span>
                   <input
-                    className="common appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded  px-5 mb-3  leading-tight focus:outline-none focus:bg-white mx-4"
+                    className="common appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded  px-5   leading-tight focus:outline-none focus:bg-white mx-4"
                     id="actualName"
                     type="text"
                     placeholder="Actual Name"
@@ -120,12 +116,14 @@ function Contractor() {
                     value={input?.actualName}
                     name="actualName"
                   />{" "}
+                  {!input.actualName && activateError ? (
+                    <small className="form-error">Required*</small>
+              ) : null}
                 </div>
+                
               </div>
 
-              {!input.actualName && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+              
 
               <div className="ActualAadharNo">
                 <label
@@ -141,7 +139,7 @@ function Contractor() {
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="actualAadharNo"
                     type="number"
                     placeholder="Actual Aadhar No"
@@ -150,11 +148,12 @@ function Contractor() {
                     value={input?.actualAadharNo}
                     name="actualAadharNo"
                   />
+                  {!input.actualAadharNo && activateError ? (
+                <small className="form-error">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.actualAadharNo && activateError ? (
-                <small className="form-error">Required</small>
-              ) : null}
+              
 
               <div className="ActuaPanNo">
                 <label
@@ -170,7 +169,7 @@ function Contractor() {
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4 inputField"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4 inputField"
                     id="actualPanNo"
                     type="text"
                     placeholder="Actual Pan No"
@@ -179,11 +178,12 @@ function Contractor() {
                     value={input?.actualPanNo}
                     name="actualPanNo"
                   />
+                  {!input.actualPanNo && activateError ? (
+                <small className="form-error">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.actualPanNo && activateError ? (
-                <small className="form-error">Required</small>
-              ) : null}
+              
 
               <div className="BeneficiaryName">
                 <label
@@ -197,12 +197,12 @@ function Contractor() {
                     {" "}
                     <AiOutlineUserAdd />{" "}
                   </span>
-                  <span>
+                  <span >
                     <Contractorpopup1 />
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border 
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="beneficiaryName"
                     type="text"
                     placeholder="Beneficiary Name"
@@ -211,11 +211,12 @@ function Contractor() {
                     value={input?.beneficiaryName}
                     name="beneficiaryName"
                   />
+                   {!input.beneficiaryName && activateError ? (
+                <small className="form-error">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.beneficiaryName && activateError ? (
-                <small className="form-error">Required</small>
-              ) : null}
+             
 
               <div className="BeneficiaryAadharNo">
                 <label
@@ -231,7 +232,7 @@ function Contractor() {
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4 "
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4 "
                     id="beneficiaryAadharNo"
                     type="number"
                     placeholder="Beneficiary Aadhar No"
@@ -240,13 +241,14 @@ function Contractor() {
                     value={input?.beneficiaryAadharNo}
                     name="beneficiaryAadharNo"
                   />
-                </div>
-              </div>
-              {!input.beneficiaryAadharNo && activateError ? (
+                  {!input.beneficiaryAadharNo && activateError ? (
                 <small className="form-error">
-                Required
+                Required*
                 </small>
               ) : null}
+                </div>
+              </div>
+              
 
               <div className="BeneficiaryPanNo">
                 <label
@@ -262,7 +264,7 @@ function Contractor() {
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4 "
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4 "
                     id="beneficiaryPanNo"
                     type="text"
                     placeholder="Beneficiary Pan No"
@@ -274,11 +276,12 @@ function Contractor() {
                     name="beneficiaryPanNo"
                     //onBlur={handleBlur}
                   />
+                  {!input.beneficiaryPanNo && activateError ? (
+                <small className="form-error">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.beneficiaryPanNo && activateError ? (
-                <small className="form-error">Required</small>
-              ) : null}
+              
             </div>
             <div className="UpperRight mt-3 ">
               <div className="BankName">
@@ -295,7 +298,7 @@ function Contractor() {
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="bankName"
                     type="name"
                     placeholder="Bank Name"
@@ -304,11 +307,12 @@ function Contractor() {
                     value={input?.bankName}
                     name="bankName"
                   />
+                  {!input.bankName && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.bankName && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+              
               <div className="BankAccNo">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold px-4  mb-2 mx-auto"
@@ -323,7 +327,7 @@ function Contractor() {
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="bankAccNo "
                     type="Number"
                     placeholder="Bank Acc No"
@@ -332,11 +336,12 @@ function Contractor() {
                     value={input?.bankAccNo}
                     name="bankAccNo"
                   />
+                  {!input.bankAccNo && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.bankAccNo && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+              
               <div className="IfscCode">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold px-4  mb-2"
@@ -351,7 +356,7 @@ function Contractor() {
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="ifscCode"
                     type="text"
                     placeholder="Ifsc Code"
@@ -360,11 +365,12 @@ function Contractor() {
                     value={input?.ifscCode}
                     name="ifscCode"
                   />
+                  {!input.ifscCode && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.ifscCode && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+              
               <div className="ContractorName">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold px-4 mb-2"
@@ -383,7 +389,7 @@ function Contractor() {
                   </span>
                   <input
                     className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="contractName"
                     type="name"
                     placeholder="Contractor Name"
@@ -392,11 +398,12 @@ function Contractor() {
                     value={input?.contractName}
                     name="contractName"
                   />
+                                {!input.contractName && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.contractName && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+
 
               <div className="JoinDate">
                 <label
@@ -405,10 +412,10 @@ function Contractor() {
                 >
                   Join Date :
                 </label>
-
+                <div className="cont">
                 <input
                   className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white mx-4"
                   id="joinDate"
                   type="date"
                   placeholder="Join Date"
@@ -417,10 +424,12 @@ function Contractor() {
                   value={input?.joinDate}
                   name="joinDate"
                 />
-              </div>
-              {!input.joinDate && activateError ? (
-                <small className="form-error">Required</small>
+                {!input.joinDate && activateError ? (
+                <small className="form-error">Required*</small>
               ) : null}
+              </div>
+              </div>
+              
 
               <div className="Birthday">
                 <label
@@ -429,10 +438,10 @@ function Contractor() {
                 >
                   Birthday :
                 </label>
-
+                <div className="cont"> 
                 <input
                   className="common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white mx-4"
                   id="birthday"
                   type="date"
                   placeholder="Birthday"
@@ -441,10 +450,12 @@ function Contractor() {
                   value={input?.birthday}
                   name="birthday"
                 />
-              </div>
-              {!input.birthday && activateError ? (
-                <small className="form-error">Required</small>
+                {!input.birthday && activateError ? (
+                <small className="form-error">Required*</small>
               ) : null}
+              </div>
+              </div>
+              
             </div>
           </div>
           <div className="Upper">
@@ -463,7 +474,7 @@ function Contractor() {
                   </span>
                   <input
                     className="com common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-5 leading-tight focus:outline-none focus:bg-white "
+               border-gray-200 rounded  px-5 leading-tight focus:outline-none focus:bg-white "
                     id="address"
                     type="text"
                     placeholder="Address"
@@ -472,11 +483,12 @@ function Contractor() {
                     value={input?.address}
                     name="address"
                   />
+                  {!input.address && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.address && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+              
 
               <div className="Gender">
                 <label
@@ -514,7 +526,7 @@ function Contractor() {
                   </span>
                   <input
                     className="com common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="reportTo"
                     type="text"
                     placeholder="Report To"
@@ -523,11 +535,12 @@ function Contractor() {
                     value={input?.reportTo}
                     name="reportTo"
                   />
+                   {!input.reportTo && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.reportTo && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+             
 
               <div className="Nationality">
                 <label
@@ -543,7 +556,7 @@ function Contractor() {
                   </span>
                   <input
                     className="com common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="nationality"
                     type="text"
                     placeholder="Nationality"
@@ -552,11 +565,12 @@ function Contractor() {
                     value={input?.nationality}
                     name="nationality"
                   />
+                  {!input.nationality && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.nationality && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+              
 
               <div className="Religion">
                 <label
@@ -572,7 +586,7 @@ function Contractor() {
                   </span>
                   <input
                     className="com common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="religion"
                     type="text"
                     placeholder="Religion"
@@ -581,11 +595,12 @@ function Contractor() {
                     value={input?.religion}
                     name="religion"
                   />
+                  {!input.religion && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
                 </div>
               </div>
-              {!input.religion && activateError ? (
-                <small className="form-error1">Required</small>
-              ) : null}
+              
 
               <div className="EmergencyContactName">
                 <label
@@ -601,7 +616,7 @@ function Contractor() {
                   </span>
                   <input
                     className="com common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white mx-4"
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white mx-4"
                     id="EmergencyContactName"
                     type="text"
                     placeholder="EmergencyContactName"
@@ -610,17 +625,18 @@ function Contractor() {
                     value={input?.emergencyContactName}
                     name="emergencyContactName"
                   />
-                </div>
-              </div>
-              {!input.emergencyContactName && activateError ? (
+                  {!input.emergencyContactName && activateError ? (
                 <small className="form-error1">
-                Required
+                Required*
                 </small>
               ) : null}
+                </div>
+              </div>
+              
             </div>
 
             <div className="UpperRight ">
-              <div className="up Emergency Contact Relation px-4">
+              <div className="up EmergencyContactRelation px-4">
                 <label
                   className="bl block uppercase tracking-wide text-gray-700 text-xs font-bold  mb-2"
                   htmlFor="EmergencyContactRelation"
@@ -634,7 +650,7 @@ function Contractor() {
                   </span>
                   <input
                     className="emer common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white "
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white "
                     id="EmergencyContactRelation"
                     type="text"
                     placeholder="Emergency Contact Relation"
@@ -643,16 +659,17 @@ function Contractor() {
                     value={input?.emergencyContactRelation}
                     name="emergencyContactRelation"
                   />
-                </div>
-              </div>
-              {!input.emergencyContactRelation &&
+                  {!input.emergencyContactRelation &&
                 activateError ? (
-                <small className="form-error">
-                Required
+                <small id='form-error-id' className="form-error">
+                Required*
                 </small>
               ) : null}
+                </div>
+              </div>
+              
 
-              <div className="up Emergency Contact Number px-4">
+              <div className="up EmergencyContactNumber px-4">
                 <label
                   className="bl block uppercase tracking-wide text-gray-700 text-xs font-bold  mb-2 "
                   htmlFor="Emergency Contact Number"
@@ -666,7 +683,7 @@ function Contractor() {
                   </span>
                   <input
                     className="emer common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-5 mb-3 leading-tight focus:outline-none focus:bg-white "
+               border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white "
                     id="EmergencyContactNumber"
                     type="number"
                     placeholder="Emergency Contact Number"
@@ -674,14 +691,15 @@ function Contractor() {
                     value={input?.emergencyContactNumber}
                     name="emergencyContactNumber"
                   />
-                </div>
-              </div>
-              {!input.emergencyContactNumber &&
+                  {!input.emergencyContactNumber &&
                 activateError ? (
-                <small className="form-error">
-                Required
+                <small id='form-error-id' className="form-error">
+                Required*
                 </small>
               ) : null}
+                </div>
+              </div>
+              
 
               <div className="up ActualPan px-4">
                 <label
@@ -690,10 +708,10 @@ function Contractor() {
                 >
                   Actual Pan Card Image :
                 </label>
-
+                
                 <input
                   className="emer common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white "
+               border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white "
                   id="ActualPan"
                   type="file"
                   placeholder="Actual Pan Image"
@@ -713,7 +731,7 @@ function Contractor() {
 
                 <input
                   className="emer common appearance-none block w-full bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white "
+               border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white "
                   id="ActualAadhar"
                   type="file"
                   placeholder="Actual Aadhar Image"
@@ -734,7 +752,7 @@ function Contractor() {
 
                 <input
                   className="emer common appearance-none block  bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white "
+               border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white "
                   id="ActualBeneficiaryPan"
                   type="file"
                   placeholder="Actual Beneficiary Pan Image"
@@ -753,7 +771,7 @@ function Contractor() {
                 </label>
                 <input
                   className="emer common appearance-none block  bg-gray-200 text-gray-700 border
-               border-gray-200 rounded  px-4 mb-3 leading-tight focus:outline-none focus:bg-white "
+               border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white "
                   id="ActualBeneficiaryAadhar"
                   type="file"
                   accept="image/*"
@@ -762,7 +780,7 @@ function Contractor() {
                   name="beneficiaryAadharImage"
                 />
               </div>
-              <div className="px-4" id="submit-div">
+              <div id="submit-div">
                 <div className="submit-div">
                   <Button variant="contained" type="submit" onClick={handleError}>Submit</Button>
                 </div>
