@@ -25,7 +25,7 @@ const SingIn = () => {
 
         dispatch(asyncThunkLogin({ "email": email, "password": password }))
         setTimeout(() => {
-            setTimeout(() => { usertoken && navigate('/contractorform'); }, 1000);
+            setTimeout(() => { usertoken && navigate('/contractorform/update'); }, 1000);
         }, 0);
     };
 

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData, fetchAddContractorTaskInCalender, fetchGetContractorTaskInCalender } from "./admin/databaseSlice";
+import { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData, fetchAddContractorTaskInCalender, fetchGetContractorTaskInCalender, fetchForgotPassword, fetchResetPassword } from "./admin/databaseSlice";
 import { showToast } from "./errorSlice/errorSlice";
 
 // // SIGN_UP
@@ -63,6 +63,28 @@ export const asyncThunkUpdateContractorProfile = createAsyncThunk("post/asyncThu
                 if (res.status !== 201) return
                 dispatch(fetchUpdateContractorProfile([{ ...res?.data, isContractorProfileUpdated: true }]))
                 dispatch(showToast({ type: "success", message: "Contractor Updated Successfully" }))
+            }).catch((error) => {
+                console.error(error)
+                dispatch(fetchUpdateContractorProfile([{ isContractorProfileUpdated: false }]))
+                dispatch(showToast({ type: "error", message: error?.response?.data?.message ? error?.response?.data?.message : error?.message + ' Or Server Down !' }))
+            })
+        :
+        dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
+})
+
+// REUPDATE_PROFILE
+export const asyncThunkReUpdateContractorProfile = createAsyncThunk("post/asyncThunkReUpdateContractorProfile", async (payload, { dispatch }) => {
+    const { usertoken } = JSON.parse(localStorage.getItem('token'))
+    const headers = {
+        'Authorization': `Bearer ${usertoken}`,
+        'Content-Type': 'multipart/form-data'
+    };
+    usertoken ?
+        await axios.patch(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_REUPDATE_PROFILE}`, payload, { headers })
+            .then(res => {
+                if (res.status !== 200) return
+                dispatch(fetchUpdateContractorProfile([{ ...res?.data, isContractorProfileUpdated: true }]))
+                dispatch(showToast({ type: "success", message: "Contractor ReUpdated Successfully" }))
             }).catch((error) => {
                 console.error(error)
                 dispatch(fetchUpdateContractorProfile([{ isContractorProfileUpdated: false }]))
@@ -136,7 +158,6 @@ export const asyncThunkGetOwnDetails = createAsyncThunk("get/asyncThunkGetOwnDet
     usertoken ?
         await axios(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_OWN_DETAILS}`, { headers })
             .then(res => {
-                console.log('res',res)
                 if (res.status !== 200) return
                 dispatch(fetchContractorItSelfDetailsData([{ ...res?.data?.data }]))
                 // dispatch(showToast({ type: "success", message: "Contractor Added Successfully" }))
@@ -162,7 +183,7 @@ export const asyncThunkCreateTask = createAsyncThunk("post/asyncThunkCreateTask"
                 dispatch(showToast({ type: "success", message: res?.data?.message }))
 
                 let [, month, year] = new Date().toLocaleDateString('pt-PT').split('/');
-                let formattedDate = `${month == 0 ? 12 : month <= 9 ? `${month}` : month }/${year}`;
+                let formattedDate = `${month == 0 ? 12 : month <= 9 ? `${month}` : month}/${year}`;
 
                 dispatch(asyncThunkGetTask(formattedDate))
             }).catch((error) => {
@@ -181,7 +202,6 @@ export const asyncThunkGetTask = createAsyncThunk("get/asyncThunkGetTask", async
     usertoken ?
         await axios.get(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_TASK + `?date=${payload}`}`, { headers })
             .then(res => {
-                // console.log("res", res)
                 if (res.status !== 200) return
                 dispatch(fetchGetContractorTaskInCalender(res?.data?.data))
                 dispatch(showToast({ type: "success", message: 'Events Found !' }))
@@ -192,4 +212,34 @@ export const asyncThunkGetTask = createAsyncThunk("get/asyncThunkGetTask", async
             })
         :
         dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
+})
+
+// CONTRACTOR_FORGOT_PASSWORD
+export const asyncThunkContractorForgotPassword = createAsyncThunk("get/asyncThunkContractorForgotPassword", async (payload, { dispatch }) => {
+    await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_CONTRACTOR_FORGOT_PASSWORD}`, payload)
+    .then(res => {
+        console.log(res)
+        if (res.status !== 200) return
+        dispatch(fetchForgotPassword([{ ...res?.data, isEmailSend: true }]))
+        dispatch(showToast({ type: "success", message: res?.data?.message }))
+    }).catch((error) => {
+        console.error(error)
+        dispatch(fetchForgotPassword([{ isEmailSend: false }]))
+        dispatch(showToast({ type: "error", message: error?.response?.data?.message }))
+    })
+})
+
+// CONTRACTOR_RESET_PASSWORD
+export const asyncThunkContractorResetPassword = createAsyncThunk("get/asyncThunkContractorResetPassword", async (payload, { dispatch }) => {
+    await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_CONTRACTOR_RESET_PASSWORD + `/${payload?.Token}`}`, payload?.inputValue)
+    .then(res => {
+        console.log("res", res)
+        if (res.status !== 200) return
+        dispatch(fetchResetPassword([{ ...res.data, isPasswordChanged: true }]))
+        dispatch(showToast({ type: "success", message: res.data.message }))
+    }).catch((error) => {
+        console.error(error)
+        dispatch(fetchResetPassword([{ isPasswordChanged: false }]))
+        dispatch(showToast({ type: "error", message: error?.response?.data?.msg }))
+    })
 })

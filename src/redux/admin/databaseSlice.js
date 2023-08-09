@@ -10,6 +10,8 @@ const initialState = {
   ContractorItSelfDetailsData: [],
   AddContractorTaskInCalenderData: [],
   GetContractorTaskInCalenderData: [],
+  ForgotPasswordData: [],
+  ResetPasswordData: [],
 }
 
 export const adminSlice = createSlice({
@@ -42,12 +44,17 @@ export const adminSlice = createSlice({
       state.AddContractorTaskInCalenderData = action.payload
     },
     fetchGetContractorTaskInCalender: (state, action) => {
-      // state.GetContractorTaskInCalenderData = action.payload
-      state.GetContractorTaskInCalenderData = action.payload.map(({ task, date, workingHour }) => ({ title: task +' '+'For '+ workingHour +'\n'+' '+ 'Hours', date: date.split('/').reverse().join('-') }))
+      state.GetContractorTaskInCalenderData = action.payload.map(({ task, date, workingHour }) => ({ title: task + ', ' + 'For ' + workingHour + '\n' + ' ' + 'Hours', date: date.split('/').reverse().join('-') }))
+    },
+    fetchForgotPassword: (state, action) => {
+      state.ForgotPasswordData = action.payload
+    },
+    fetchResetPassword: (state, action) => {
+      state.ResetPasswordData = action.payload
     },
   },
 })
 
-export const { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData, fetchAddContractorTaskInCalender, fetchGetContractorTaskInCalender } = adminSlice.actions
+export const { fetchSignUp, fetchLogin, fetchAddContractor, fetchContractorById, fetchApprovedContractorById, fetchUpdateContractorProfile, fetchContractorItSelfDetailsData, fetchAddContractorTaskInCalender, fetchGetContractorTaskInCalender, fetchForgotPassword, fetchResetPassword } = adminSlice.actions
 
 export default adminSlice.reducer
