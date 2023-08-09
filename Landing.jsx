@@ -30,7 +30,7 @@ const Landing = () => {
           <Routes>
             <Route path="/calender" element={<ReactBigCalendar />} />
             <Route path="/" element={<Profile />} />
-            <Route path="/contractorform" element={<ContractorForm />} />
+            <Route path="/contractorform/:updateType" element={<ContractorForm />} />
           </Routes>
         </div>
       </>}

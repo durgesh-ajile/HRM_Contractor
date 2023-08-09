@@ -13,21 +13,22 @@ import {
 } from "react-icons/ai";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncThunkUpdateContractorProfile } from "../../redux/createAsyncThunk";
+import { asyncThunkReUpdateContractorProfile, asyncThunkUpdateContractorProfile } from "../../redux/createAsyncThunk";
 import { showToast } from "../../redux/errorSlice/errorSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Contractorpopup1 from "./Contractorpop1";
 import Contractorpopup2 from "./Contractorpop2";
 import { Button } from "@mui/material";
 
 function Contractor() {
 
-  const [input, setInput] = useState({}); 
+  const [input, setInput] = useState({});
   const [activateError, setActivateError] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { UpdateContractorProfileData } = useSelector((store) => store.admin);
   const [profileDataObj] = UpdateContractorProfileData;
+  const { updateType } = useParams();
 
   const handleChangeInput = (e, isFiles) => {
     setInput((prev) => {
@@ -39,44 +40,45 @@ function Contractor() {
 
   const handleError = () => {
     const data = JSON.parse(localStorage.getItem("contractorFormData"));
-    if(!data?.actualName || 
-      !data?.actualAadharNo || 
-      !data?.actualPanNo || 
-      !data?.address || 
-      !data?.bankAccNo || 
-      !data?.bankName || 
-      !data?.beneficiaryAadharNo || 
-      !data?.beneficiaryName || 
-      !data?.beneficiaryPanNo || 
-      !data?.birthday || 
-      !data?.contractName || 
-      !data?.emergencyContactName || 
-      !data?.emergencyContactNumber || 
-      !data?.emergencyContactRelation || 
-      !data?.ifscCode || 
-      !data?.joinDate || 
-      !data?.nationality || 
-      !data?.reportTo ){
+    if (!data?.actualName ||
+      !data?.actualAadharNo ||
+      !data?.actualPanNo ||
+      !data?.address ||
+      !data?.bankAccNo ||
+      !data?.bankName ||
+      !data?.beneficiaryAadharNo ||
+      !data?.beneficiaryName ||
+      !data?.beneficiaryPanNo ||
+      !data?.birthday ||
+      !data?.contractName ||
+      !data?.emergencyContactName ||
+      !data?.emergencyContactNumber ||
+      !data?.emergencyContactRelation ||
+      !data?.ifscCode ||
+      !data?.joinDate ||
+      !data?.nationality ||
+      !data?.reportTo) {
       setActivateError(true)
     }
   }
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(asyncThunkUpdateContractorProfile(input));
+    updateType === 'update' && dispatch(asyncThunkUpdateContractorProfile(input));
+    updateType === 'petchUpdate' && dispatch(asyncThunkReUpdateContractorProfile(input));
+    navigate("/");
   };
 
-  useEffect(() => {
-    profileDataObj?.isContractorProfileUpdated &&
-      navigate("/profile/:contractorId");
-  }, [navigate, profileDataObj?.isContractorProfileUpdated]);
+  // useEffect(() => {
+  //   profileDataObj?.isContractorProfileUpdated && navigate("/");
+  // }, [navigate, profileDataObj?.isContractorProfileUpdated]);
 
   useEffect(() => {
     let contractorFormData = null;
     try {
       contractorFormData = JSON.parse(localStorage.getItem("contractorFormData"));
-      contractorFormData === null &&dispatch(showToast({type: "error",message: "input field is empty please fill it.",}));
+      contractorFormData === null && dispatch(showToast({ type: "error", message: "input field is empty please fill it.", }));
     } catch (error) {
-      dispatch(showToast({type: "error",message: "input field is empty please fill it.",})
+      dispatch(showToast({ type: "error", message: "input field is empty please fill it.", })
       );
     }
     contractorFormData !== null && setInput(contractorFormData);
@@ -91,7 +93,7 @@ function Contractor() {
         style={{ background: "white" }}
       >
         <form className="contractor_form" onSubmit={(e) => onSubmit(e)}>
-          <h1 className="form-heading">Contractor Profile Form</h1>
+          <h1 className="form-heading">{updateType === 'petchUpdate'&&'Update '}Contractor Profile Form</h1>
           <div className="Upper ">
             <div className="UpperLeft mt-3 ">
               <div className="ActualName">
@@ -243,7 +245,7 @@ function Contractor() {
                   />
                   {!input.beneficiaryAadharNo && activateError ? (
                 <small className="form-error">
-                Required*
+                  Required*
                 </small>
               ) : null}
                 </div>
@@ -274,7 +276,7 @@ function Contractor() {
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.beneficiaryPanNo}
                     name="beneficiaryPanNo"
-                    //onBlur={handleBlur}
+                  //onBlur={handleBlur}
                   />
                   {!input.beneficiaryPanNo && activateError ? (
                 <small className="form-error">Required*</small>
@@ -627,7 +629,7 @@ function Contractor() {
                   />
                   {!input.emergencyContactName && activateError ? (
                 <small className="form-error1">
-                Required*
+                  Required*
                 </small>
               ) : null}
                 </div>
@@ -662,7 +664,7 @@ function Contractor() {
                   {!input.emergencyContactRelation &&
                 activateError ? (
                 <small id='form-error-id' className="form-error">
-                Required*
+                  Required*
                 </small>
               ) : null}
                 </div>
@@ -694,7 +696,7 @@ function Contractor() {
                   {!input.emergencyContactNumber &&
                 activateError ? (
                 <small id='form-error-id' className="form-error">
-                Required*
+                  Required*
                 </small>
               ) : null}
                 </div>
@@ -715,7 +717,7 @@ function Contractor() {
                   id="ActualPan"
                   type="file"
                   placeholder="Actual Pan Image"
-                  accept=".pdf, .docx, .jpeg, .png"
+                  accept="image/*"
                   onChange={(e) => handleChangeInput(e, true)}
                   name="actualPanImage"
                 />
@@ -735,7 +737,7 @@ function Contractor() {
                   id="ActualAadhar"
                   type="file"
                   placeholder="Actual Aadhar Image"
-                  accept=".pdf, .docx, .jpeg, .png"
+                  accept="image/*"
                   onChange={(e) => handleChangeInput(e, true)}
                   name="actualAdharImage"
                 />
@@ -756,7 +758,7 @@ function Contractor() {
                   id="ActualBeneficiaryPan"
                   type="file"
                   placeholder="Actual Beneficiary Pan Image"
-                  accept=".pdf, .docx, .jpeg, .png"
+                  accept="image/*"
                   onChange={(e) => handleChangeInput(e, true)}
                   name="beneficiaryPanImage"
                 />
@@ -782,7 +784,7 @@ function Contractor() {
               </div>
               <div id="submit-div">
                 <div className="submit-div">
-                  <Button variant="contained" type="submit" onClick={handleError}>Submit</Button>
+                  <Button variant="contained" type="submit" onClick={handleError}>{updateType === 'update' ? 'Submit' : 'Update'}</Button>
                 </div>
               </div>
             </div>

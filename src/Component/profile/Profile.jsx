@@ -83,8 +83,8 @@ export default function Profile() {
                                     <h1 style={{ fontWeight: "666", marginBottom: '15px' }}>{ContractorItSelfDetails?.first_name} {ContractorItSelfDetails?.last_name}</h1>
                                     <p style={{ marginTop: "-25px", color: "gray", fontWeight: "666" }}>{ContractorItSelfDetails?.profileId?.Address}</p>
 
-                                    <button onClick={() => handleNavigateToCalendar('/calender')} id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Open Calendar</button>
-                                    <button onClick={() => handleNavigateToCalendar('/contractorform')} id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Open Form</button>
+                                    {/* <button onClick={() => handleNavigateToCalendar('/calender')} id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Calendar</button> */}
+                                    <button onClick={() => handleNavigateToCalendar('/contractorform/petchUpdate')} id='btn' style={{ marginTop: "10px", height: "40px", width: "160px", border: "none", borderRadius: "3%" }}>Update Profile</button>
 
                                 </Grid>
 

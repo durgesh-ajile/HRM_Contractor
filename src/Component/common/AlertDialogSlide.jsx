@@ -9,6 +9,7 @@ import WhiteButton from './WhiteButton';
 import { forwardRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { asyncThunkContractorForgotPassword } from '../../redux/createAsyncThunk';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -34,9 +35,9 @@ export default function AlertDialogSlide() {
     }
 
     const handleForgotPassword = () => {
-        dispatch(asyncThunkForgotPassword(inputForgotPassword))
+        dispatch(asyncThunkContractorForgotPassword(inputForgotPassword))
         setOpen(false);
-        navigate(`/registration`)
+        // navigate(`/login`)
         // const url = `https://www.google.com/search?q=${encodeURIComponent('https://mail.google.com/')}`;
         // window.open(url, '_blank');
         // navigate(`https://www.google.com/search?q=${`https://mail.google.com/`}`)

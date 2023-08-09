@@ -1,23 +1,23 @@
 import { Box, TextField } from "@mui/material"
 import WhiteButton from "./WhiteButton"
 import { useState } from "react"
-// import { asyncThunkResetPassword } from "../../redux/createAsyncThunk"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { asyncThunkContractorResetPassword } from "../../redux/createAsyncThunk"
+// import { useNavigate } from "react-router-dom"
 
 // eslint-disable-next-line react/prop-types
 const ResetPassword = ({ resetPassToken }) => {
     // const navigate = useNavigate()
     // const { ResetPasswordData:[PasswordData] } = useSelector(store => store.admin)
 
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const [inputValue, setInputValue] = useState({})
 
     const handleChangeInput = e => {
         setInputValue(prev => (prev[e.target.name] = e.target.value, { ...prev }))
     }
     const handleConfirmProfile = Token => {
-        // dispatch(asyncThunkResetPassword({ Token, inputValue }))
+        dispatch(asyncThunkContractorResetPassword({ Token, inputValue }))
         // PasswordData?.isPasswordChanged && navigate(`/signin`)
     }
 
