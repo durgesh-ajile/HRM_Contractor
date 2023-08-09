@@ -1,7 +1,7 @@
 import { Box, TextField } from "@mui/material"
 import WhiteButton from "./WhiteButton"
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { asyncThunkContractorResetPassword } from "../../redux/createAsyncThunk"
 // import { useNavigate } from "react-router-dom"
 
