@@ -3,8 +3,10 @@ import "./Cards.css";
 import EditIcon from '@mui/icons-material/Edit';
 
 
+// eslint-disable-next-line react/prop-types
 const Cards = ({ ContractorItSelfDetails }) => {
 
+  // eslint-disable-next-line react/prop-types
   const { _id, first_name, last_name, email, password, profileId } = ContractorItSelfDetails
   // eslint-disable-next-line react/prop-types
   const { ActualAadharNo, ActualName, ActualPanNo, Address, BankAccNo, BankName, BeneficiaryAadharNo, BeneficiaryName, BeneficiaryPanNo, Birthday, ContractName, EmergencyContactName, EmergencyContactNumber, EmergencyContactRelation, Gender, IFSCcode, IsApproved, IsDecline, JoinDate, Nationality, Religion, ReportTo } = profileId

@@ -1,5 +1,5 @@
 import "./Contractor.css";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useFormik } from "formik";
 import {
   AiOutlineUserAdd,

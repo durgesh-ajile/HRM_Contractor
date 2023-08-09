@@ -20,6 +20,7 @@ export default function AlertDialogSlide() {
     const [inputForgotPassword, setInputForgotPassword] = useState({});
     
     const dispatch = useDispatch()
+    // eslint-disable-next-line no-unused-vars
     const navigate = useNavigate()
 
     const handleClickOpen = () => {
