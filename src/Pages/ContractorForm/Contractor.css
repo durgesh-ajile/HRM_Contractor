@@ -1,6 +1,9 @@
 .Upper{
     display: flex;
 }
+.contractor_form label{
+  margin-top: 20px;
+}
 .form-heading{
     margin: 40px 20px 15px;
 }
@@ -21,8 +24,8 @@
 .form-error1
 {
   color: red;
-
-  font-size: 10px;
+  padding: 5px 20px 0px 30px;
+  font-size: 12px;
 font-style: italic;
 display: flex;
 flex-direction: column;
@@ -32,8 +35,10 @@ flex-direction: column;
   color: red;
   font-size: 12px;
 font-style: italic;
-display: flex;
-flex-direction: column;
+padding: 5px 20px 0px 30px;
+}
+#form-error-id{
+  padding-left: 5px;
 }
 .in{
     position: absolute;
@@ -44,6 +49,8 @@ color: grey;
 .cont{
     position: relative;
     width: 31rem;
+    display: flex;
+    flex-direction: column;
 }
 .block{
     padding-right:50px ;
@@ -75,9 +82,9 @@ color: grey;
 }
 
 .popup-container {
-    position: relative;
+    position: absolute;
     display: inline-block;
-    right: 4rem;
+    right: 25%;
     top: 9px;
   }
   
@@ -139,16 +146,18 @@ color: grey;
      justify-content: space-evenly; 
     
     } 
+    .submit-div {
+      width: 94%;
+      margin-top: 120px;
+    }
     .com{
         margin-left: 24px;
         width: 90%;
-        
      }
     
      .up{
-        width:23rem;
+        /* width:23rem; */
         float: left;
-       
     }
     .emer{
        
@@ -172,14 +181,40 @@ color: grey;
     .cont{
         width: 20rem;
     }
-
+    .ActualBeneficiaryAadhar,.ActualBeneficiaryPan,.ActualAadhar,.ActualPan, .EmergencyContactNumber, .EmergencyContactRelation{
+      padding-right: 0 !important;
+    }
+    .common{
+      width: 81%;
+    }
+    #ActualBeneficiaryAadhar,#ActualBeneficiaryPan,#ActualAadhar,#ActualPan{
+      width: 93%;
+}
+#ActualBeneficiaryAadhar{
+  margin-bottom: 20px;
+}
+.popup-container {
+  right: 20%;
+}
     
 }
 
-@media screen and (min-width: 600px){
+@media screen and (min-width: 1000px){
+  .contractor_form{
+    background-color:white;
+    width: 61rem;
+    margin: 50px auto;
+    }
+}
+
+@media screen and (min-width: 550px) and (max-width: 1000px){
 .contractor_form{
 background-color:white;
-width: 66rem;
+width: 30rem;
 margin: 50px auto;
 }
+.Upper{
+  display: block;
+}
+
 }
