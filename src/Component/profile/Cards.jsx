@@ -1,6 +1,15 @@
 import "./Cards.css";
 // import { HiOutlinePencilSquare } from "react-icons/hi2";
-import EditIcon from '@mui/icons-material/Edit';
+
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { Box } from "@mui/material";
 
 
 // eslint-disable-next-line react/prop-types
@@ -11,60 +20,88 @@ const Cards = ({ ContractorItSelfDetails }) => {
   // eslint-disable-next-line react/prop-types
   const { ActualAadharNo, ActualName, ActualPanNo, Address, BankAccNo, BankName, BeneficiaryAadharNo, BeneficiaryName, BeneficiaryPanNo, Birthday, ContractName, EmergencyContactName, EmergencyContactNumber, EmergencyContactRelation, Gender, IFSCcode, IsApproved, IsDecline, JoinDate, Nationality, Religion, ReportTo } = profileId
 
+  function createData(name, calories) { return { name, calories }; }
+  const PersonalInfo = [
+    createData('Personal Information', null),
+    createData('Birthday', Birthday),
+    createData('ActualAadharNo', ActualAadharNo),
+    createData('ActualName', ActualName),
+    createData('ActualPanNo', ActualPanNo),
+    createData('Address', Address),
+    createData('ContractName', ContractName),
+    createData('EmergencyContactName', EmergencyContactName),
+    createData('EmergencyContactRelation', EmergencyContactRelation),
+    createData('Gender', Gender),
+    createData('JoinDate', JoinDate),
+    createData('Nationality', Nationality),
+    createData('Religion', Religion),
+    createData('ReportTo', ReportTo),
+    createData('EmergencyContactNumber', EmergencyContactNumber)
+  ];
+
+  const Beneficiary = [
+    createData('Beneficiary Information', null),
+    createData('BeneficiaryName', ActualAadharNo),
+    createData('BeneficiaryAadharNo', BeneficiaryAadharNo),
+    createData('BeneficiaryPanNo', BeneficiaryPanNo)
+  ];
+
+  const Bank = [
+    createData('Bank Information', null),
+    createData('BankName', BankName),
+    createData('IFSCcode', IFSCcode),
+    createData('BankAccNo', BankAccNo),
+  ];
+
   return (
     <>
-      <div className="conatiner">
-        <div className="row">
-          <div className="card card-1">            
-            <h5 className="card-title">Personal Information</h5>
-            <p><span><b>ActualAadharNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualAadharNo}</span></p>
-            <p><span><b>ActualName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualName}</span></p>
-            <p><span><b>ActualPanNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualPanNo}</span></p>
-            <p><span><b>Address</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{Address}</span></p>
-            <p><span><b>BankAccNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BankAccNo}</span></p>
-            <p><span><b>BankName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BankName}</span></p>
-            <p><span><b>BeneficiaryAadharNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BeneficiaryAadharNo}</span></p>
-            <p><span><b>BeneficiaryName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BeneficiaryName}</span></p>
-            <p><span><b>BeneficiaryPanNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BeneficiaryPanNo}</span></p>
-            <p><span><b>Birthday</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{Birthday}</span></p>
-            <p><span><b>ContractName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{ContractName}</span></p>
-            <p><span><b>EmergencyContactName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{EmergencyContactName}</span></p>
-            <p><span><b>EmergencyContactRelation</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{EmergencyContactRelation}</span></p>
-            <p><span><b>Gender</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{Gender}</span></p>
-            <p><span><b>IFSCcode</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{IFSCcode}</span></p>
-            <p><span><b>JoinDate</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{JoinDate}</span></p>
-            <p><span><b>Nationality</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{Nationality}</span></p>
-            <p><span><b>Religion</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{Religion}</span></p>
-            <p><span><b>ReportTo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{ReportTo}</span></p>
-            <p><span><b>EmergencyContactNumber</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{EmergencyContactNumber}</span></p>
-          </div>
-
-          <div className="card card-2">
-            <h5 className="card-title">Emergency Contact</h5>
-            <p><span><b>ActualAadharNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualAadharNo}</span></p>
-            <p><span><b>ActualName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualName}</span></p>
-            <p><span><b>ActualPanNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualPanNo}</span></p>
-            <p><span><b>Address</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{Address}</span></p>
-            <p><span><b>BankAccNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BankAccNo}</span></p>
-            <p><span><b>BankName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BankName}</span></p>
-            <p><span><b>BeneficiaryAadharNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BeneficiaryAadharNo}</span></p>
-            <p><span><b>BeneficiaryName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BeneficiaryName}</span></p>
-            <p><span><b>BeneficiaryPanNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{BeneficiaryPanNo}</span></p>
-            <p><span><b>Birthday</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{Birthday}</span></p>
-            <p><span><b>ContractName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{ContractName}</span></p>
-            <p><span><b>EmergencyContactName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{EmergencyContactName}</span></p>
-            <p><span><b>EmergencyContactRelation</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{EmergencyContactRelation}</span></p>
-            <p><span><b>Gender</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{Gender}</span></p>
-            <p><span><b>IFSCcode</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{IFSCcode}</span></p>
-            <p><span><b>JoinDate</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{JoinDate}</span></p>
-            <p><span><b>Nationality</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{Nationality}</span></p>
-            <p><span><b>Religion</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{Religion}</span></p>
-            <p><span><b>ReportTo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{ReportTo}</span></p>
-            <p><span><b>EmergencyContactNumber</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "84px" }}>{EmergencyContactNumber}</span></p>
-            
-          </div>
-        </div>
-      </div>
+      <Box sx={{ display: 'flex', marginTop: '30px', justifyContent: 'center', flexDirection: { xs: 'column', lg: 'row' } }}>
+        <Box>
+          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginRight: '20px' }} >
+            <Table aria-label="simple table">
+              <TableBody>
+                {PersonalInfo.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
+                </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+        <Box>
+          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginTop: {xs:'30px',lg:'0px'}, marginRight: '20px' }} >
+            <Table aria-label="simple table">
+              <TableBody>
+                {Beneficiary.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
+                </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+        <Box>
+          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginTop: {xs:'30px',lg:'0px'} }} >
+            <Table aria-label="simple table">
+              <TableBody>
+                {Bank.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
+                </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      </Box>
     </>
   );
 };

@@ -53,7 +53,6 @@ export default function ReactBigCalendar() {
     }
     return [...output1, ...output2]
   }
-  console.log(GetContractorTaskInCalenderData)
 
   return (
     <>
@@ -75,7 +74,6 @@ export default function ReactBigCalendar() {
 }
 
 function renderEventContent(eventInfo) {
-  console.log(eventInfo)
   return (
     <div
       style={
