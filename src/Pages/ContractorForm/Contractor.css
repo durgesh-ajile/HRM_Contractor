@@ -19,7 +19,12 @@
     font-size: 19px;
     margin-left: -15%;
     cursor: pointer;
-    
+}
+.gender{
+  width: 200px;
+  height: 40px;
+  margin-top: 50px;
+  border: 1px solid #ddd;
 }
 .form-error1
 {
@@ -136,7 +141,14 @@ color: grey;
   border-radius: 5px;
   padding: 20px;
 }
-
+.fc .fc-daygrid-day-number{
+  text-decoration: none;
+  color: #071952;
+}
+.fc-col-header-cell-cushion {
+  text-decoration: none;
+  color: #071952;
+}
 
 @media screen and (max-width: 550px){
     .Upper
@@ -195,6 +207,10 @@ color: grey;
 }
 .popup-container {
   right: 20%;
+}
+.gender{
+  margin-top: 0;
+  margin-left: 25px;
 }
     
 }
