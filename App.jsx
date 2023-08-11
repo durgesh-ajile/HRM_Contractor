@@ -16,6 +16,7 @@ function App() {
   const [routesData, setRoutesData] = useState([
     { path: '/login', component: <SignInPage /> },
     { path: '/resetpassword/:resetPassToken', component: <ResetPasswordPage /> },
+    { path: '/contractorform/:updateType', component: <ContractorForm /> },
     { path: '*', component: <Landing /> },
   ])
 
