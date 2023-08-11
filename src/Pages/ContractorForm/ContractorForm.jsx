@@ -500,15 +500,15 @@ function Contractor() {
                   Gender
                 </label>
 
-                <input type="radio" id="Male" name="fav_language" />
+                <input onChange={(e) => handleChangeInput(e, false)} type="radio" value='Male' id="Male" name="gender" />
                 <label htmlFor="Male" className="px-2 ">
                   Male
                 </label>
-                <input type="radio" id="Female" name="fav_language" />
+                <input onChange={(e) => handleChangeInput(e, false)} type="radio" value='Female' id="Female" name="gender" />
                 <label htmlFor="Female" className="px-2">
                   Female
                 </label>
-                <input type="radio" id="Other" name="fav_language" />
+                <input onChange={(e) => handleChangeInput(e, false)} type="radio" value='Other' id="Other" name="gender" />
                 <label htmlFor="Other" className="px-2">
                   Other
                 </label>
