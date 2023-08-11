@@ -15,11 +15,7 @@ const Cards = ({ ContractorItSelfDetails }) => {
     <>
       <div className="conatiner">
         <div className="row">
-          <div className="card card-1">
-            {/* <HiOutlinePencilSquare className="out" /> */}
-            <span className="out" style={{ height: "39px", width: "39px", backgroundColor: "lightgray", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "20px", marginRight: "10px" }} >
-              <EditIcon color="disabled" />
-            </span>
+          <div className="card card-1">            
             <h5 className="card-title">Personal Information</h5>
             <p><span><b>ActualAadharNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualAadharNo}</span></p>
             <p><span><b>ActualName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualName}</span></p>
@@ -44,9 +40,6 @@ const Cards = ({ ContractorItSelfDetails }) => {
           </div>
 
           <div className="card card-2">
-            <span className="outs" style={{ height: "39px", width: "39px", backgroundColor: "lightgray", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", marginTop: "20px", marginRight: "10px" }} >
-              <EditIcon color="disabled" />
-            </span>
             <h5 className="card-title">Emergency Contact</h5>
             <p><span><b>ActualAadharNo</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualAadharNo}</span></p>
             <p><span><b>ActualName</b></span><span className="valuep" style={{ textAlign: "right", marginLeft: "118px" }}>{ActualName}</span></p>

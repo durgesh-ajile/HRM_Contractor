@@ -65,7 +65,7 @@ function Contractor() {
     e.preventDefault();
     updateType === 'update' && dispatch(asyncThunkUpdateContractorProfile(input));
     updateType === 'petchUpdate' && dispatch(asyncThunkReUpdateContractorProfile(input));
-    navigate("/");
+    profileDataObj?.isContractorProfileUpdated && navigate("/");
   };
 
   // useEffect(() => {
