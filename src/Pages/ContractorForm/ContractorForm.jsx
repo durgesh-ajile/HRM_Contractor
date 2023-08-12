@@ -57,20 +57,18 @@ function Contractor() {
       !data?.ifscCode ||
       !data?.joinDate ||
       !data?.nationality ||
+      !data?.gender ||
       !data?.reportTo) {
       setActivateError(true)
     }
   }
   const onSubmit = (e) => {
+    console.log('run')
     e.preventDefault();
     updateType === 'update' && dispatch(asyncThunkUpdateContractorProfile(input));
     updateType === 'petchUpdate' && dispatch(asyncThunkReUpdateContractorProfile(input));
     profileDataObj?.isContractorProfileUpdated && navigate("/");
   };
-
-  // useEffect(() => {
-  //   profileDataObj?.isContractorProfileUpdated && navigate("/");
-  // }, [navigate, profileDataObj?.isContractorProfileUpdated]);
 
   useEffect(() => {
     let contractorFormData = null;
@@ -497,21 +495,26 @@ function Contractor() {
                   className=" uppercase tracking-wide text-gray-700 text-xs font-bold mb-4 px-4 mx-1 '"
                   htmlFor="Gender"
                 >
-                  Gender
+                  Gender :
                 </label>
 
-                <input onChange={(e) => handleChangeInput(e, false)} type="radio" value='Male' id="Male" name="gender" />
-                <label htmlFor="Male" className="px-2 ">
-                  Male
-                </label>
-                <input onChange={(e) => handleChangeInput(e, false)} type="radio" value='Female' id="Female" name="gender" />
-                <label htmlFor="Female" className="px-2">
-                  Female
-                </label>
-                <input onChange={(e) => handleChangeInput(e, false)} type="radio" value='Other' id="Other" name="gender" />
-                <label htmlFor="Other" className="px-2">
-                  Other
-                </label>
+                <select name="gender" className="gender" onChange={(e) => handleChangeInput(e, false)} value={input?.gender} required>
+                <option selected value=''>
+                    Select
+                  </option>
+                  <option selected value='Male'>
+                    Male
+                  </option>
+                  <option value='Female'>
+                    Female
+                  </option>
+                  <option value='Other'>
+                    Other
+                  </option>
+                </select>
+                {!input.gender && activateError ? (
+                <small className="form-error1">Required*</small>
+              ) : null}
               </div>
 
               <div className="ReportTo">
@@ -688,6 +691,7 @@ function Contractor() {
                border-gray-200 rounded  px-5  leading-tight focus:outline-none focus:bg-white "
                     id="EmergencyContactNumber"
                     type="number"
+                    required
                     placeholder="Emergency Contact Number"
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.emergencyContactNumber}

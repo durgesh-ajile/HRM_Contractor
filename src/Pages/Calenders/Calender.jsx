@@ -36,6 +36,24 @@ export default function ReactBigCalendar() {
     dispatch(asyncThunkGetTask(formattedDate))
   };
 
+  function rearrangeEvent(GetContractorTaskInCalenderData){
+    let output1 = []
+    let output2 = []
+    for(let i = 0; i < GetContractorTaskInCalenderData.length; i++){
+      output1.push({"date":GetContractorTaskInCalenderData[i].date,
+      "title":GetContractorTaskInCalenderData[i].title,
+      "isHour": false
+    })
+    }
+    for(let i = 0; i < GetContractorTaskInCalenderData.length; i++){
+      output1.push({"date":GetContractorTaskInCalenderData[i].date,
+      "title":GetContractorTaskInCalenderData[i].workingHour,
+      "isHour": true
+    })
+    }
+    return [...output1, ...output2]
+  }
+
   return (
     <>
       <div className="calender-div">
@@ -45,7 +63,7 @@ export default function ReactBigCalendar() {
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             dateClick={(e) => handleDateClick(e)}
-            events={GetContractorTaskInCalenderData}
+            events={rearrangeEvent(GetContractorTaskInCalenderData)}
             datesSet={(e) => handleDateSet(e)}
             eventContent={renderEventContent}
           />
@@ -59,10 +77,10 @@ function renderEventContent(eventInfo) {
   return (
     <div
       style={
-        eventInfo.event.time ? { background: "red" } : { background: "green" }
+ { background: "#0B666A" }
       }
     >
-      <i>{eventInfo.event.title}</i>
+      <i className="event-detail">{eventInfo.event.title}</i>
     </div>
   );
 }

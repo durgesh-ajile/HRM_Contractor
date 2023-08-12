@@ -1,3 +1,11 @@
 .calender-div{
     padding: 0 50px 50px;
 }
+.event-detail{
+    padding-left: 10px;
+}
+@media screen and (max-width: 500px) {
+    .event-detail{
+        padding-left: 0px;
+    }
+}
