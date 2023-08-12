@@ -13,6 +13,7 @@ import { asyncThunkGetOwnDetails } from "../../redux/createAsyncThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "../../redux/errorSlice/errorSlice";
 import Contractor from "../../Pages/ContractorForm/ContractorForm";
+import WhiteButton from "../common/WhiteButton";
 
 export default function Profile() {
 
@@ -143,7 +144,7 @@ export default function Profile() {
                             </Box>
 
                         </Card >
-                        <Box sx={{display:'flex',justifyContent:'center'}}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                             <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
                         </Box>
                     </div>
@@ -153,7 +154,11 @@ export default function Profile() {
                     ) : null
             }
             {ContractorItSelfDetails?.profileId?.IsApproved === false && <h1>We are reviewing your profile ! please wait</h1>}
-            {ContractorItSelfDetails?.profileId?.IsDecline && <> <h1>Sorry this couldn&apos;t workout !</h1><h1>Please check your email for more feedback !</h1></>}
+            {ContractorItSelfDetails?.profileId?.IsDecline && <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+                <h1>Sorry this couldn&apos;t workout !</h1>
+                <h1>Please check your email for more feedback ! and Please fill the Form</h1>
+                <WhiteButton onClick={() =>handleNavigateToCalendar('/contractorform/petchUpdate')} text={'Open Form'} />
+            </Box>}
         </>
     );
 }

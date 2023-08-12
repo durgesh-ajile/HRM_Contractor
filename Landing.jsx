@@ -29,8 +29,8 @@ const Landing = () => {
       {token && <><ResponsiveDrawer />
         <div className="right-container">
           <Routes>
-            <Route path="/calender" element={<ReactBigCalendar />} />
             <Route path="/" element={<Profile />} />
+            <Route path="/calender" element={<ReactBigCalendar />} />
           </Routes>
         </div>
       </>}
