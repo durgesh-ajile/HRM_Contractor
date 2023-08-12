@@ -17,12 +17,16 @@ const SingIn = () => {
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const { LoginData: { usertoken, expiry } } = useSelector((store) => store.admin)
-
+    const { LoginData: { usertoken, expiry }, ContractorItSelfDetailsData } = useSelector((store) => store.admin)
+    const [profileData] = ContractorItSelfDetailsData
     const handleLogin = (event) => {
         event.preventDefault();
         dispatch(asyncThunkLogin({ email, password }))
-        setTimeout(() => { setTimeout(() => { usertoken && navigate('/contractorform/update'); }, 0); }, 1000);
+        setTimeout(() => {
+            setTimeout(() => {
+                usertoken && profileData?.profileId ? navigate('/') : navigate('/contractorform/update')
+            }, 0);
+        }, 1000);
     };
 
     return (

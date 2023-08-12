@@ -25,6 +25,7 @@ export const asyncThunkLogin = createAsyncThunk("post/asyncThunkLogin", async (p
             if (res.status !== 201) return
             dispatch(fetchLogin(res?.data?.Token))
             dispatch(showToast({ type: "success", message: "Login Successfully" }))
+            dispatch(asyncThunkGetOwnDetails()) // calling asyncThunkGetOwnDetails api to check that contractor has already singIn or not
         }).catch(error => {
             console.log("error", error)
             dispatch(fetchLogin([]))
@@ -218,29 +219,29 @@ export const asyncThunkGetTask = createAsyncThunk("get/asyncThunkGetTask", async
 // CONTRACTOR_FORGOT_PASSWORD
 export const asyncThunkContractorForgotPassword = createAsyncThunk("get/asyncThunkContractorForgotPassword", async (payload, { dispatch }) => {
     await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_CONTRACTOR_FORGOT_PASSWORD}`, payload)
-    .then(res => {
-        console.log(res)
-        if (res.status !== 200) return
-        dispatch(fetchForgotPassword([{ ...res?.data, isEmailSend: true }]))
-        dispatch(showToast({ type: "success", message: res?.data?.message }))
-    }).catch((error) => {
-        console.error(error)
-        dispatch(fetchForgotPassword([{ isEmailSend: false }]))
-        dispatch(showToast({ type: "error", message: error?.response?.data?.message }))
-    })
+        .then(res => {
+            console.log(res)
+            if (res.status !== 200) return
+            dispatch(fetchForgotPassword([{ ...res?.data, isEmailSend: true }]))
+            dispatch(showToast({ type: "success", message: res?.data?.message }))
+        }).catch((error) => {
+            console.error(error)
+            dispatch(fetchForgotPassword([{ isEmailSend: false }]))
+            dispatch(showToast({ type: "error", message: error?.response?.data?.message }))
+        })
 })
 
 // CONTRACTOR_RESET_PASSWORD
 export const asyncThunkContractorResetPassword = createAsyncThunk("get/asyncThunkContractorResetPassword", async (payload, { dispatch }) => {
     await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_CONTRACTOR_RESET_PASSWORD + `/${payload?.Token}`}`, payload?.inputValue)
-    .then(res => {
-        console.log("res", res)
-        if (res.status !== 200) return
-        dispatch(fetchResetPassword([{ ...res.data, isPasswordChanged: true }]))
-        dispatch(showToast({ type: "success", message: res.data.message }))
-    }).catch((error) => {
-        console.error(error)
-        dispatch(fetchResetPassword([{ isPasswordChanged: false }]))
-        dispatch(showToast({ type: "error", message: error?.response?.data?.msg }))
-    })
+        .then(res => {
+            console.log("res", res)
+            if (res.status !== 200) return
+            dispatch(fetchResetPassword([{ ...res.data, isPasswordChanged: true }]))
+            dispatch(showToast({ type: "success", message: res.data.message }))
+        }).catch((error) => {
+            console.error(error)
+            dispatch(fetchResetPassword([{ isPasswordChanged: false }]))
+            dispatch(showToast({ type: "error", message: error?.response?.data?.msg }))
+        })
 })
