@@ -36,20 +36,22 @@ export default function ReactBigCalendar() {
     dispatch(asyncThunkGetTask(formattedDate))
   };
 
-  function rearrangeEvent(GetContractorTaskInCalenderData){
+  function rearrangeEvent(GetContractorTaskInCalenderData) {
     let output1 = []
     let output2 = []
-    for(let i = 0; i < GetContractorTaskInCalenderData.length; i++){
-      output1.push({"date":GetContractorTaskInCalenderData[i].date,
-      "title":GetContractorTaskInCalenderData[i].title,
-      "isHour": false
-    })
+    for (let i = 0; i < GetContractorTaskInCalenderData.length; i++) {
+      output1.push({
+        "date": GetContractorTaskInCalenderData[i].date,
+        "title": GetContractorTaskInCalenderData[i].title,
+        "isHour": false
+      })
     }
-    for(let i = 0; i < GetContractorTaskInCalenderData.length; i++){
-      output1.push({"date":GetContractorTaskInCalenderData[i].date,
-      "title":GetContractorTaskInCalenderData[i].workingHour,
-      "isHour": true
-    })
+    for (let i = 0; i < GetContractorTaskInCalenderData.length; i++) {
+      output1.push({
+        "date": GetContractorTaskInCalenderData[i].date,
+        "title": GetContractorTaskInCalenderData[i].workingHour,
+        "isHour": true
+      })
     }
     return [...output1, ...output2]
   }
@@ -77,7 +79,7 @@ function renderEventContent(eventInfo) {
   return (
     <div
       style={
- { background: "#0B666A" }
+        { background: "#0B666A" }
       }
     >
       <i className="event-detail">{eventInfo.event.title}</i>
