@@ -1,5 +1,5 @@
 import "./Contractor.css";
-import  { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import {
   AiOutlineUserAdd,
@@ -13,22 +13,53 @@ import {
 } from "react-icons/ai";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncThunkReUpdateContractorProfile, asyncThunkUpdateContractorProfile } from "../../redux/createAsyncThunk";
+import {
+  asyncThunkReUpdateContractorProfile,
+  asyncThunkUpdateContractorProfile,
+} from "../../redux/createAsyncThunk";
 import { showToast } from "../../redux/errorSlice/errorSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import Contractorpopup1 from "./Contractorpop1";
 import Contractorpopup2 from "./Contractorpop2";
 import { Button } from "@mui/material";
+import axios from "axios";
 
 function Contractor() {
-
   const [input, setInput] = useState({});
   const [activateError, setActivateError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { UpdateContractorProfileData } = useSelector((store) => store.admin);
+  const {
+    UpdateContractorProfileData,
+    ContractorItSelfDetailsData: [ContractorItSelfDetails],
+  } = useSelector((store) => store.admin);
   const [profileDataObj] = UpdateContractorProfileData;
   const { updateType } = useParams();
+  const [contractorDetails, setContractorDetails] = useState("");
+
+  useEffect(() => {
+    let token = null;
+    try {
+      token = JSON.parse(localStorage.getItem("token"));
+
+      token === null &&
+        dispatch(
+          showToast({
+            type: "warning",
+            message: "Token Has Expited ! Please SignIn Again",
+          })
+        );
+    } catch (error) {
+      dispatch(
+        showToast({
+          type: "warning",
+          message: "Token Has Expited ! Please SignIn Again",
+        })
+      );
+    }
+    !token?.usertoken && navigate("/signin");
+  }, [dispatch, navigate]);
 
   const handleChangeInput = (e, isFiles) => {
     setInput((prev) => {
@@ -40,7 +71,8 @@ function Contractor() {
 
   const handleError = () => {
     const data = JSON.parse(localStorage.getItem("contractorFormData"));
-    if (!data?.actualName ||
+    if (
+      !data?.actualName ||
       !data?.actualAadharNo ||
       !data?.actualPanNo ||
       !data?.address ||
@@ -58,25 +90,87 @@ function Contractor() {
       !data?.joinDate ||
       !data?.nationality ||
       !data?.gender ||
-      !data?.reportTo) {
-      setActivateError(true)
+      !data?.reportTo
+    ) {
+      setActivateError(true);
     }
+  };
+
+  useEffect(() => {
+    const { usertoken } = JSON.parse(localStorage.getItem("token"));
+
+    axios({
+      method: "get",
+      url: `http://localhost:5000/api/getownDetails`,
+      headers: { Authorization: `Bearer ${usertoken}` },
+    })
+      .then((res) => {
+        setContractorDetails(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+     
+  }, []);
+
+  if (
+    contractorDetails?.profileId &&
+    contractorDetails?.profileId?.IsApproved === true
+  ) {
+    navigate("/");
   }
+
   const onSubmit = (e) => {
-    console.log('run')
+    console.log("run");
+    setLoading(true);
     e.preventDefault();
-    updateType === 'update' && dispatch(asyncThunkUpdateContractorProfile(input));
-    updateType === 'petchUpdate' && dispatch(asyncThunkReUpdateContractorProfile(input));
-    profileDataObj?.isContractorProfileUpdated && navigate("/");
+
+    const navigateAfterUpdate = () => {
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    };
+
+    if (!contractorDetails?.profileId) {
+      dispatch(
+        asyncThunkUpdateContractorProfile({
+          input,
+          setLoading,
+          navigateAfterUpdate,
+        })
+      );
+    }
+
+    if (ContractorItSelfDetails?.profileId) {
+      dispatch(
+        asyncThunkReUpdateContractorProfile({
+          input,
+          setLoading,
+          navigateAfterUpdate,
+        })
+      );
+    }
   };
 
   useEffect(() => {
     let contractorFormData = null;
     try {
-      contractorFormData = JSON.parse(localStorage.getItem("contractorFormData"));
-      contractorFormData === null && dispatch(showToast({ type: "error", message: "input field is empty please fill it.", }));
+      contractorFormData = JSON.parse(
+        localStorage.getItem("contractorFormData")
+      );
+      contractorFormData === null &&
+        dispatch(
+          showToast({
+            type: "error",
+            message: "input field is empty please fill it.",
+          })
+        );
     } catch (error) {
-      dispatch(showToast({ type: "error", message: "input field is empty please fill it.", })
+      dispatch(
+        showToast({
+          type: "error",
+          message: "input field is empty please fill it.",
+        })
       );
     }
     contractorFormData !== null && setInput(contractorFormData);
@@ -91,7 +185,7 @@ function Contractor() {
         style={{ background: "white" }}
       >
         <form className="contractor_form" onSubmit={(e) => onSubmit(e)}>
-          <h1 className="form-heading">{updateType === 'petchUpdate'&&'Update '}Contractor Profile Form</h1>
+          <h1 className="form-heading">Contractor Profile Form</h1>
           <div className="Upper ">
             <div className="UpperLeft mt-3 ">
               <div className="ActualName">
@@ -118,12 +212,9 @@ function Contractor() {
                   />{" "}
                   {!input.actualName && activateError ? (
                     <small className="form-error">Required*</small>
-              ) : null}
+                  ) : null}
                 </div>
-                
               </div>
-
-              
 
               <div className="ActualAadharNo">
                 <label
@@ -149,11 +240,10 @@ function Contractor() {
                     name="actualAadharNo"
                   />
                   {!input.actualAadharNo && activateError ? (
-                <small className="form-error">Required*</small>
-              ) : null}
+                    <small className="form-error">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
 
               <div className="ActuaPanNo">
                 <label
@@ -179,11 +269,10 @@ function Contractor() {
                     name="actualPanNo"
                   />
                   {!input.actualPanNo && activateError ? (
-                <small className="form-error">Required*</small>
-              ) : null}
+                    <small className="form-error">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
 
               <div className="BeneficiaryName">
                 <label
@@ -197,7 +286,7 @@ function Contractor() {
                     {" "}
                     <AiOutlineUserAdd />{" "}
                   </span>
-                  <span >
+                  <span>
                     <Contractorpopup1 />
                   </span>
                   <input
@@ -211,12 +300,11 @@ function Contractor() {
                     value={input?.beneficiaryName}
                     name="beneficiaryName"
                   />
-                   {!input.beneficiaryName && activateError ? (
-                <small className="form-error">Required*</small>
-              ) : null}
+                  {!input.beneficiaryName && activateError ? (
+                    <small className="form-error">Required*</small>
+                  ) : null}
                 </div>
               </div>
-             
 
               <div className="BeneficiaryAadharNo">
                 <label
@@ -242,13 +330,10 @@ function Contractor() {
                     name="beneficiaryAadharNo"
                   />
                   {!input.beneficiaryAadharNo && activateError ? (
-                <small className="form-error">
-                  Required*
-                </small>
-              ) : null}
+                    <small className="form-error">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
 
               <div className="BeneficiaryPanNo">
                 <label
@@ -274,14 +359,13 @@ function Contractor() {
                     onChange={(e) => handleChangeInput(e, false)}
                     value={input?.beneficiaryPanNo}
                     name="beneficiaryPanNo"
-                  //onBlur={handleBlur}
+                    //onBlur={handleBlur}
                   />
                   {!input.beneficiaryPanNo && activateError ? (
-                <small className="form-error">Required*</small>
-              ) : null}
+                    <small className="form-error">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
             </div>
             <div className="UpperRight mt-3 ">
               <div className="BankName">
@@ -308,11 +392,11 @@ function Contractor() {
                     name="bankName"
                   />
                   {!input.bankName && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
+
               <div className="BankAccNo">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold px-4  mb-2 mx-auto"
@@ -337,11 +421,11 @@ function Contractor() {
                     name="bankAccNo"
                   />
                   {!input.bankAccNo && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
+
               <div className="IfscCode">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold px-4  mb-2"
@@ -366,11 +450,11 @@ function Contractor() {
                     name="ifscCode"
                   />
                   {!input.ifscCode && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
+
               <div className="ContractorName">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold px-4 mb-2"
@@ -398,12 +482,11 @@ function Contractor() {
                     value={input?.contractName}
                     name="contractName"
                   />
-                                {!input.contractName && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                  {!input.contractName && activateError ? (
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-
 
               <div className="JoinDate">
                 <label
@@ -413,23 +496,22 @@ function Contractor() {
                   Join Date :
                 </label>
                 <div className="cont">
-                <input
-                  className="common appearance-none block w-full bg-gray-200 text-gray-700 border
+                  <input
+                    className="common appearance-none block w-full bg-gray-200 text-gray-700 border
                border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white mx-4"
-                  id="joinDate"
-                  type="date"
-                  placeholder="Join Date"
-                  required
-                  onChange={(e) => handleChangeInput(e, false)}
-                  value={input?.joinDate}
-                  name="joinDate"
-                />
-                {!input.joinDate && activateError ? (
-                <small className="form-error">Required*</small>
-              ) : null}
+                    id="joinDate"
+                    type="date"
+                    placeholder="Join Date"
+                    required
+                    onChange={(e) => handleChangeInput(e, false)}
+                    value={input?.joinDate}
+                    name="joinDate"
+                  />
+                  {!input.joinDate && activateError ? (
+                    <small className="form-error">Required*</small>
+                  ) : null}
+                </div>
               </div>
-              </div>
-              
 
               <div className="Birthday">
                 <label
@@ -438,24 +520,23 @@ function Contractor() {
                 >
                   Birthday :
                 </label>
-                <div className="cont"> 
-                <input
-                  className="common appearance-none block w-full bg-gray-200 text-gray-700 border
+                <div className="cont">
+                  <input
+                    className="common appearance-none block w-full bg-gray-200 text-gray-700 border
                border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white mx-4"
-                  id="birthday"
-                  type="date"
-                  placeholder="Birthday"
-                  required
-                  onChange={(e) => handleChangeInput(e, false)}
-                  value={input?.birthday}
-                  name="birthday"
-                />
-                {!input.birthday && activateError ? (
-                <small className="form-error">Required*</small>
-              ) : null}
+                    id="birthday"
+                    type="date"
+                    placeholder="Birthday"
+                    required
+                    onChange={(e) => handleChangeInput(e, false)}
+                    value={input?.birthday}
+                    name="birthday"
+                  />
+                  {!input.birthday && activateError ? (
+                    <small className="form-error">Required*</small>
+                  ) : null}
+                </div>
               </div>
-              </div>
-              
             </div>
           </div>
           <div className="Upper">
@@ -484,11 +565,10 @@ function Contractor() {
                     name="address"
                   />
                   {!input.address && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
 
               <div className="Gender">
                 <label
@@ -498,23 +578,25 @@ function Contractor() {
                   Gender :
                 </label>
 
-                <select name="gender" className="gender" onChange={(e) => handleChangeInput(e, false)} value={input?.gender} required>
-                <option selected value=''>
+                <select
+                  name="gender"
+                  className="gender"
+                  onChange={(e) => handleChangeInput(e, false)}
+                  value={input?.gender}
+                  required
+                >
+                  <option selected value="">
                     Select
                   </option>
-                  <option selected value='Male'>
+                  <option selected value="Male">
                     Male
                   </option>
-                  <option value='Female'>
-                    Female
-                  </option>
-                  <option value='Other'>
-                    Other
-                  </option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
                 {!input.gender && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                  <small className="form-error1">Required*</small>
+                ) : null}
               </div>
 
               <div className="ReportTo">
@@ -540,12 +622,11 @@ function Contractor() {
                     value={input?.reportTo}
                     name="reportTo"
                   />
-                   {!input.reportTo && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                  {!input.reportTo && activateError ? (
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-             
 
               <div className="Nationality">
                 <label
@@ -571,11 +652,10 @@ function Contractor() {
                     name="nationality"
                   />
                   {!input.nationality && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
 
               <div className="Religion">
                 <label
@@ -601,11 +681,10 @@ function Contractor() {
                     name="religion"
                   />
                   {!input.religion && activateError ? (
-                <small className="form-error1">Required*</small>
-              ) : null}
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
 
               <div className="EmergencyContactName">
                 <label
@@ -631,13 +710,10 @@ function Contractor() {
                     name="emergencyContactName"
                   />
                   {!input.emergencyContactName && activateError ? (
-                <small className="form-error1">
-                  Required*
-                </small>
-              ) : null}
+                    <small className="form-error1">Required*</small>
+                  ) : null}
                 </div>
               </div>
-              
             </div>
 
             <div className="UpperRight ">
@@ -664,15 +740,13 @@ function Contractor() {
                     value={input?.emergencyContactRelation}
                     name="emergencyContactRelation"
                   />
-                  {!input.emergencyContactRelation &&
-                activateError ? (
-                <small id='form-error-id' className="form-error">
-                  Required*
-                </small>
-              ) : null}
+                  {!input.emergencyContactRelation && activateError ? (
+                    <small id="form-error-id" className="form-error">
+                      Required*
+                    </small>
+                  ) : null}
                 </div>
               </div>
-              
 
               <div className="up EmergencyContactNumber px-4">
                 <label
@@ -697,15 +771,13 @@ function Contractor() {
                     value={input?.emergencyContactNumber}
                     name="emergencyContactNumber"
                   />
-                  {!input.emergencyContactNumber &&
-                activateError ? (
-                <small id='form-error-id' className="form-error">
-                  Required*
-                </small>
-              ) : null}
+                  {!input.emergencyContactNumber && activateError ? (
+                    <small id="form-error-id" className="form-error">
+                      Required*
+                    </small>
+                  ) : null}
                 </div>
               </div>
-              
 
               <div className="up ActualPan px-4">
                 <label
@@ -714,7 +786,7 @@ function Contractor() {
                 >
                   Actual Pan Card Image :
                 </label>
-                
+
                 <input
                   className="emer common appearance-none block w-full bg-gray-200 text-gray-700 border
                border-gray-200 rounded  px-4  leading-tight focus:outline-none focus:bg-white "
@@ -746,7 +818,6 @@ function Contractor() {
                   name="actualAdharImage"
                 />
               </div>
-
 
               <div className="up ActualBeneficiaryPan px-4">
                 <label
@@ -788,7 +859,17 @@ function Contractor() {
               </div>
               <div id="submit-div">
                 <div className="submit-div">
-                  <Button variant="contained" type="submit" onClick={handleError}>{updateType === 'update' ? 'Submit' : 'Update'}</Button>
+                  {loading ? (
+                    <span className="loader"></span>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      type="submit"
+                      onClick={handleError}
+                    >
+                      Submit
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

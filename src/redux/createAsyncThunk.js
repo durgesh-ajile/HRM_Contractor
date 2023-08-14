@@ -20,14 +20,21 @@ import { showToast } from "./errorSlice/errorSlice";
 
 // LOGIN
 export const asyncThunkLogin = createAsyncThunk("post/asyncThunkLogin", async (payload, { dispatch }) => {
-    await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_LOGIN_CONTRACTOR}`, payload)
+    const reqData = {
+        email: payload.email,
+        password: payload.password,
+      };
+    await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_LOGIN_CONTRACTOR}`, reqData)
         .then(res => {
             if (res.status !== 201) return
             dispatch(fetchLogin(res?.data?.Token))
-            dispatch(showToast({ type: "success", message: "Login Successfully" }))
+            payload.setLoading(false);
+            dispatch(showToast({ type: "success", message: "Login Successfully" }));
+            payload.navigateAfterLogin();
         }).catch(error => {
             console.log("error", error)
             dispatch(fetchLogin([]))
+            payload.setLoading(false);
             dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
         })
 })
@@ -58,19 +65,24 @@ export const asyncThunkUpdateContractorProfile = createAsyncThunk("post/asyncThu
         'Authorization': `Bearer ${usertoken}`,
         'Content-Type': 'multipart/form-data'
     };
+    console.log("payload")
     usertoken ?
-        await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_UPDATE_CONTRACTOR_PROFILE}`, payload, { headers })
+        await axios.post(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_UPDATE_CONTRACTOR_PROFILE}`, payload.input, { headers })
             .then(res => {
                 if (res.status !== 201) return
                 dispatch(fetchUpdateContractorProfile([{ ...res?.data, isContractorProfileUpdated: true }]))
+                payload.setLoading(false);
                 dispatch(showToast({ type: "success", message: "Contractor Updated Successfully" }))
+                payload.navigateAfterUpdate()
             }).catch((error) => {
                 console.error(error)
                 dispatch(fetchUpdateContractorProfile([{ isContractorProfileUpdated: false }]))
+                payload.setLoading(false);
                 dispatch(showToast({ type: "error", message: error?.response?.data?.message ? error?.response?.data?.message : error?.message + ' Or Server Down !' }))
             })
         :
         dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
+        payload.setLoading(false);
 })
 
 // REUPDATE_PROFILE
@@ -154,17 +166,22 @@ export const asyncThunkGetDitailsOfContractor = createAsyncThunk("get/asyncThunk
 
 // GET_OWN_DETAILS
 export const asyncThunkGetOwnDetails = createAsyncThunk("get/asyncThunkGetOwnDetails", async (payload, { dispatch }) => {
+
     const { usertoken } = JSON.parse(localStorage.getItem('token'))
     const headers = { 'Authorization': `Bearer ${usertoken}` };
     usertoken ?
         await axios(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_OWN_DETAILS}`, { headers })
             .then(res => {
                 if (res.status !== 200) return
+                payload.setLoading(false);
+                payload.setCheckProfile(false);
                 dispatch(fetchContractorItSelfDetailsData([{ ...res?.data?.data }]))
                 // dispatch(showToast({ type: "success", message: "Contractor Added Successfully" }))
             }).catch((error) => {
                 console.log("error", error)
+                payload.setCheckProfile(false);
                 dispatch(fetchContractorItSelfDetailsData([]))
+                payload.setLoading(false);
                 dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
             })
         :
