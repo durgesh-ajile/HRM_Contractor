@@ -8,6 +8,7 @@ import AddEventPopup from "../../Component/Popups/AddEventPopup";
 import { asyncThunkGetTask } from "../../redux/createAsyncThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { CSVLink } from "react-csv";
 moment.locale("en-GB");
 
 export default function ReactBigCalendar() {
@@ -56,11 +57,18 @@ export default function ReactBigCalendar() {
     return [...output1, ...output2]
   }
 
+  const headers = [
+    { label: "Date", key: "date" },
+    { label: "Task", key: "title" },
+    { label: "WorkingHour", key: "workingHour" }
+  ];
+
   return (
     <>
       <div className="calender-div">
         {showPopup && (<AddEventPopup dateState={dateState} setShowPopup={setShowPopup} showPopup={showPopup} />)}
         <div className="Full-Calender">
+          <CSVLink data={GetContractorTaskInCalenderData} headers={headers} filename="MyMonthlyTask.csv">Eexport to CSV</CSVLink>
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"

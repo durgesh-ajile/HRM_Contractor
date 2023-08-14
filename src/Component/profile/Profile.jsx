@@ -13,6 +13,7 @@ import { asyncThunkGetOwnDetails } from "../../redux/createAsyncThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "../../redux/errorSlice/errorSlice";
 import Contractor from "../../Pages/ContractorForm/ContractorForm";
+import WhiteButton from "../common/WhiteButton";
 import PageAnimation from "../Animation/PageAnimation.jsx"
 
 export default function Profile() {
