@@ -25,8 +25,8 @@ function ResponsiveDrawer(props) {
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-    const navigate = useNavigate();
-    const { ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
+  const navigate = useNavigate();
+  const { ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -42,36 +42,35 @@ function ResponsiveDrawer(props) {
       <Toolbar />
       <Divider />
       <List>
+        <ListItem disablePadding >
+          <ListItemButton>
+            <ListItemIcon>
+              <Person3Outlined />
+            </ListItemIcon>
+            <ListItemText primary="Profile" onClick={() => (navigate("/"))} />
+          </ListItemButton>
+        </ListItem>
+        {ContractorItSelfDetails?.profileId?.IsApproved && !ContractorItSelfDetails?.profileId?.IsDecline &&
           <ListItem disablePadding >
             <ListItemButton>
               <ListItemIcon>
-                 <Person3Outlined />
+                <CalendarMonthOutlined />
               </ListItemIcon>
-              <ListItemText primary="Profile" onClick={()=>(navigate("/"))}/>
+              <ListItemText primary="Calender" onClick={() => { navigate("/calender") }} />
             </ListItemButton>
           </ListItem>
-          {
-            ContractorItSelfDetails?.profileId !== undefined &&
-            <ListItem disablePadding >
-            <ListItemButton>
-              <ListItemIcon>
-                 <CalendarMonthOutlined />
-              </ListItemIcon>
-              <ListItemText primary="Calender" onClick={()=>{navigate("/calender")}} />
-            </ListItemButton>
-          </ListItem>
-          }
-          <ListItem disablePadding >
-            <ListItemButton>
-              <ListItemIcon>
-                 <AdminPanelSettingsSharp />
-              </ListItemIcon>
-              <ListItemText primary="LogOut" onClick={()=>{handleLogOut()}} />
-            </ListItemButton>
-          </ListItem>
+        }
+        <ListItem disablePadding >
+          <ListItemButton>
+            <ListItemIcon>
+              <AdminPanelSettingsSharp />
+            </ListItemIcon>
+            <ListItemText primary="LogOut" onClick={() => { handleLogOut() }} />
+          </ListItemButton>
+        </ListItem>
       </List>
       {/* <Divider /> */}
-     
+
     </div>
   );
 

@@ -28,8 +28,8 @@ export const asyncThunkLogin = createAsyncThunk("post/asyncThunkLogin", async (p
             dispatch(asyncThunkGetOwnDetails()) // calling asyncThunkGetOwnDetails api to check that contractor has already singIn or not
         }).catch(error => {
             console.log("error", error)
-            dispatch(fetchLogin([]))
-            dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
+            // dispatch(fetchLogin([]))
+            dispatch(showToast({ type: "error", message: error?.response?.data?.message ? error?.response?.data?.message : "Something Went Wrong !" }))
         })
 })
 

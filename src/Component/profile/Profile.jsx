@@ -147,17 +147,15 @@ export default function Profile() {
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                             <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
                         </Box>
-                    </div>
-
-                    ) : ContractorItSelfDetails?.profileId === undefined ? (
-                        <Contractor />
-                    ) : null
+                    </div>)
+                    :
+                    ContractorItSelfDetails?.profileId === undefined && (<Contractor />)
             }
             {ContractorItSelfDetails?.profileId?.IsApproved === false && <h1>We are reviewing your profile ! please wait</h1>}
-            {ContractorItSelfDetails?.profileId?.IsDecline && <Box sx={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+            {ContractorItSelfDetails?.profileId?.IsDecline && <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <h1>Sorry this couldn&apos;t workout !</h1>
                 <h1>Please check your email for more feedback ! and Please fill the Form</h1>
-                <WhiteButton onClick={() =>handleNavigateToCalendar('/contractorform/petchUpdate')} text={'Open Form'} />
+                <WhiteButton onClick={() => handleNavigateToCalendar('/contractorform/petchUpdate')} text={'Open Form'} />
             </Box>}
         </>
     );
