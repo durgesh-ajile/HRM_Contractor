@@ -37,37 +37,39 @@ function ResponsiveDrawer(props) {
     navigate("/login")
   }
 
+
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        <ListItem disablePadding >
-          <ListItemButton>
-            <ListItemIcon>
-              <Person3Outlined />
-            </ListItemIcon>
-            <ListItemText primary="Profile" onClick={() => (navigate("/"))} />
-          </ListItemButton>
-        </ListItem>
-        {ContractorItSelfDetails?.profileId?.IsApproved && !ContractorItSelfDetails?.profileId?.IsDecline &&
           <ListItem disablePadding >
             <ListItemButton>
-              <ListItemIcon>
-                <CalendarMonthOutlined />
+              <ListItemIcon style={{color: "white"}}>
+                 <Person3Outlined />
               </ListItemIcon>
-              <ListItemText primary="Calender" onClick={() => { navigate("/calender") }} />
+              <ListItemText style={{color: "white"}}  primary="Profile" onClick={()=>(navigate("/"))}/>
             </ListItemButton>
           </ListItem>
-        }
-        <ListItem disablePadding >
-          <ListItemButton>
-            <ListItemIcon>
-              <AdminPanelSettingsSharp />
-            </ListItemIcon>
-            <ListItemText primary="LogOut" onClick={() => { handleLogOut() }} />
-          </ListItemButton>
-        </ListItem>
+          {
+            ContractorItSelfDetails?.profileId?.IsApproved === true &&
+            <ListItem disablePadding >
+            <ListItemButton >
+              <ListItemIcon style={{color: "white"}}>
+                 <CalendarMonthOutlined />
+              </ListItemIcon>
+              <ListItemText style={{color: "white"}} primary="Calender" onClick={()=>{navigate("/calender")}} />
+            </ListItemButton>
+          </ListItem>
+          }
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon style={{color: "white"}}>
+                 <AdminPanelSettingsSharp />
+              </ListItemIcon>
+              <ListItemText style={{color: "white"}} primary="LogOut" onClick={()=>{handleLogOut()}} />
+            </ListItemButton>
+          </ListItem>
       </List>
       {/* <Divider /> */}
 
@@ -83,8 +85,9 @@ function ResponsiveDrawer(props) {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: "100%", // Full width
+          zIndex: (theme) => theme.zIndex.drawer + 1, // Ensure it's above the drawer
+          backgroundColor: "#FFFFFF",
         }}
       >
         <Toolbar style={{ backgroundColor: "white" }}>
@@ -121,6 +124,7 @@ function ResponsiveDrawer(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              backgroundColor: "#34495E"
             },
           }}
         >
@@ -133,6 +137,7 @@ function ResponsiveDrawer(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              backgroundColor: "#34495E"
             },
           }}
           open

@@ -1,3 +1,98 @@
 #btn {
     background-image: linear-gradient(to left, red, rgba(255, 179, 0, 0.949));
 }
+
+.profileMainDiv {
+    background-color: #F1F6F9;
+ }
+ 
+ .clockAnimation {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     padding: 13rem 0 13rem 0;
+ }
+ 
+ /* Apply margin to all child elements except the last one */
+ .clockAnimation > *:not(:last-child) {
+     margin-bottom: 20px; /* Adjust the margin value as needed */
+ }
+ 
+ .rejectDiv {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     padding: 16rem 0 16rem 0;
+ }
+ 
+ .loaders {
+     position: relative;
+     background-color: rgb(219, 113, 52);
+     width: 125px;
+     padding-left: 1.5em;
+     padding-right: 1.5em;
+     padding-top: 3em;
+     top: -0.4em;
+     border-radius: 25px;
+     /* z-index: -1; */
+     box-shadow: 5px 2px 0px #666666;
+   }
+   
+   .clock {
+     position: relative;
+     top: -1.4em;
+     left: 0.05em;
+   }
+   
+   .stage {
+     position: relative;
+     left: 0.5em;
+     background-color: black;
+     width: 4em;
+     height: .4em;
+     border-radius: 15px;
+     box-shadow: 2px 2px 0px #666666;
+     z-index: 4;
+   }
+   
+   .hold {
+     position: relative;
+     background-color: limegreen;
+     width: 0.1em;
+     height: 4em;
+     left: 2.5em;
+     top: -.25em;
+     animation: 1.3s dangle infinite;
+     box-shadow: 4px 4px 0px #666666;
+     /* z-index: -1; */
+   }
+   
+   @keyframes dangle {
+     0% {
+       transform-origin: top center;
+       transform: rotate(45deg);
+     }
+   
+     50% {
+       transform-origin: top center;
+       transform: rotate(-45deg);
+     }
+   
+     100% {
+       transform-origin: top center;
+       transform: rotate(45deg);
+     }
+   }
+   
+   .ball {
+     display: inline-block;
+     position: relative;
+     top: 3em;
+     left: -1.2em;
+     width: 2.5em;
+     height: 2.5em;
+     margin: 0;
+     border-radius: 50%;
+     background: #171717;
+     box-shadow: 1px 1px 0px #666666;
+   }
