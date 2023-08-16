@@ -9,6 +9,7 @@ import { asyncThunkGetTask } from "../../redux/createAsyncThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CSVLink } from "react-csv";
+import { Button } from "@mui/material";
 moment.locale("en-GB");
 
 export default function ReactBigCalendar() {
@@ -68,7 +69,9 @@ export default function ReactBigCalendar() {
       <div className="calender-div">
         {showPopup && (<AddEventPopup dateState={dateState} setShowPopup={setShowPopup} showPopup={showPopup} />)}
         <div className="Full-Calender">
-          <CSVLink data={GetContractorTaskInCalenderData} headers={headers} filename="MyMonthlyTask.csv">Eexport to CSV</CSVLink>
+          <Button sx={{position:'absolute',right:'40%',top:'70px'}} variant="outlined">
+            <CSVLink data={GetContractorTaskInCalenderData} headers={headers} filename="MyMonthlyTask.csv">Export</CSVLink>
+          </Button>
           <FullCalendar
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
