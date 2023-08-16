@@ -35,7 +35,7 @@ export const asyncThunkLogin = createAsyncThunk("post/asyncThunkLogin", async (p
             console.log("error", error)
             dispatch(fetchLogin([]))
             payload.setLoading(false);
-            dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
+            dispatch(showToast({ type: "error", message: error?.response?.data?.message ? error?.response?.data?.message : error?.message + ' Or Server Down !' }))
         })
 })
 
@@ -52,7 +52,7 @@ export const asyncThunkAddContractor = createAsyncThunk("post/asyncThunkAddContr
             }).catch((error) => {
                 console.log("error", error)
                 dispatch(fetchAddContractor([]))
-                dispatch(showToast({ type: "error", message: "Something Went Wrong !" }))
+                dispatch(showToast({ type: "error", message: error?.response?.data?.message ? error?.response?.data?.message : error?.message + ' Or Server Down !' }))
             })
         :
         dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))

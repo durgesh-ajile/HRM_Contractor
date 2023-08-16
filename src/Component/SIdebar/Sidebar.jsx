@@ -25,8 +25,8 @@ function ResponsiveDrawer(props) {
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-    const navigate = useNavigate();
-    const { ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
+  const navigate = useNavigate();
+  const { ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -62,7 +62,7 @@ function ResponsiveDrawer(props) {
             </ListItemButton>
           </ListItem>
           }
-          <ListItem disablePadding >
+          <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon style={{color: "white"}}>
                  <AdminPanelSettingsSharp />
@@ -72,7 +72,7 @@ function ResponsiveDrawer(props) {
           </ListItem>
       </List>
       {/* <Divider /> */}
-     
+
     </div>
   );
 
