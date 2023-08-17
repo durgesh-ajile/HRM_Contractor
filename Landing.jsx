@@ -34,9 +34,9 @@ const Landing = () => {
           <div className="right-container">
             <Routes>
               <Route path="/" element={<Profile />} />
-              <Route path="*" element={<Fourzerofour />} />
               <Route path="/contractorForm" element={<ContractorForm />} />
               <Route path="/calender" element={<ReactBigCalendar />} />
+              <Route path="*" element={<Fourzerofour />} />
             </Routes>
           </div>
         </>
