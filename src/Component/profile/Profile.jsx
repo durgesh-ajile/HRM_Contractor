@@ -16,6 +16,16 @@ import Contractor from "../../Pages/ContractorForm/ContractorForm";
 import WhiteButton from "../common/WhiteButton";
 import PageAnimation from "../Animation/PageAnimation.jsx"
 
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+
 export default function Profile() {
     const [authScreen, setAuthScreen] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -24,6 +34,7 @@ export default function Profile() {
     let tokenData = localStorage.getItem("token");
     let tokenExpiry;
     let token;
+
     if (tokenData) {
         tokenExpiry = new Date(JSON.parse(tokenData).expiry);
         token = JSON.parse(tokenData).usertoken;
@@ -40,6 +51,20 @@ export default function Profile() {
     // const { _id, first_name, last_name, email, password, profileId } = ContractorItSelfDetails
     // const { ActualAadharNo, ActualName, ActualPanNo, , BankAccNo, BankName, BeneficiaryAadharNo, BeneficiaryName, BeneficiaryPanNo, , ContractName, , EmergencyContactNumber, EmergencyContactRelation, , IFSCcode, IsApproved, IsDecline, , Nationality, Religion, } = profileId
     const [profileDataObj] = UpdateContractorProfileData;
+
+    // MUI table
+    function createData(name, calories) {
+        return { name, calories };
+    }
+    // MUI table
+    const rows = [
+        createData('Phone', ContractorItSelfDetails?.profileId?.EmergencyContactNumber),
+        createData('Email', ContractorItSelfDetails?.email),
+        createData('Birthday', formattedDate),
+        createData('Address', ContractorItSelfDetails?.profileId?.Address),
+        createData('Gender', ContractorItSelfDetails?.profileId?.Gender),
+        createData('Reports to', ContractorItSelfDetails?.profileId?.ReportTo),
+    ];
 
     const handleNavigateToCalendar = (path) => navigate(path);
 
@@ -78,8 +103,7 @@ export default function Profile() {
         }
 
         // Create a Date object with the provided date and time
-        const dateString = "Sat Aug 05 2023 05:30:00 GMT+0530";
-        const dateObject = new Date(dateString);
+        const dateObject = new Date(ContractorItSelfDetails?.profileId?.Birthday);
 
         // Extract the components of the date
         const day = dateObject.getDate();
@@ -95,9 +119,10 @@ export default function Profile() {
         `${formattedDay}/${formattedMonth}/${formattedYear}`;
         setFormattedDate(`${formattedDay}/${formattedMonth}/${formattedYear}`)
 
-        // console.log(formattedDate);
 
     }, []);
+
+    console.log('ContractorDataById?.profileId', ContractorItSelfDetails);
 
     if (authScreen || !ContractorItSelfDetails) {
         return (
@@ -114,222 +139,40 @@ export default function Profile() {
                     ContractorItSelfDetails.profileId &&
                     ContractorItSelfDetails?.profileId?.IsApproved &&
                     !ContractorItSelfDetails?.profileId?.IsDecline && (<>
-                        <Box sx={{ width: '100%', border: '2px solid black', display: 'flex', justifyContent: 'center' }}>
-                            <Box sx={{ width: '40%', border: '2px solid black', backgroundColor: 'white', margin: '20px' }}>
-                                <Box sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+
+                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: { xs: 'column', lg: 'row' } }}>
+
+                            <Box sx={{ width: { sx: '100%', lg: '30%' }, backgroundColor: 'white', marginTop: '40px', marginBottom: '20px', marginRight: '40px', marginLeft: '20px' }}>
+                                <Box sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center', marginTop: '60px', marginBottom: '20px' }}>
                                     <Avatar aria-label="recipe" style={{ height: "100px", width: "100px", borderRadius: "50%", }}>
                                         <img src={"https://mui.com/static/images/avatar/3.jpg"} style={{ height: "100%", width: "100%", objectFit: "cover", objectPosition: "center", }} />
                                     </Avatar>
                                 </Box>
-                                <Box sx={{textAlign:'center'}}>
-                                    <h1 style={{ fontSize: '25px' }}>{ContractorItSelfDetails?.first_name} {ContractorItSelfDetails?.last_name}</h1>
-                                    <p style={{ color: "gray",lineHeight:'10px' }}>{ContractorItSelfDetails?.profileId?.Address}</p>
+                                <Box sx={{ textAlign: 'center' }}>
+                                    <h1 style={{ fontSize: '25px', marginBottom: '20px' }}>{ContractorItSelfDetails?.first_name} {ContractorItSelfDetails?.last_name}</h1>
+                                    <p style={{ color: "gray", lineHeight: '10px', marginBottom: '60px' }}>{ContractorItSelfDetails?.profileId?.Address}</p>
                                 </Box>
                             </Box>
-                            <Box sx={{ width: '48%', border: '2px solid black' }}>
-                                dfg
+                            <Box sx={{ width: { sx: '100%', lg: '66%' }, marginTop: { sx: '0px', lg: '40px' }, marginRight: '20px', marginBottom: '20px', marginLeft: { sm: '20px', md: '20px', lg: '0px' } }}>
+                                <TableContainer  component={Paper} >
+                                    <Table aria-label="caption table">
+                                        <TableBody sx={{ marginRight: '20px', marginLeft: '20px' }}>
+                                            {rows.map((row) => (
+                                                <TableRow key={row.name}>
+                                                    <TableCell sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '4%' }} component="th" scope="row">{row.name}</TableCell>
+                                                    <TableCell sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '4%' }} align="right">{row.calories}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </Box>
                         </Box>
 
                         <div className="section" style={{ width: "100%", height: "100%" }}>
-                            <Card
-                                variant="solid"
-                                invertedColors
-                                sx={{
-                                    width: "100%",
-                                    backgroundColor: "white",
-                                    color: "black",
-                                    borderRadius: { xs: 0, sm: "xs" },
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: { xs: "column", md: "row" },
-                                        alignItems: { md: "flex-start" },
-                                        justifyContent: "space-around",
-                                        flexWrap: "wrap",
-                                        gap: 2,
-                                    }}
-                                >
-                                    <Grid
-                                        item
-                                        style={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            marginTop: "30px",
-                                            marginLeft: "0px",
-                                        }}
-                                    >
-                                        <Avatar
-                                            aria-label="recipe"
-                                            style={{
-                                                height: "100px",
-                                                width: "100px",
-                                                borderRadius: "50%",
-                                            }}
-                                        >
-                                            <img
-                                                src={"https://mui.com/static/images/avatar/3.jpg"}
-                                                style={{
-                                                    height: "100%",
-                                                    width: "100%",
-                                                    objectFit: "cover",
-                                                    objectPosition: "center",
-                                                }}
-                                            />
-                                        </Avatar>
-                                        <Grid
-                                            item
-                                            style={{ marginTop: "-22px", marginLeft: "40px" }}
-                                        >
-                                            <h1 style={{ fontWeight: "666", marginBottom: "15px" }}>
-                                                {ContractorItSelfDetails?.first_name}{" "}
-                                                {ContractorItSelfDetails?.last_name}
-                                            </h1>
-                                            <p
-                                                style={{
-                                                    marginTop: "-25px",
-                                                    color: "gray",
-                                                    fontWeight: "666",
-                                                }}
-                                            >
-                                                {ContractorItSelfDetails?.profileId?.Address}
-                                            </p>
-                                        </Grid>
-                                    </Grid>
-                                    <CardHeader />
-                                    <List
-                                        size="sm"
-                                        orientation="horizontal"
-                                        wrap
-                                        sx={{ flexGrow: 0, "--ListItem-radius": "8px" }}
-                                        style={{
-                                            marginLeft: "0px",
-                                            color: "black",
-                                            marginTop: "20px",
-                                        }}
-                                    >
-                                        <ListItem
-                                            nested
-                                            sx={{ width: { xs: "50%", md: 140, color: "black" } }}
-                                        >
-                                            <List>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "black", fontWeight: "666" }}
-                                                    >
-                                                        Phone:
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "black", fontWeight: "666" }}
-                                                    >
-                                                        Email:
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "black", fontWeight: "666" }}
-                                                    >
-                                                        Birthday:
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "black", fontWeight: "666" }}
-                                                    >
-                                                        Address:
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "black", fontWeight: "666" }}
-                                                    >
-                                                        Gender:
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "black", fontWeight: "666" }}
-                                                    >
-                                                        Reports to:
-                                                    </ListItem>
-                                                </ListItem>
-                                            </List>
-                                        </ListItem>
-                                        <ListItem nested sx={{ width: { xs: "50%", md: 180 } }}>
-                                            <List sx={{ "--ListItemDecorator-size": "32px" }}>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "blue", fontWeight: "666" }}
-                                                    >
-                                                        {
-                                                            ContractorItSelfDetails?.profileId
-                                                                ?.EmergencyContactNumber
-                                                        }
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "blue", fontWeight: "666" }}
-                                                    >
-                                                        {ContractorItSelfDetails?.email}
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "gray", fontWeight: "666" }}
-                                                    >
-                                                        {formattedDate}
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "gray", fontWeight: "666" }}
-                                                    >
-                                                        {ContractorItSelfDetails?.profileId?.Address}
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{ color: "gray", fontWeight: "666" }}
-                                                    >
-                                                        {ContractorItSelfDetails?.profileId?.Gender}
-                                                    </ListItem>
-                                                </ListItem>
-                                                <ListItem>
-                                                    <ListItem
-                                                        style={{
-                                                            gap: "10px",
-                                                            color: "blue",
-                                                            fontWeight: "666",
-                                                        }}
-                                                    >
-                                                        <Avatar>
-                                                            <img
-                                                                src={
-                                                                    "https://mui.com/static/images/avatar/3.jpg"
-                                                                }
-                                                                style={{
-                                                                    height: "100%",
-                                                                    width: "100%",
-                                                                    objectFit: "cover",
-                                                                    objectPosition: "center",
-                                                                }}
-                                                            />
-                                                        </Avatar>
-                                                        {ContractorItSelfDetails?.profileId?.ReportTo}
-                                                    </ListItem>
-                                                </ListItem>
-                                            </List>
-                                        </ListItem>
-                                    </List>
-                                </Box>
-                            </Card>
+
+                            <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
                             <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
                             </Box>
                         </div>
                     </>
