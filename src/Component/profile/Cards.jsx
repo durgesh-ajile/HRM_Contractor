@@ -24,39 +24,131 @@ const Cards = ({ ContractorItSelfDetails }) => {
   const PersonalInfo = [
     createData('Personal Information', null),
     createData('Birthday', Birthday),
-    createData('ActualAadharNo', ActualAadharNo),
-    createData('ActualName', ActualName),
-    createData('ActualPanNo', ActualPanNo),
+    createData('Contract Name', ContractName),
     createData('Address', Address),
-    createData('ContractName', ContractName),
-    createData('EmergencyContactName', EmergencyContactName),
-    createData('EmergencyContactRelation', EmergencyContactRelation),
     createData('Gender', Gender),
     createData('JoinDate', JoinDate),
     createData('Nationality', Nationality),
     createData('Religion', Religion),
     createData('ReportTo', ReportTo),
-    createData('EmergencyContactNumber', EmergencyContactNumber)
+  ];
+
+  const EmergencyInfo = [
+    createData('Emergency Information', null),
+    createData('Emergency Contact Name', EmergencyContactName),
+    createData('Emergency Contact Relation', EmergencyContactRelation),
+    createData('Emergency Contact Number', EmergencyContactNumber),
+  ];
+
+  const ActualInfo = [
+    createData('Actual Information', null),
+    createData('Actual Aadhar No.', ActualAadharNo),
+    createData('Actual Name', ActualName),
+    createData('Actual Pan No.', ActualPanNo),
   ];
 
   const Beneficiary = [
     createData('Beneficiary Information', null),
-    createData('BeneficiaryName', ActualAadharNo),
-    createData('BeneficiaryAadharNo', BeneficiaryAadharNo),
-    createData('BeneficiaryPanNo', BeneficiaryPanNo)
+    createData('Beneficiary Name', ActualAadharNo),
+    createData('Beneficiary Aadhar No.', BeneficiaryAadharNo),
+    createData('Beneficiary Pan No.', BeneficiaryPanNo)
   ];
 
   const Bank = [
     createData('Bank Information', null),
-    createData('BankName', BankName),
-    createData('IFSCcode', IFSCcode),
-    createData('BankAccNo', BankAccNo),
+    createData('Bank Name', BankName),
+    createData('IFSC code', IFSCcode),
+    createData('Bank AccountNo.', BankAccNo),
   ];
 
   return (
     <>
-      <Box sx={{ display: 'flex', marginTop: '30px', justifyContent: 'center', flexDirection: { xs: 'column', lg: 'row' } }}>
-        <Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection: { xs: 'column', lg: 'row' } }}>
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', lg: 'row' } }}>
+          <Box sx={{ width: { sx: '100%', lg: '30%', margin: '20px' } }}>
+            <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginRight: '20px' }} >
+              <Table aria-label="simple table">
+                <TableBody>
+                  {PersonalInfo.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
+                  </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+          <Box sx={{ width: { sx: '100%', lg: '70%' } }}>
+            <Box sx={{ width: '100%', display: 'flex' }}>
+              <Box sx={{ width: '50%', margin: '20px' }}>
+                <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' }, marginRight: '20px' }} >
+                  <Table aria-label="simple table">
+                    <TableBody>
+                      {Beneficiary.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
+                      </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+              <Box sx={{ width: '50%', margin: '20px' }}>
+                <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' } }} >
+                  <Table aria-label="simple table">
+                    <TableBody>
+                      {Bank.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
+                      </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            </Box>
+            <Box sx={{ width: '100%', display: 'flex' }}>
+              <Box sx={{ width: '50%', margin: '20px'  }}>
+                <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' } }} >
+                  <Table aria-label="simple table">
+                    <TableBody>
+                      {EmergencyInfo.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
+                      </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+              <Box sx={{ width: '50%', margin: '20px' }}>
+                <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' } }} >
+                  <Table aria-label="simple table">
+                    <TableBody>
+                      {ActualInfo.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
+                          {row.name}
+                        </TableCell>
+                        <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
+                      </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            </Box>
+            <Box></Box>
+          </Box>
+        </Box>
+        {/* <Box>
           <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginRight: '20px' }} >
             <Table aria-label="simple table">
               <TableBody>
@@ -70,9 +162,9 @@ const Cards = ({ ContractorItSelfDetails }) => {
               </TableBody>
             </Table>
           </TableContainer>
-        </Box>
-        <Box>
-          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginTop: {xs:'30px',lg:'0px'}, marginRight: '20px' }} >
+        </Box> */}
+        {/* <Box>
+          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' }, marginRight: '20px' }} >
             <Table aria-label="simple table">
               <TableBody>
                 {Beneficiary.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -87,7 +179,7 @@ const Cards = ({ ContractorItSelfDetails }) => {
           </TableContainer>
         </Box>
         <Box>
-          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginTop: {xs:'30px',lg:'0px'} }} >
+          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' } }} >
             <Table aria-label="simple table">
               <TableBody>
                 {Bank.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -100,7 +192,7 @@ const Cards = ({ ContractorItSelfDetails }) => {
               </TableBody>
             </Table>
           </TableContainer>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );

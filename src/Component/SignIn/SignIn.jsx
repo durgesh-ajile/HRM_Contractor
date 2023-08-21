@@ -9,11 +9,13 @@ import { asyncThunkLogin } from "../../redux/createAsyncThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AlertDialogSlide from "../common/AlertDialogSlide";
+import { showToast } from "../../redux/errorSlice/errorSlice";
 
 const SingIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isValid, setIsValid] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -22,22 +24,25 @@ const SingIn = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    setLoading(true);
+    if (isValid) {
+      setLoading(true);
+  
+      const navigateAfterLogin = () => setTimeout(() => navigate("/"), 2000)
+  
+      dispatch(asyncThunkLogin({
+        email: email, password: password, navigateAfterLogin: navigateAfterLogin, setLoading: setLoading,
+      }));
+    } else {
+      dispatch(showToast({ type: "warning", message: "Email Type Should be @ajiledone.com" }))
 
-    const navigateAfterLogin = () => {
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
-    };
+    }
+    // setLoading(true);
 
-    dispatch(
-      asyncThunkLogin({
-        email: email,
-        password: password,
-        navigateAfterLogin: navigateAfterLogin,
-        setLoading: setLoading,
-      })
-    );
+    // const navigateAfterLogin = () => setTimeout(() => navigate("/"), 2000)
+
+    // dispatch(asyncThunkLogin({
+    //   email: email, password: password, navigateAfterLogin: navigateAfterLogin, setLoading: setLoading,
+    // }));
   };
 
   return (
@@ -60,9 +65,12 @@ const SingIn = () => {
             <input
               type="email"
               className="form-control py-2"
-              placeholder="Enter your email"
+              placeholder="Example@ajiledone.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setIsValid(e.target.value.endsWith('@ajiledone.com'))
+              }}
               required
             />
           </div>
