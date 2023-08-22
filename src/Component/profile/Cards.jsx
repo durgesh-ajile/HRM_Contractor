@@ -10,6 +10,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import { ISTdateFormater, UTCDateFormater } from "../../Utils/Functions";
 
 
 // eslint-disable-next-line react/prop-types
@@ -23,11 +25,11 @@ const Cards = ({ ContractorItSelfDetails }) => {
   function createData(name, calories) { return { name, calories }; }
   const PersonalInfo = [
     createData('Personal Information', null),
-    createData('Birthday', Birthday),
+    createData('Birthday', ISTdateFormater(Birthday)),
     createData('Contract Name', ContractName),
     createData('Address', Address),
     createData('Gender', Gender),
-    createData('JoinDate', JoinDate),
+    createData('JoinDate', UTCDateFormater(JoinDate)),
     createData('Nationality', Nationality),
     createData('Religion', Religion),
     createData('ReportTo', ReportTo),
@@ -81,11 +83,11 @@ const Cards = ({ ContractorItSelfDetails }) => {
             </TableContainer>
           </Box>
           <Box sx={{ width: { sx: '100%', lg: '70%' } }}>
-            <Box sx={{ width: '100%', display: 'flex' }}>
-              <Box sx={{ width: '50%', margin: '20px' }}>
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', lg: 'row' } }}>
+              <Box sx={{ width: '95%', margin: '20px' }}>
                 <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' }, marginRight: '20px' }} >
                   <Table aria-label="simple table">
-                    <TableBody>
+                    <TableBody sx={{ width: '100%' }}>
                       {Beneficiary.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
                           {row.name}
@@ -97,7 +99,7 @@ const Cards = ({ ContractorItSelfDetails }) => {
                   </Table>
                 </TableContainer>
               </Box>
-              <Box sx={{ width: '50%', margin: '20px' }}>
+              <Box sx={{ width: '95%', margin: '20px' }}>
                 <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' } }} >
                   <Table aria-label="simple table">
                     <TableBody>
@@ -113,11 +115,11 @@ const Cards = ({ ContractorItSelfDetails }) => {
                 </TableContainer>
               </Box>
             </Box>
-            <Box sx={{ width: '100%', display: 'flex' }}>
-              <Box sx={{ width: '50%', margin: '20px'  }}>
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: { xs: 'column', lg: 'row' } }}>
+              <Box sx={{ width: '95%', margin: '20px' }}>
                 <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' } }} >
                   <Table aria-label="simple table">
-                    <TableBody>
+                    <TableBody sx={{ width: '100%' }}>
                       {EmergencyInfo.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
                           {row.name}
@@ -129,10 +131,10 @@ const Cards = ({ ContractorItSelfDetails }) => {
                   </Table>
                 </TableContainer>
               </Box>
-              <Box sx={{ width: '50%', margin: '20px' }}>
+              <Box sx={{ width: '95%', margin: '20px' }}>
                 <TableContainer component={Paper} sx={{ width: '100%', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' } }} >
                   <Table aria-label="simple table">
-                    <TableBody>
+                    <TableBody >
                       {ActualInfo.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
                           {row.name}
