@@ -24,7 +24,7 @@ const SingIn = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    // if (isValid) {
+    // // if (isValid) {
       setLoading(true);
   
       const navigateAfterLogin = () => setTimeout(() => navigate("/"), 2000)
@@ -36,16 +36,6 @@ const SingIn = () => {
     //   dispatch(showToast({ type: "warning", message: "Email Type Should be @ajiledone.com" }))
 
     // }
-
-
-     
-    // setLoading(true);
-
-    // const navigateAfterLogin = () => setTimeout(() => navigate("/"), 2000)
-
-    // dispatch(asyncThunkLogin({
-    //   email: email, password: password, navigateAfterLogin: navigateAfterLogin, setLoading: setLoading,
-    // }));
   };
 
   return (

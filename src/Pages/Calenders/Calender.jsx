@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CSVLink } from "react-csv";
 import { Button } from "@mui/material";
+import Email from "../../Component/Email/Email";
 moment.locale("en-GB");
 
 export default function ReactBigCalendar() {
@@ -66,6 +67,7 @@ export default function ReactBigCalendar() {
 
   return (
     <>
+    <Email/>
       <div className="calender-div">
         {showPopup && (<AddEventPopup dateState={dateState} setShowPopup={setShowPopup} showPopup={showPopup} />)}
         <div className="Full-Calender">

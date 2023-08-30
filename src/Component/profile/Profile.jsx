@@ -69,13 +69,7 @@ export default function Profile() {
     const handleNavigateToCalendar = (path) => navigate(path);
 
     useEffect(() => {
-        profileDataObj?.isContractorProfileUpdated &&
-            dispatch(
-                showToast({
-                    type: "success",
-                    message: "Contractor Updated Successfully",
-                })
-            );
+        profileDataObj?.isContractorProfileUpdated && dispatch(showToast({ type: "success", message: "Contractor Updated Successfully", }));
     }, [dispatch, profileDataObj?.isContractorProfileUpdated]);
 
     useEffect(() => {
@@ -116,7 +110,6 @@ export default function Profile() {
         const formattedYear = year < 10 ? `0${year}` : year;
 
         // Combine the components into the desired format
-        `${formattedDay}/${formattedMonth}/${formattedYear}`;
         setFormattedDate(`${formattedDay}/${formattedMonth}/${formattedYear}`)
 
 
@@ -154,7 +147,7 @@ export default function Profile() {
                                 </Box>
                             </Box>
                             <Box sx={{ width: { sx: '100%', lg: '66%' }, marginTop: { sx: '0px', lg: '40px' }, marginRight: '20px', marginBottom: '20px', marginLeft: { sm: '20px', md: '20px', lg: '0px' } }}>
-                                <TableContainer  component={Paper} >
+                                <TableContainer component={Paper} >
                                     <Table aria-label="caption table">
                                         <TableBody sx={{ marginRight: '20px', marginLeft: '20px' }}>
                                             {rows.map((row) => (
@@ -172,8 +165,8 @@ export default function Profile() {
                         <div className="section" style={{ width: "100%", height: "100%" }}>
 
                             <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
-                            <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            </Box>
+                            {/* <Box sx={{ display: "flex", justifyContent: "center" }}>
+                            </Box> */}
                         </div>
                     </>
                     )}
