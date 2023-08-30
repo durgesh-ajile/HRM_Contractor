@@ -17,6 +17,9 @@ import Toolbar from "@mui/material/Toolbar";
 import { AdminPanelSettingsSharp, AppRegistrationTwoTone, CalendarMonthOutlined, LoginTwoTone, Person3Outlined, PersonOffRounded } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
 
 const drawerWidth = 240;
@@ -26,7 +29,21 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
-  const { ContractorItSelfDetailsData: [ContractorItSelfDetails] } = useSelector(store => store.admin)
+  const [ContractorItSelfDetails, setContractorItSelfDetails] = useState('')
+
+  const { usertoken } = JSON.parse(localStorage.getItem('token'))
+  const headers = { 'Authorization': `Bearer ${usertoken}` };
+
+  useEffect(() => {
+     axios(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_OWN_DETAILS}`, { headers })
+    .then((res) => {
+        console.log(res)
+        setContractorItSelfDetails(res.data.data)
+        }).catch((error) => {
+        console.log("error", error)
+       })
+  }, [])
+  
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
