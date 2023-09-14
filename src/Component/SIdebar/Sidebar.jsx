@@ -15,8 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 // import Typography from '@mui/material/Typography';
 import { AdminPanelSettingsSharp, AppRegistrationTwoTone, CalendarMonthOutlined, LoginTwoTone, Person3Outlined, PersonOffRounded } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -29,7 +28,8 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
-  const [ContractorItSelfDetails, setContractorItSelfDetails] = useState('')
+  const [ContractorItSelfDetails, setContractorItSelfDetails] = useState('');
+  const location  = useLocation()
 
   const { usertoken } = JSON.parse(localStorage.getItem('token'))
   const headers = { 'Authorization': `Bearer ${usertoken}` };
@@ -54,37 +54,36 @@ function ResponsiveDrawer(props) {
     navigate("/login")
   }
 
-
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
           <ListItem disablePadding >
-            <ListItemButton>
-              <ListItemIcon style={{color: "white"}}>
-                 <Person3Outlined />
+            <ListItemButton style={location.pathname === '/' ? {background: 'white', color:'black'} : {background: '#34495E', color:'white'}} >
+              <ListItemIcon>
+                 <Person3Outlined style={location.pathname === '/' ? {color:'black'} : {color:'white'}} />
               </ListItemIcon>
-              <ListItemText style={{color: "white"}}  primary="Profile" onClick={()=>(navigate("/"))}/>
+              <ListItemText  primary="Profile" onClick={()=>(navigate("/"))}/>
             </ListItemButton>
           </ListItem>
           {
             ContractorItSelfDetails?.profileId?.IsApproved === true &&
             <ListItem disablePadding >
-            <ListItemButton >
-              <ListItemIcon style={{color: "white"}}>
-                 <CalendarMonthOutlined />
+            <ListItemButton style={location.pathname.match('/calender') ? {background: 'white', color:'black'} : {background: '#34495E', color:'white'}} >
+              <ListItemIcon >
+                 <CalendarMonthOutlined style={location.pathname === '/calender' ? {color:'black'} : {color:'white'}} />
               </ListItemIcon>
-              <ListItemText style={{color: "white"}} primary="Calender" onClick={()=>{navigate("/calender")}} />
+              <ListItemText  primary="Calender" onClick={()=>{navigate("/calender")}} />
             </ListItemButton>
           </ListItem>
           }
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton id='white-color'>
               <ListItemIcon style={{color: "white"}}>
                  <AdminPanelSettingsSharp />
               </ListItemIcon>
-              <ListItemText style={{color: "white"}} primary="LogOut" onClick={()=>{handleLogOut()}} />
+              <ListItemText primary="LogOut" onClick={()=>{handleLogOut()}} />
             </ListItemButton>
           </ListItem>
       </List>

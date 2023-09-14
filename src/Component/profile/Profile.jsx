@@ -131,11 +131,12 @@ export default function Profile() {
                 {ContractorItSelfDetails &&
                     ContractorItSelfDetails.profileId &&
                     ContractorItSelfDetails?.profileId?.IsApproved &&
-                    !ContractorItSelfDetails?.profileId?.IsDecline && (<>
+                    !ContractorItSelfDetails?.profileId?.IsDecline && (
+                        <>
 
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', flexDirection: { xs: 'column', lg: 'row' } }}>
 
-                            <Box sx={{ width: { sx: '100%', lg: '30%' }, backgroundColor: 'white', marginTop: '40px', marginBottom: '20px', marginRight: '40px', marginLeft: '20px' }}>
+                            <Box  id = 'profile-head' sx={{ width: { sx: '100%', lg: '30%' }, backgroundColor: 'white', marginTop: '40px', marginBottom: '20px', marginRight: '40px', marginLeft: '20px' }}>
                                 <Box sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center', marginTop: '60px', marginBottom: '20px' }}>
                                     <Avatar aria-label="recipe" style={{ height: "100px", width: "100px", borderRadius: "50%", }}>
                                         <img src={"https://mui.com/static/images/avatar/3.jpg"} style={{ height: "100%", width: "100%", objectFit: "cover", objectPosition: "center", }} />
@@ -165,8 +166,7 @@ export default function Profile() {
                         <div className="section" style={{ width: "100%", height: "100%" }}>
 
                             <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
-                            {/* <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            </Box> */}
+                            
                         </div>
                     </>
                     )}

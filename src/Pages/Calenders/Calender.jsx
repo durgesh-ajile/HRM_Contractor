@@ -71,10 +71,11 @@ export default function ReactBigCalendar() {
       <div className="calender-div">
         {showPopup && (<AddEventPopup dateState={dateState} setShowPopup={setShowPopup} showPopup={showPopup} />)}
         <div className="Full-Calender">
-          <Button sx={{position:'absolute',right:'40%',top:'70px'}} variant="outlined">
+          <Button id="export-btn" variant="contained">
             <CSVLink data={GetContractorTaskInCalenderData} headers={headers} filename="MyMonthlyTask.csv">Export</CSVLink>
           </Button>
           <FullCalendar
+          
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             dateClick={(e) => handleDateClick(e)}

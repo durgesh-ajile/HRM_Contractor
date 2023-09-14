@@ -5,7 +5,9 @@
   .css-1v5u2yv{
     padding: 0 !important;
   }
-
+  #white-color{
+    color: white;
+  }
   @media screen and (max-width: 600px){
     .right-container{
       margin-left: 0px;

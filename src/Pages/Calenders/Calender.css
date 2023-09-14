@@ -1,11 +1,23 @@
 .calender-div{
-    padding: 0 50px 50px;
+    padding: 50px 50px;
 }
 .event-detail{
     padding-left: 10px;
 }
+#export-btn{
+    position: fixed;
+    left: 300px;
+    background: linear-gradient(to bottom right, #79d8f2, #d6a0f2, #f8f);
+    bottom: 40px;
+}
+CSVLink{
+    color: white;
+}
 @media screen and (max-width: 500px) {
     .event-detail{
         padding-left: 0px;
+    }
+    #export-btn{
+        left: 30px;
     }
 }

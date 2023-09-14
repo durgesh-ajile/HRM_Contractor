@@ -22,7 +22,8 @@ const Cards = ({ ContractorItSelfDetails }) => {
   // eslint-disable-next-line react/prop-types
   const { ActualAadharNo, ActualName, ActualPanNo, Address, BankAccNo, BankName, BeneficiaryAadharNo, BeneficiaryName, BeneficiaryPanNo, Birthday, ContractName, EmergencyContactName, EmergencyContactNumber, EmergencyContactRelation, Gender, IFSCcode, IsApproved, IsDecline, JoinDate, Nationality, Religion, ReportTo } = profileId
 
-  function createData(name, calories) { return { name, calories }; }
+  function createData(name, calories) {
+  return { name, calories }; }
   const PersonalInfo = [
     createData('Personal Information', null),
     createData('Birthday', ISTdateFormater(Birthday)),
@@ -150,51 +151,7 @@ const Cards = ({ ContractorItSelfDetails }) => {
             <Box></Box>
           </Box>
         </Box>
-        {/* <Box>
-          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginRight: '20px' }} >
-            <Table aria-label="simple table">
-              <TableBody>
-                {PersonalInfo.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
-                </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box> */}
-        {/* <Box>
-          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' }, marginRight: '20px' }} >
-            <Table aria-label="simple table">
-              <TableBody>
-                {Beneficiary.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
-                </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-        <Box>
-          <TableContainer component={Paper} sx={{ width: '400px', border: '1px solid gray', borderRadius: '10px', marginTop: { xs: '30px', lg: '0px' } }} >
-            <Table aria-label="simple table">
-              <TableBody>
-                {Bank.map((row) => (<TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component="th" scope="row" sx={{ fontSize: '15px', fontWeight: '700', paddingLeft: '9%' }}>
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right" sx={{ fontSize: '15px', fontWeight: '700', paddingRight: '9%' }}>{row.calories}</TableCell>
-                </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box> */}
+       
       </Box>
     </>
   );

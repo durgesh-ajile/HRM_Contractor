@@ -72,10 +72,10 @@ const Email = () => {
                             </h1>
                         </div>
                         <div className="mail-box-recipients">
-                            <h4>To <b>All Client</b></h4>
+                            <h4>To <b>Organization</b></h4>
                         </div>
 
-                        <div className="mail-box-subject">
+                        {/* <div className="mail-box-subject">
                             <input
                                 className="mail-box-input"
                                 type="text"
@@ -94,7 +94,7 @@ const Email = () => {
                                     setMail(e.target.value);
                                 }}
                             />
-                        </div>
+                        </div> */}
                         <div className=" mail-box-subject">
 
                             <input type="file" id="attachment" accept=".xlsx"
@@ -129,90 +129,6 @@ const Email = () => {
                     </div>
                 </div>
             </>
-
-
-
-
-            {/* {!MailBox ? (
-                role === "employee" ? (
-                    <></>
-                ) : (
-                    <>
-                        <div className="mail-box">
-                            <div className="mail-box-header">
-                                <h1 className="mail-box-title"> Mail</h1>
-
-                                <h1
-                                    className="mail-box-close"
-                                    onClick={() => {
-                                        setMailBox(false);
-                                    }}
-                                >
-                                    <AiOutlineClose />
-                                </h1>
-                            </div>
-                            <div className="mail-box-recipients">
-                                <h4>To <b>All Client</b></h4>
-                            </div>
-
-                            <div className="mail-box-subject">
-                                <input
-                                    className="mail-box-input"
-                                    type="text"
-                                    placeholder="Subject"
-                                    onChange={(e) => {
-                                        setSubject(e.target.value);
-                                    }}
-
-                                />
-                            </div>
-                            <div className="mail-box-content">
-                                <textarea
-                                    className="mail-box-textarea"
-                                    type="text"
-                                    onChange={(e) => {
-                                        setMail(e.target.value);
-                                    }}
-                                />
-                            </div>
-                            <div className=" mail-box-subject">
-
-                                <input type="file" id="attachment" accept=".xlsx"
-                                    onChange={handleFileChange}
-                                />
-                                <label htmlFor="attachment" className="attachment">
-
-                                    <TiAttachment className="attachment-icon " />
-                                </label>
-                                <div className="selected-file">
-                                    {selectedFile ? selectedFile.name : 'No file selected'}
-                                </div>
-                                <div
-                                    className="mail-box-send-icon mail-box-send-button"
-                                    onClick={() => {
-                                        SendMAil();
-                                    }}
-                                >
-                                    <BsSendFill />
-                                </div>
-                            </div>
-                        </div>
-                    </>
-                )
-            ) : role === "employee" ? (
-                <></>
-            ) : (
-                <>
-                    <div className="floating-button">
-                        <div
-                            className="floating-button-icon"
-                            onClick={() => { setMailBox(true); }}
-                        >
-                            <AiTwotoneMail />
-                        </div>
-                    </div>
-                </>
-            )} */}
         </>
     );
 };
