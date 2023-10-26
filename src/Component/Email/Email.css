@@ -66,7 +66,13 @@
 
   /* }  */
  
-  
+  .get-access-btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+  }
+  .get-access-btn button{    
+  }
   .attachment
   {
     
@@ -112,7 +118,7 @@ margin-left: -2px;
     right: 20px;
   }
   
-  input[type="file"] {
+  .mail-box input[type="file"] {
     display: none;
   }
   .mail-box-send-icon {

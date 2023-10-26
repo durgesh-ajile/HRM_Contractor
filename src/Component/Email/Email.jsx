@@ -2,135 +2,150 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { AiTwotoneMail } from "react-icons/ai";
-import { TiAttachment } from 'react-icons/ti'
+import { TiAttachment } from "react-icons/ti";
 // import { BsFillChatRightFill } from "react-icons/bs";
 import { BsSendFill } from "react-icons/bs";
-import './Email.css'
+import "./Email.css";
+import { Button } from "@mui/material";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { showToast } from "../../redux/errorSlice/errorSlice";
+import { useDispatch } from "react-redux";
 
-const Email = () => {
+const Email = ({ organization, organizationEmail }) => {
+  const [MailBox, setMailBox] = useState(false);
+  const [Subject, setSubject] = useState("");
+  const [Mail, setMail] = useState("");
+  // const [role, setrole] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const location = useLocation();
 
-    const [MailBox, setMailBox] = useState(false);
-    const [Subject, setSubject] = useState("");
-    const [Mail, setMail] = useState("");
-    // const [role, setrole] = useState("");
-    const [selectedFile, setSelectedFile] = useState(null);
+  const dispatch = useDispatch();
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
-    };
-    // const data = {
-    //     Subject: Subject,
-    //     Mail: Mail,
-    // };
+  // Function to retrieve the access token query parameter from the URL
+  function getAccessToken() {
+    const urlParams = new URLSearchParams(location.search);
+    return urlParams.get("accessToken");
+  }
 
+  // Retrieve the access token query parameter
+  const accessToken = getAccessToken();
 
-    // const fetchid = async () => {
-    //     const response = await axios({
-    //         method: "post",
-    //         data: data,
-    //         headers: {
-    //             "Content-type": "application/json; charset=UTF-8",
-    //         },
-    //     });
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
 
-    //     if (response) {
-    //         setMailBox(false);
-    //     }
-    // };
+  const handleAccess = () => {
+    try {
+      window.open("http://localhost:5000/api/get-user-consent", "_self");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    // const SendMAil = () => {
-    //     fetchid();
-    // };
+  const handleSend = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("accessToken", accessToken);
+    formData.append("OrganizationMail", organizationEmail);
+    formData.append("TimesheetFile", selectedFile);
 
-    // const Role_Fun = () => {
-    //     let user_role = localStorage.getItem("role");
-    //     setrole(user_role);
-    // };
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/send-mail-of-timesheet",
+      data: formData,
+    })
+      .then((res) => {
+        console.log(res);
+        dispatch(showToast({ type: "success", message: res.data.message}));
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-    // useEffect(() => {
-    //     Role_Fun();
-    // }, []);
-
-    return (
+  return (
+    <>
+      {MailBox && (
         <>
+          <div className="mail-box">
+            <div className="mail-box-header">
+              <h1 className="mail-box-title"> Mail</h1>
 
-            {
-                MailBox &&
-                <>
-                    <div className="mail-box">
-                        <div className="mail-box-header">
-                            <h1 className="mail-box-title"> Mail</h1>
-
-                            <h1
-                                className="mail-box-close"
-                                onClick={() => {
-                                    setMailBox(false);
-                                }}
-                            >
-                                <AiOutlineClose />
-                            </h1>
-                        </div>
-                        <div className="mail-box-recipients">
-                            <h4>To <b>Organization</b></h4>
-                        </div>
-
-                        {/* <div className="mail-box-subject">
-                            <input
-                                className="mail-box-input"
-                                type="text"
-                                placeholder="Subject"
-                                onChange={(e) => {
-                                    setSubject(e.target.value);
-                                }}
-
-                            />
-                        </div>
-                        <div className="mail-box-content">
-                            <textarea
-                                className="mail-box-textarea"
-                                type="text"
-                                onChange={(e) => {
-                                    setMail(e.target.value);
-                                }}
-                            />
-                        </div> */}
-                        <div className=" mail-box-subject">
-
-                            <input type="file" id="attachment" accept=".xlsx"
-                                onChange={handleFileChange}
-                            />
-                            <label htmlFor="attachment" className="attachment">
-
-                                <TiAttachment className="attachment-icon " />
-                            </label>
-                            <div className="selected-file">
-                                {selectedFile ? selectedFile.name : 'No file selected'}
-                            </div>
+              <h1
+                className="mail-box-close"
+                onClick={() => {
+                  setMailBox(false);
+                }}
+              >
+                <AiOutlineClose />
+              </h1>
+            </div>
+            <div className="mail-box-recipients">
+              <h4>
+                To <b>{organizationEmail}</b>
+              </h4>
+            </div>
+            {!accessToken ? (
+              <div className="get-access-btn">
+                <Button variant="outlined" onClick={handleAccess}>
+                  Get microsoft access
+                </Button>
+              </div>
+            ) : (
+              <div className=" mail-box-subject">
+                <input
+                  type="file"
+                  id="attachment"
+                  accept=".csv"
+                  onChange={handleFileChange}
+                />
+                <label htmlFor="attachment" className="attachment">
+                  <TiAttachment className="attachment-icon " />
+                </label>
+                <div className="selected-file">
+                  {selectedFile ? selectedFile.name : "No file selected"}
+                </div>
+                <Button
+                  variant="contained"
+                  style={{ margin: "25px" }}
+                  onClick={(e) => {
+                    handleSend(e);
+                  }}
+                >
+                  Send
+                </Button>
+                {/* kk
                             <div
                                 className="mail-box-send-icon mail-box-send-button"
                                 onClick={() => {
                                     SendMAil();
                                 }}
                             >
-                                <BsSendFill />
-                            </div>
-                        </div>
-                    </div>
-                </>
-            }
-            <>
-                <div className="floating-button">
-                    <div
-                        className="floating-button-icon"
-                        onClick={() => { setMailBox(!MailBox); }}
-                    >
-                        <AiTwotoneMail />
-                    </div>
-                </div>
-            </>
+                                jjjj<BsSendFill />
+                            </div> */}
+              </div>
+            )}
+          </div>
         </>
-    );
+      )}
+      <>
+        <div className="floating-button">
+          <div
+            className="floating-button-icon"
+            onClick={() => {
+              setMailBox(!MailBox);
+            }}
+          >
+            <AiTwotoneMail />
+          </div>
+        </div>
+      </>
+    </>
+  );
 };
 
 export default Email;

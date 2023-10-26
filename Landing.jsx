@@ -7,6 +7,8 @@ import Fourzerofour from "./src/Component/Fourzerofour/Fourzerofour.jsx";
 import ContractorForm from "./src/Pages/ContractorForm/ContractorForm";
 import { useDispatch, useSelector } from "react-redux";
 import { showToast } from "./src/redux/errorSlice/errorSlice";
+import InvoiceContractor from "./src/Pages/Invoices/InvoiceContractor";
+import socket from "./src/Socket";
 
 const Landing = () => {
   const dispatch = useDispatch();
@@ -36,6 +38,7 @@ const Landing = () => {
               <Route path="/" element={<Profile />} />
               <Route path="/contractorForm" element={<ContractorForm />} />
               <Route path="/calender" element={<ReactBigCalendar />} />
+              <Route path="/invoices" element={<InvoiceContractor />} />
               <Route path="*" element={<Fourzerofour />} />
             </Routes>
           </div>

@@ -7,6 +7,7 @@
 #export-btn{
     position: fixed;
     left: 300px;
+    z-index: 5;
     background: linear-gradient(to bottom right, #79d8f2, #d6a0f2, #f8f);
     bottom: 40px;
 }

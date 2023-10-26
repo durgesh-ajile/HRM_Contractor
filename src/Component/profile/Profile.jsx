@@ -168,7 +168,7 @@ export default function Profile() {
                             <Cardss ContractorItSelfDetails={ContractorItSelfDetails} />
                             
                         </div>
-                    </>
+                                            </>
                     )}
                 {ContractorItSelfDetails?.profileId?.IsApproved === false &&
                     ContractorItSelfDetails?.profileId?.IsDecline === false && (

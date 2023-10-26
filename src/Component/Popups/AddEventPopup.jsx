@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 
 
 // eslint-disable-next-line react/prop-types
-function AddEventPopup({ setShowPopup, dateState }) {
+function AddEventPopup({ setShowPopup, dateState, monthState, organization }) {
 
   const [timesheetDetails, setTimesheetDetails] = useState({});
   const dispatch = useDispatch();
@@ -22,13 +22,16 @@ function AddEventPopup({ setShowPopup, dateState }) {
     })
   };
 
+
   const handleAddEvents = () => {
     const payload = {
-      "date": dateState, ...timesheetDetails
+      "date": dateState,"organization" : organization, ...timesheetDetails, "month": monthState
     }
+    console.log(organization)
     dispatch(asyncThunkCreateTask(payload))
     closePopup();
   };
+  console.log(dateState)
 
   return (
     <div className="popup">

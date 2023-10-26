@@ -177,6 +177,7 @@ export const asyncThunkGetOwnDetails = createAsyncThunk("get/asyncThunkGetOwnDet
                 payload.setCheckProfile(false);
                 dispatch(fetchContractorItSelfDetailsData([{ ...res?.data?.data }]))
                 // dispatch(showToast({ type: "success", message: "Contractor Added Successfully" }))
+                localStorage.setItem("contractorId", res?.data?.data._id)
             }).catch((error) => {
                 console.log("error", error)
                 payload.setCheckProfile(false);
@@ -202,8 +203,9 @@ export const asyncThunkCreateTask = createAsyncThunk("post/asyncThunkCreateTask"
 
                 let [, month, year] = new Date().toLocaleDateString('pt-PT').split('/');
                 let formattedDate = `${month == 0 ? 12 : month <= 9 ? `${month}` : month}/${year}`;
-
-                dispatch(asyncThunkGetTask(formattedDate))
+                dispatch(asyncThunkGetTask({ formattedDate: payload.month, organization: payload.organization }));
+                console.log(payload.date)
+                // dispatch(asyncThunkGetTask(formattedDate))
             }).catch((error) => {
                 console.log("error", error)
                 // dispatch(fetchAddContractorTaskInCalender([]))
@@ -217,8 +219,9 @@ export const asyncThunkCreateTask = createAsyncThunk("post/asyncThunkCreateTask"
 export const asyncThunkGetTask = createAsyncThunk("get/asyncThunkGetTask", async (payload, { dispatch }) => {
     const { usertoken } = JSON.parse(localStorage.getItem('token'))
     const headers = { 'Authorization': `Bearer ${usertoken}` };
+    console.log("nfnfn", payload.formattedDate)
     usertoken ?
-        await axios.get(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_TASK + `?date=${payload}`}`, { headers })
+        await axios.get(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_TASK + `?date=${payload.formattedDate}&organization=${payload.organization}`}`, { headers })
             .then(res => {
                 if (res.status !== 200) return
                 dispatch(fetchGetContractorTaskInCalender(res?.data?.data))

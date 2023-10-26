@@ -15,7 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 // import Typography from '@mui/material/Typography';
 import { AdminPanelSettingsSharp, AppRegistrationTwoTone, CalendarMonthOutlined, LoginTwoTone, Person3Outlined, PersonOffRounded } from '@mui/icons-material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -34,6 +34,16 @@ function ResponsiveDrawer(props) {
   const { usertoken } = JSON.parse(localStorage.getItem('token'))
   const headers = { 'Authorization': `Bearer ${usertoken}` };
 
+  const { expiry } = JSON.parse(localStorage.getItem("token"));
+
+  let currentDate = new Date();
+
+  React.useEffect(() => {
+    if (!expiry || (currentDate > expiry)) {
+      navigate("/login");
+    }
+  }, []);
+  
   useEffect(() => {
      axios(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_OWN_DETAILS}`, { headers })
     .then((res) => {
@@ -69,6 +79,7 @@ function ResponsiveDrawer(props) {
           </ListItem>
           {
             ContractorItSelfDetails?.profileId?.IsApproved === true &&
+            <>
             <ListItem disablePadding >
             <ListItemButton style={location.pathname.match('/calender') ? {background: 'white', color:'black'} : {background: '#34495E', color:'white'}} >
               <ListItemIcon >
@@ -77,6 +88,15 @@ function ResponsiveDrawer(props) {
               <ListItemText  primary="Calender" onClick={()=>{navigate("/calender")}} />
             </ListItemButton>
           </ListItem>
+          <ListItem disablePadding >
+            <ListItemButton style={location.pathname.match('/invoices') ? {background: 'white', color:'black'} : {background: '#34495E', color:'white'}} >
+              <ListItemIcon >
+                 <CalendarMonthOutlined style={location.pathname === '/invoices' ? {color:'black'} : {color:'white'}} />
+              </ListItemIcon>
+              <ListItemText  primary="Invoices" onClick={()=>{navigate("/invoices?page=1&page2=1")}} />
+            </ListItemButton>
+          </ListItem>
+          </>
           }
           <ListItem disablePadding>
             <ListItemButton id='white-color'>

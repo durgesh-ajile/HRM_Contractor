@@ -28,6 +28,9 @@ function Contractor() {
   const [input, setInput] = useState({});
   const [activateError, setActivateError] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [inputErrors, setInputErrors] = useState({});
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -110,7 +113,6 @@ function Contractor() {
       .catch((err) => {
         console.log(err);
       });
-     
   }, []);
 
   if (
@@ -121,37 +123,101 @@ function Contractor() {
   }
 
   const onSubmit = (e) => {
-    console.log("run");
-    setLoading(true);
     e.preventDefault();
+  
+    const errors = {};
+  
+  // Name validation
+  if (!/^[a-zA-Z\s]*$/.test(input.actualName)) {
+    errors.actualName = "Please enter a valid Name (only alphabets and spaces are allowed).";
+  }
 
-    const navigateAfterUpdate = () => {
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
-    };
+  // Beneficiary Name validation
+  if (!/^[a-zA-Z\s]*$/.test(input.beneficiaryName)) {
+    errors.beneficiaryName = "Please enter a valid Name (only alphabets and spaces are allowed).";
+  }
 
-    if (!contractorDetails?.profileId) {
-      dispatch(
-        asyncThunkUpdateContractorProfile({
-          input,
-          setLoading,
-          navigateAfterUpdate,
-        })
-      );
-    }
+  // Contract Name validation
+  if (!/^[a-zA-Z\s]*$/.test(input.contractName)) {
+    errors.contractName = "Please enter a valid Name (only alphabets and spaces are allowed).";
+  }
 
-    if (ContractorItSelfDetails?.profileId) {
-      dispatch(
-        asyncThunkReUpdateContractorProfile({
-          input,
-          setLoading,
-          navigateAfterUpdate,
-        })
-      );
+  // Emergency Contact Name validation
+  if (!/^[a-zA-Z\s]*$/.test(input.emergencyContactName)) {
+    errors.emergencyContactName = "Please enter a valid Name (only alphabets and spaces are allowed).";
+  }
+
+  // PAN number validation
+  if (!/^[A-Z0-9]{10}$/.test(input.actualPanNo)) {
+    errors.actualPanNo = "Please enter a valid PAN number.";
+  }
+
+  // Beneficiary PAN number validation
+  if (!/^[A-Z0-9]{10}$/.test(input.beneficiaryPanNo)) {
+    errors.beneficiaryPanNo = "Please enter a valid PAN number.";
+  }
+
+  // Emergency Contact Number validation
+  if (!/^\d{10}$/.test(input.emergencyContactNumber)) {
+    errors.emergencyContactNumber = "Please enter a valid Emergency Contact Number (10 digits required).";
+  }
+
+  // Aadhar Number validation
+  if (!/^\d{12}$/.test(input.actualAadharNo)) {
+    errors.actualAadharNo = "Please enter a valid Aadhar Number (12 digits required).";
+  }
+
+  // Beneficiary Aadhar Number validation
+  if (!/^\d{12}$/.test(input.beneficiaryAadharNo)) {
+    errors.beneficiaryAadharNo = "Please enter a valid Aadhar Number (12 digits required).";
+  }
+
+  // Bank Account Number validation
+  if (!/^\d{16}$/.test(input.bankAccNo)) {
+    errors.bankAccNo = "Please enter a valid Bank Account Number (16 digits required).";
+  }
+
+  // IFSC Code validation
+  if (!/^[A-Z0-9]{11}$/.test(input.ifscCode)) {
+    errors.ifscCode = "Please enter a valid IFSC Code (e.g., ABCD0123456).";
+  }
+
+    // Set errors in the state
+    setInputErrors(errors);
+  
+    // Check if there are any errors
+    if (Object.keys(errors).length === 0) {
+      // If no errors, proceed with form submission
+      setLoading(true);
+  
+      const navigateAfterUpdate = () => {
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      };
+  
+      if (!contractorDetails?.profileId) {
+        dispatch(
+          asyncThunkUpdateContractorProfile({
+            input,
+            setLoading,
+            navigateAfterUpdate,
+          })
+        );
+      }
+  
+      if (ContractorItSelfDetails?.profileId) {
+        dispatch(
+          asyncThunkReUpdateContractorProfile({
+            input,
+            setLoading,
+            navigateAfterUpdate,
+          })
+        );
+      }
     }
   };
-
+  
   useEffect(() => {
     let contractorFormData = null;
     try {
@@ -213,6 +279,10 @@ function Contractor() {
                   {!input.actualName && activateError ? (
                     <small className="form-error">Required*</small>
                   ) : null}
+                  {inputErrors.actualName && (
+                     <small className="form-error">{inputErrors.actualName}</small> 
+                  )}
+
                 </div>
               </div>
 
@@ -242,6 +312,10 @@ function Contractor() {
                   {!input.actualAadharNo && activateError ? (
                     <small className="form-error">Required*</small>
                   ) : null}
+                   {inputErrors.actualAadharNo && (
+                     <small className="form-error">{inputErrors.actualAadharNo}</small> 
+                  )}
+
                 </div>
               </div>
 
@@ -271,6 +345,9 @@ function Contractor() {
                   {!input.actualPanNo && activateError ? (
                     <small className="form-error">Required*</small>
                   ) : null}
+                   {inputErrors.actualPanNo && (
+                     <small className="form-error">{inputErrors.actualPanNo}</small> 
+                  )}
                 </div>
               </div>
 
@@ -303,6 +380,9 @@ function Contractor() {
                   {!input.beneficiaryName && activateError ? (
                     <small className="form-error">Required*</small>
                   ) : null}
+                   {inputErrors.beneficiaryName && (
+                     <small className="form-error">{inputErrors.beneficiaryName}</small> 
+                  )}
                 </div>
               </div>
 
@@ -332,6 +412,9 @@ function Contractor() {
                   {!input.beneficiaryAadharNo && activateError ? (
                     <small className="form-error">Required*</small>
                   ) : null}
+                   {inputErrors.beneficiaryAadharNo && (
+                     <small className="form-error">{inputErrors.beneficiaryAadharNo}</small> 
+                  )}
                 </div>
               </div>
 
@@ -364,6 +447,9 @@ function Contractor() {
                   {!input.beneficiaryPanNo && activateError ? (
                     <small className="form-error">Required*</small>
                   ) : null}
+                   {inputErrors.beneficiaryPanNo && (
+                     <small className="form-error">{inputErrors.beneficiaryPanNo}</small> 
+                  )}
                 </div>
               </div>
             </div>
@@ -423,6 +509,9 @@ function Contractor() {
                   {!input.bankAccNo && activateError ? (
                     <small className="form-error1">Required*</small>
                   ) : null}
+                   {inputErrors.bankAccNo && (
+                     <small className="form-error">{inputErrors.bankAccNo}</small> 
+                  )}
                 </div>
               </div>
 
@@ -452,6 +541,9 @@ function Contractor() {
                   {!input.ifscCode && activateError ? (
                     <small className="form-error1">Required*</small>
                   ) : null}
+                   {inputErrors.ifscCode && (
+                     <small className="form-error">{inputErrors.ifscCode}</small> 
+                  )}
                 </div>
               </div>
 
@@ -460,7 +552,7 @@ function Contractor() {
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold px-4 mb-2"
                   htmlFor="contractName"
                 >
-                  Contractor Name
+                  Contract Name
                 </label>
                 <div className="cont">
                   <span className="in">
@@ -485,6 +577,9 @@ function Contractor() {
                   {!input.contractName && activateError ? (
                     <small className="form-error1">Required*</small>
                   ) : null}
+                   {inputErrors.contractName && (
+                     <small className="form-error">{inputErrors.contractName}</small> 
+                  )}
                 </div>
               </div>
 
@@ -588,7 +683,7 @@ function Contractor() {
                   <option selected value="">
                     Select
                   </option>
-                  <option selected value="Male">
+                  <option value="Male">
                     Male
                   </option>
                   <option value="Female">Female</option>
@@ -712,6 +807,9 @@ function Contractor() {
                   {!input.emergencyContactName && activateError ? (
                     <small className="form-error1">Required*</small>
                   ) : null}
+                      {inputErrors.emergencyContactName && (
+                     <small className="form-error">{inputErrors.emergencyContactName}</small> 
+                  )}
                 </div>
               </div>
             </div>
@@ -776,6 +874,9 @@ function Contractor() {
                       Required*
                     </small>
                   ) : null}
+                    {inputErrors.emergencyContactNumber && (
+                     <small className="form-error">{inputErrors.emergencyContactNumber}</small> 
+                  )}
                 </div>
               </div>
 
@@ -855,6 +956,7 @@ function Contractor() {
                   placeholder="Actual Beneficiary Pan"
                   onChange={(e) => handleChangeInput(e, true)}
                   name="beneficiaryAadharImage"
+                  // style={{marginLeft:"0px !important"}}
                 />
               </div>
               <div id="submit-div">
@@ -881,112 +983,3 @@ function Contractor() {
 }
 
 export default Contractor;
-
-// import { Box } from "@mui/material"
-// import { TextField, Button } from '@mui/material';
-// import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { asyncThunkUpdateContractorProfile } from "../../redux/createAsyncThunk";
-// import { showToast } from "../../redux/errorSlice/errorSlice";
-// import { useNavigate } from "react-router-dom";
-
-// const ContractorForm = () => {
-
-//     const [input, setInput] = useState({})
-//     const dispatch = useDispatch()
-//     const navigate = useNavigate()
-//     const { UpdateContractorProfileData} = useSelector(store => store.admin)
-//     const [profileDataObj] = UpdateContractorProfileData;
-
-//     const handleChangeInput = (e, isFiles) => {
-//         setInput((prev) => {
-//             prev[e.target.name] = isFiles ? e.target.files[0] : e.target.value;
-//             localStorage.setItem('contractorFormData', JSON.stringify(prev))
-//             return { ...prev }
-//         })
-//     }
-//     const onSubmit = (e) => {
-//         e.preventDefault();
-//         dispatch(asyncThunkUpdateContractorProfile(input))
-//     }
-
-//     useEffect(()=>{
-//         profileDataObj?.isContractorProfileUpdated && navigate('/profile/:contractorId')
-//     },[navigate, profileDataObj?.isContractorProfileUpdated])
-
-//     useEffect(() => {
-//         let contractorFormData = null
-//         try {
-//             contractorFormData = JSON.parse(localStorage.getItem('contractorFormData'))
-//             contractorFormData === null && dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
-//         } catch (error) {
-//             dispatch(showToast({ type: "error", message: "token expired ! please signin again" }))
-//         }
-//         contractorFormData !== null && setInput(contractorFormData)
-//     }, [dispatch])
-
-//     return (
-//         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-//             <Box sx={{ width: '90%' }}>
-
-//                 <form onSubmit={(e) => onSubmit(e)}>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.actualName} name='actualName' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your ActualName" variant="standard" type="text" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.actualAadharNo} name='actualAadharNo' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Actual Aadhar No" variant="standard" type="number" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.actualPanNo} name='actualPanNo' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your Actual Pan No" variant="standard" type="text" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.beneficiaryName} name='beneficiaryName' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Your Beneficiary Name" variant="standard" type="text" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.beneficiaryAadharNo} name='beneficiaryAadharNo' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your Beneficiary Aadhar No" variant="standard" type="number" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.beneficiaryPanNo} name='beneficiaryPanNo' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Your Beneficiary Pan No" variant="standard" type="text" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.bankName} name='bankName' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your Bank Name" variant="standard" type="text" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.bankAccNo} name='bankAccNo' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Your Bank Account No" variant="standard" type="number" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.ifscCode} name='ifscCode' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your IFSC Code" variant="standard" type="text" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.contractName} name='contractName' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Your Contract Name" variant="standard" type="text" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.joinDate} name='joinDate' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" variant="standard" type="date" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.birthday} name='birthday' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" variant="standard" type="date" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.address} name='address' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your Address" variant="standard" type="text" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.gender} name='gender' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Your Gender" variant="standard" type="text" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.reportTo} name='reportTo' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your Report To" variant="standard" type="text" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.nationality} name='nationality' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Your Nationality" variant="standard" type="text" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.religion} name='religion' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your Religion" variant="standard" type="text" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.emergencyContactName} name='emergencyContactName' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Your Emergency Contact Name" variant="standard" type="text" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.emergencyContactRelation} name='emergencyContactRelation' sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" label="Enter Your Emergency Contact Relation" variant="standard" type="text" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, false)} value={input?.emergencyContactNumber} name='emergencyContactNumber' sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" label="Enter Your Emergency Contact Number" variant="standard" type="number" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, true)} name='actualPanImage' accept="image/*" sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" variant="standard" type="file" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, true)} name='actualAdharImage' accept="image/*" sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" variant="standard" type="file" required />
-//                     </Box>
-//                     <Box sx={{ width: '100%', display: 'flex', flexDirection: { md: "row", xs: "column" } }}>
-//                         <TextField onChange={(e) => handleChangeInput(e, true)} name='beneficiaryPanImage' accept="image/*" sx={{ width: { md: '50%', xs: '100%' }, marginRight: '20px' }} id="standard-basic" variant="standard" type="file" required />
-//                         <TextField onChange={(e) => handleChangeInput(e, true)} name='beneficiaryAadharImage' accept="image/*" sx={{ width: { md: '50%', xs: '100%' } }} id="standard-basic" variant="standard" type="file" required />
-//                     </Box>
-//                     <Box mt={2}>
-//                         <Button variant="outlined" color="primary" type="submit">
-//                             Submit
-//                         </Button>
-//                     </Box>
-//                 </form>
-//             </Box>
-//         </Box>
-//     )
-// }
-
-// export default ContractorForm

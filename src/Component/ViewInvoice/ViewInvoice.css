@@ -1,0 +1,11 @@
+#invoice-heading{
+    text-align: center;
+}
+
+#name{
+    padding-left: 20px;
+}
+
+#label{
+    font-weight: 700;
+}
