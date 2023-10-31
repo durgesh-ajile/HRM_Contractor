@@ -54,7 +54,7 @@ function ResponsiveDrawer(props) {
        })
   }, [])
   
-
+console.log(ContractorItSelfDetails?.profileId?.IsApproved)
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };

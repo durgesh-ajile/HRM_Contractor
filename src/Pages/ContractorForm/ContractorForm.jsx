@@ -104,7 +104,7 @@ function Contractor() {
 
     axios({
       method: "get",
-      url: `http://localhost:5000/api/getownDetails`,
+      url: `https://braided-complex-403612.el.r.appspot.com//api/getownDetails`,
       headers: { Authorization: `Bearer ${usertoken}` },
     })
       .then((res) => {
@@ -189,7 +189,7 @@ function Contractor() {
     if (Object.keys(errors).length === 0) {
       // If no errors, proceed with form submission
       setLoading(true);
-  
+      
       const navigateAfterUpdate = () => {
         setTimeout(() => {
           navigate("/");

@@ -37,7 +37,7 @@ const Email = ({ organization, organizationEmail }) => {
 
   const handleAccess = () => {
     try {
-      window.open("http://localhost:5000/api/get-user-consent", "_self");
+      window.open("https://braided-complex-403612.el.r.appspot.com//api/get-user-consent", "_self");
     } catch (error) {
       console.log(error);
     }
@@ -55,7 +55,7 @@ const Email = ({ organization, organizationEmail }) => {
     }
     axios({
       method: "post",
-      url: "http://localhost:5000/api/send-mail-of-timesheet",
+      url: "https://braided-complex-403612.el.r.appspot.com//api/send-mail-of-timesheet",
       data: formData,
     })
       .then((res) => {
