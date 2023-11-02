@@ -34,16 +34,18 @@ function ResponsiveDrawer(props) {
   const { usertoken } = JSON.parse(localStorage.getItem('token'))
   const headers = { 'Authorization': `Bearer ${usertoken}` };
 
-  const { expiry } = JSON.parse(localStorage.getItem("token"));
+  const token = JSON.parse(localStorage.getItem("token"));
+  const tokenExpiry = new Date(token.expiry);
+  token === null && dispatch(showToast({ type: "warning", message: "Token Has Expired ! Please SignIn Again", }));
 
   let currentDate = new Date();
 
   React.useEffect(() => {
-    if (!expiry || (currentDate > expiry)) {
+    if (!tokenExpiry || (currentDate > tokenExpiry)) {
       navigate("/login");
     }
   }, []);
-  
+
   useEffect(() => {
      axios(`${import.meta.env.VITE_BASE_URL + import.meta.env.VITE_GET_OWN_DETAILS}`, { headers })
     .then((res) => {

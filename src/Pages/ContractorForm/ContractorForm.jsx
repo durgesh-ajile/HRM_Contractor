@@ -104,7 +104,7 @@ function Contractor() {
 
     axios({
       method: "get",
-      url: `https://braided-complex-403612.el.r.appspot.com//api/getownDetails`,
+      url: `https://braided-complex-403612.el.r.appspot.com/api/getownDetails`,
       headers: { Authorization: `Bearer ${usertoken}` },
     })
       .then((res) => {

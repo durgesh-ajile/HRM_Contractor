@@ -109,7 +109,7 @@ const InvoiceContractor = () => {
     let formatDate = convertMonth(month, year);
     axios({
       method: "get",
-      url: `https://braided-complex-403612.el.r.appspot.com//api/getTasks?date=${formatDate}&organization=${
+      url: `https://braided-complex-403612.el.r.appspot.com/api/getTasks?date=${formatDate}&organization=${
         client.split(",")[0]
       }`,
       headers: {
@@ -129,7 +129,7 @@ const InvoiceContractor = () => {
   const getPendingInvoice = () => {
     axios({
       method: "get",
-      url: `https://braided-complex-403612.el.r.appspot.com//api/getpendinginvoiceforcontractor?contractorId=${contractorId}&page=${page2}`,
+      url: `https://braided-complex-403612.el.r.appspot.com/api/getpendinginvoiceforcontractor?contractorId=${contractorId}&page=${page2}`,
       headers: {
         Authorization: `Bearer ${usertoken}`,
       },
@@ -152,7 +152,7 @@ const InvoiceContractor = () => {
   const getApprovedInvoice = () => {
     axios({
       method: "get",
-      url: `https://braided-complex-403612.el.r.appspot.com//api/getinvoicesforcontractor?contractorId=${contractorId}&page=${page}`,
+      url: `https://braided-complex-403612.el.r.appspot.com/api/getinvoicesforcontractor?contractorId=${contractorId}&page=${page}`,
       headers: {
         Authorization: `Bearer ${usertoken}`,
       },
@@ -183,7 +183,7 @@ const InvoiceContractor = () => {
 
     axios({
       method: "post",
-      url: `https://braided-complex-403612.el.r.appspot.com//api/createinvoiceapproval`,
+      url: `https://braided-complex-403612.el.r.appspot.com/api/createinvoiceapproval`,
       headers: {
         Authorization: `Bearer ${usertoken}`,
       },
@@ -249,7 +249,7 @@ const InvoiceContractor = () => {
     return `${month} ${year}`;
   }
 
-  // console.log(approvedError);
+  console.log(pendingData);
 
   return (
     <div className="invoice">
@@ -409,7 +409,7 @@ const InvoiceContractor = () => {
                   </Toolbar>
                 </AppBar>
                 <img
-                  src={`https://braided-complex-403612.el.r.appspot.com/${imgLink.split("public")[1]}`}
+                  src={imgLink}
                 />
               </Dialog>
       </div>
