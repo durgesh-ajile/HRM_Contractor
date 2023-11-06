@@ -35,14 +35,16 @@ function ResponsiveDrawer(props) {
   const headers = { 'Authorization': `Bearer ${usertoken}` };
 
   const token = JSON.parse(localStorage.getItem("token"));
-  const tokenExpiry = new Date(token.expiry);
   token === null && dispatch(showToast({ type: "warning", message: "Token Has Expired ! Please SignIn Again", }));
 
   let currentDate = new Date();
 
   React.useEffect(() => {
-    if (!tokenExpiry || (currentDate > tokenExpiry)) {
-      navigate("/login");
+    if(token){
+      const tokenExpiry = new Date(token.expiry);
+      if (!tokenExpiry || (currentDate > tokenExpiry)) {
+        navigate("/login");
+      }
     }
   }, []);
 
