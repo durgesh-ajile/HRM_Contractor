@@ -13,17 +13,34 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
-// import Typography from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
 import { AdminPanelSettingsSharp, AppRegistrationTwoTone, CalendarMonthOutlined, LoginTwoTone, Person3Outlined, PersonOffRounded } from '@mui/icons-material';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
-
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationPopover from "./NotificationPopover";
+import { Popover } from "@mui/material";
+import socket from "../../Socket";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [message, setMessage] = React.useState([]);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -39,6 +56,50 @@ function ResponsiveDrawer(props) {
 
   let currentDate = new Date();
 
+  const getNotificationforContractor = () =>
+  axios({
+    method: "get",
+    url: `https://braided-complex-403612.el.r.appspot.com/api/getNotificationforContractor`,
+    headers: {
+      Authorization: `Bearer ${usertoken}`,
+    },
+  })
+    .then((res) => {
+      if (res.data.message !== "No notification are currently in database") {
+        setMessage((preVal) => {
+          return [...res.data.getNotification, ...preVal];
+        });
+      }
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+React.useEffect(() => {
+  getNotificationforContractor();
+}, []);
+
+React.useEffect(() => {
+  socket.on("contractorinvoiceapprovesocket", (data) => {
+    console.log(data)
+    setMessage((prevMessage) => [data, ...prevMessage]);
+  });
+}, []);
+
+React.useEffect(() => {
+  socket.on("contractorprofileapprovesocket", (data) => {
+    setMessage((prevMessage) => [data, ...prevMessage]);
+  });
+}, []);
+
+React.useEffect(() => {
+  socket.on("contractorprofiledeclinesocket", (data) => {
+    setMessage((prevMessage) => [data, ...prevMessage]);
+  });
+}, []);
+
+console.log(message)
   React.useEffect(() => {
     if(token){
       const tokenExpiry = new Date(token.expiry);
@@ -140,9 +201,37 @@ console.log(ContractorItSelfDetails?.profileId?.IsApproved)
           >
             <MenuIcon />
           </IconButton>
-          {/* <Typography variant="h6" noWrap component="div">
-            Responsive drawer
-          </Typography> */}
+          <Typography variant="h6" noWrap component="div">
+            <NotificationsIcon
+              style={{
+                color: "#000",
+                cursor: "pointer",
+                position: "absolute",
+                right: "20",
+                top: "20",
+              }}
+              aria-describedby={id}
+              onClick={handleClick}
+            />
+
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              sx={{
+                mt: 1,
+                mr: 0,
+                height: 500,
+              }}
+            >
+              <NotificationPopover message={message} sx={{}} />
+            </Popover>
+          </Typography>
         </Toolbar>
       </AppBar>
       <Box
